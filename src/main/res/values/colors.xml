@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- About Theme -->
+    <!-- ========================================= -->
+    <color name="color_primary">#3F51B5</color>
+    <color name="color_primary_dark">#303F9F</color>
+    <color name="color_primary_light">#C5CAE9</color>
+    <color name="color_accent">#FF4081</color>
+    <color name="color_accent_dark">#F50057</color>
+    <color name="color_accent_light">#FF80AB</color>
+    <color name="color_window_bg">@color/white</color>
+
+    <color name="color_text_primary">@color/white_trans87</color>
+    <color name="color_text_secondary">@color/white_trans54</color>
+    <color name="color_text_main">@color/black_trans87</color>
+    <color name="color_text_sub_main">@color/black_trans54</color>
+    <color name="color_text_disable">@color/black_trans38</color>
+    <color name="color_text_hint">@color/black_trans38</color>
+    <color name="color_divider">@color/black_trans12</color>
+    <!-- ========================================= -->
+
+    <color name="transparent">#00000000</color>
+    <color name="translucent">@color/black_trans50</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray">#f5f5f5</color>
+    <color name="black">#FF000000</color>
+
+    <color name="black_trans05">#0D000000</color>
+    <color name="black_trans10">#1A000000</color>
+    <color name="black_trans12">#1F000000</color>
+    <color name="black_trans15">#26000000</color>
+    <color name="black_trans20">#33000000</color>
+    <color name="black_trans25">#40000000</color>
+    <color name="black_trans26">#42000000</color>
+    <color name="black_trans30">#4D000000</color>
+    <color name="black_trans35">#59000000</color>
+    <color name="black_trans38">#61000000</color>
+    <color name="black_trans40">#66000000</color>
+    <color name="black_trans45">#73000000</color>
+    <color name="black_trans50">#80000000</color>
+    <color name="black_trans54">#8A000000</color>
+    <color name="black_trans55">#8C000000</color>
+    <color name="black_trans60">#99000000</color>
+    <color name="black_trans65">#A6000000</color>
+    <color name="black_trans70">#B3000000</color>
+    <color name="black_trans75">#BF000000</color>
+    <color name="black_trans80">#CC000000</color>
+    <color name="black_trans85">#D9000000</color>
+    <color name="black_trans87">#DE000000</color>
+    <color name="black_trans90">#E6000000</color>
+    <color name="black_trans95">#F2000000</color>
+
+    <color name="white_trans05">#0DFFFFFF</color>
+    <color name="white_trans10">#1AFFFFFF</color>
+    <color name="white_trans12">#1FFFFFFF</color>
+    <color name="white_trans15">#26FFFFFF</color>
+    <color name="white_trans20">#33FFFFFF</color>
+    <color name="white_trans25">#40FFFFFF</color>
+    <color name="white_trans26">#42FFFFFF</color>
+    <color name="white_trans30">#4DFFFFFF</color>
+    <color name="white_trans38">#61FFFFFF</color>
+    <color name="white_trans35">#59FFFFFF</color>
+    <color name="white_trans40">#66FFFFFF</color>
+    <color name="white_trans45">#73FFFFFF</color>
+    <color name="white_trans50">#80FFFFFF</color>
+    <color name="white_trans54">#8AFFFFFF</color>
+    <color name="white_trans55">#8CFFFFFF</color>
+    <color name="white_trans60">#99FFFFFF</color>
+    <color name="white_trans65">#A6FFFFFF</color>
+    <color name="white_trans70">#B3FFFFFF</color>
+    <color name="white_trans75">#BFFFFFFF</color>
+    <color name="white_trans80">#CCFFFFFF</color>
+    <color name="white_trans85">#D9FFFFFF</color>
+    <color name="white_trans87">#DEFFFFFF</color>
+    <color name="white_trans90">#E6FFFFFF</color>
+    <color name="white_trans95">#F2FFFFFF</color>
+
+    <!-- ICE_CREAM_SANDWICH API:14 -->
+    <!-- A light Holo shade of blue -->
+    <color name="holo_blue_light">#ff33b5e5</color>
+    <!-- A light Holo shade of gray -->
+    <color name="holo_gray_light">#33999999</color>
+    <!-- A light Holo shade of green -->
+    <color name="holo_green_light">#ff99cc00</color>
+    <!-- A light Holo shade of red -->
+    <color name="holo_red_light">#ffff4444</color>
+    <!-- A dark Holo shade of blue -->
+    <color name="holo_blue_dark">#ff0099cc</color>
+    <!-- A dark Holo shade of green -->
+    <color name="holo_green_dark">#ff669900</color>
+    <!-- A dark Holo shade of red -->
+    <color name="holo_red_dark">#ffcc0000</color>
+    <!-- A Holo shade of purple -->
+    <color name="holo_purple">#ffaa66cc</color>
+    <!-- A light Holo shade of orange -->
+    <color name="holo_orange_light">#ffffbb33</color>
+    <!-- A dark Holo shade of orange -->
+    <color name="holo_orange_dark">#ffff8800</color>
+    <!-- A really bright Holo shade of blue -->
+    <color name="holo_blue_bright">#ff00ddff</color>
+    <!-- A really bright Holo shade of gray -->
+    <color name="holo_gray_bright">#33CCCCCC</color>
+</resources>

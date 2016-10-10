@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Toolbar -->
+    <!-- ========================================= -->
+    <dimen name="def_toolbar_height">56dp</dimen>
+    <dimen name="def_horizontal_margins">16dp</dimen>
+    <!-- ========================================= -->
+
+    <!-- LoadingView -->
+    <!-- ========================================= -->
+    <dimen name="def_loading_primary">80dp</dimen>
+    <dimen name="def_loading_loadmore">30dp</dimen>
+    <!-- ========================================= -->
+
+</resources>

@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="app_name">JoyUI</string>
+
+    <!-- toast common -->
+    <string name="toast_common_no_network">无网络连接，请检查你的网络设置</string>
+
+    <!-- load more -->
+    <string name="footer_loading_hint">正在加载&#8230;</string>
+    <string name="footer_load_failed">加载失败，点击重试</string>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="Theme">
+        <attr name="textColorMain" format="color" />
+        <attr name="textColorSubMain" format="color" />
+        <attr name="textColorDisable" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="Toolbar">
+        <attr name="noTitle" format="boolean" />
+        <attr name="overlay" format="boolean" />
+    </declare-styleable>
+
+</resources>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="base_theme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="android:windowBackground">@color/color_window_bg</item>
+        <item name="android:textColorPrimary">@color/color_text_primary</item>
+        <item name="android:textColorSecondary">@color/color_text_secondary</item>
+        <item name="android:textColor">@color/color_text_main</item>
+        <item name="textColorMain">?android:textColor</item>
+        <item name="textColorSubMain">@color/color_text_sub_main</item>
+        <item name="textColorDisable">@color/color_text_disable</item>
+        <item name="android:textColorHint">@color/color_text_hint</item>
+        <item name="android:divider">@color/color_divider</item>
+        <item name="android:dividerHeight">1dp</item>
+        <item name="android:headerDividersEnabled">false</item>
+        <item name="android:footerDividersEnabled">false</item>
+        <item name="noTitle">false</item>
+        <item name="overlay">false</item>
+    </style>
+
+    <style name="base_theme.noTitle">
+        <item name="noTitle">true</item>
+    </style>
+
+    <style name="base_style_toolbar_title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">18dp</item>
+    </style>
+
+    <style name="base_style_toolbar_subtitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="base_style_toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="titleTextAppearance">@style/base_style_toolbar_title</item>
+        <item name="subtitleTextAppearance">@style/base_style_toolbar_subtitle</item>
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="contentInsetStart">4dp</item><!-- according to the size of the icons, such as R.drawable.ic_back -->
+        <item name="contentInsetEnd">4dp</item>
+    </style>
+
+    <style name="base_style_toolbar_button_navigation" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="android:minWidth">0dp</item>
+    </style>
+
+</resources>
