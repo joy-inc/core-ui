@@ -117,10 +117,15 @@ public abstract class ExRvAdapter<K extends ExRvViewHolder<T>, T> extends Recycl
             mData.addAll(position, ts);
     }
 
-    public void remove(T item) {
+    public int indexOf(T t) {
+
+        return mData == null ? -1 : mData.indexOf(t);
+    }
+
+    public void remove(T t) {
 
         if (mData != null)
-            mData.remove(item);
+            mData.remove(t);
     }
 
     public void remove(int position) {
