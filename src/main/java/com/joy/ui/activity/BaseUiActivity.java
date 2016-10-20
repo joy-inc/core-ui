@@ -29,6 +29,7 @@ import com.joy.ui.activity.interfaces.BaseView;
 import com.joy.ui.utils.DimenCons;
 import com.joy.ui.utils.SnackbarUtil;
 import com.joy.ui.view.JToolbar;
+import com.joy.utils.LayoutInflater;
 import com.joy.utils.ToastUtil;
 import com.joy.utils.ViewUtil;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
@@ -469,18 +470,18 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         ViewUtil.goneImageView(v);
     }
 
-    protected final View inflateLayout(@LayoutRes int layoutResId) {
+    protected final <T extends View> T inflateLayout(@LayoutRes int layoutResId) {
 
-        return inflateLayout(layoutResId, null);
+        return LayoutInflater.inflate(this, layoutResId);
     }
 
-    protected final View inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root) {
+    protected final <T extends View> T inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root) {
 
-        return getLayoutInflater().inflate(layoutResId, root);
+        return LayoutInflater.inflate(this, layoutResId, root);
     }
 
-    protected final View inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root, boolean attachToRoot) {
+    protected final <T extends View> T inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root, boolean attachToRoot) {
 
-        return getLayoutInflater().inflate(layoutResId, root, attachToRoot);
+        return LayoutInflater.inflate(this, layoutResId, root, attachToRoot);
     }
 }

@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import com.joy.ui.R;
 import com.joy.ui.adapter.ExRvAdapter;
 import com.joy.ui.view.recyclerview.JRecyclerView;
-import com.joy.utils.LayoutInflater;
 
 /**
  * Created by Daisw on 16/8/4.
@@ -46,7 +45,7 @@ public class JBottomSheetRvDialog extends JBottomSheetDialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        JRecyclerView jrv = LayoutInflater.inflate(getContext(), R.layout.lib_view_recycler);
+        JRecyclerView jrv = inflateLayout(R.layout.lib_view_recycler);
         jrv.setLayoutManager(mLayoutManager);
         jrv.setAdapter(mAdapter);
         if (mItemDecoration != null)
