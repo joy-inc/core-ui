@@ -18,6 +18,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageButton;
@@ -34,9 +35,7 @@ import com.joy.utils.ToastUtil;
 import com.joy.utils.ViewUtil;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
-import static android.support.design.widget.Snackbar.LENGTH_SHORT;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.Window.ID_ANDROID_CONTENT;
 
 /**
  * 基本的UI框架
@@ -68,7 +67,7 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
 
         resolveThemeAttribute();
 
-        mContentParent = (FrameLayout) findViewById(ID_ANDROID_CONTENT);
+        mContentParent = (FrameLayout) findViewById(Window.ID_ANDROID_CONTENT);
         wrapContentView(mContentParent, contentView);
 
         initData();
@@ -77,7 +76,7 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
     }
 
     @SuppressWarnings("ResourceType")
-    private void resolveThemeAttribute() {
+    protected void resolveThemeAttribute() {
         TypedArray a = obtainStyledAttributes(R.styleable.Toolbar);
         isNoTitle = a.getBoolean(R.styleable.Toolbar_noTitle, false);
         isOverlay = a.getBoolean(R.styleable.Toolbar_overlay, false);
@@ -340,7 +339,7 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
     @Override
     @SuppressWarnings("ResourceType")
     public final void showSnackbar(@NonNull CharSequence text) {
-        showSnackbar(text, LENGTH_SHORT);
+        showSnackbar(text, Snackbar.LENGTH_SHORT);
     }
 
     @Override

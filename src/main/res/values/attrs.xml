@@ -5,6 +5,9 @@
         <attr name="textColorMain" format="color" />
         <attr name="textColorSubMain" format="color" />
         <attr name="textColorDisable" format="color" />
+        <attr name="loadingView" format="reference" />
+        <attr name="errorTip" format="reference" />
+        <attr name="emptyTip" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="Toolbar">
