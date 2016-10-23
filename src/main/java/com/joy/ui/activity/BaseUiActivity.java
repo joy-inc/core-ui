@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
@@ -242,7 +243,11 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         return addTitleLeftBackView(R.drawable.ic_arrow_back_white_24dp);
     }
 
-    protected final ImageButton addTitleRightMoreView(View.OnClickListener lisn) {
+    protected final ImageButton addTitleLeftBackView(OnClickListener lisn) {
+        return addTitleLeftView(R.drawable.ic_arrow_back_white_24dp, lisn);
+    }
+
+    protected final ImageButton addTitleRightMoreView(OnClickListener lisn) {
         return addTitleRightView(R.drawable.ic_more_vert_white_24dp, lisn);
     }
 
@@ -250,19 +255,27 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         return addTitleLeftView(resId, v -> finish());
     }
 
-    protected final ImageButton addTitleLeftView(@DrawableRes int resId, View.OnClickListener lisn) {
+    protected final ImageButton addTitleLeftView(@DrawableRes int resId, OnClickListener lisn) {
         return mToolbar.addTitleLeftView(resId, lisn);
     }
 
     protected final TextView addTitleMiddleView(@StringRes int resId) {
-        return addTitleMiddleView(getString(resId));
+        return mToolbar.addTitleMiddleView(resId);
     }
 
     protected final TextView addTitleMiddleView(String str) {
         return mToolbar.addTitleMiddleView(str);
     }
 
-    protected final View addTitleMiddleView(View v, View.OnClickListener lisn) {
+    protected final TextView addTitleMiddleView(@StringRes int resId, OnClickListener lisn) {
+        return mToolbar.addTitleMiddleView(resId, lisn);
+    }
+
+    protected final TextView addTitleMiddleView(String text, OnClickListener lisn) {
+        return mToolbar.addTitleMiddleView(text, lisn);
+    }
+
+    protected final View addTitleMiddleView(View v, OnClickListener lisn) {
         return mToolbar.addTitleMiddleView(v, lisn);
     }
 
@@ -274,11 +287,11 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         return mToolbar.addTitleRightView(resId);
     }
 
-    protected final ImageButton addTitleRightView(@DrawableRes int resId, View.OnClickListener lisn) {
+    protected final ImageButton addTitleRightView(@DrawableRes int resId, OnClickListener lisn) {
         return mToolbar.addTitleRightView(resId, lisn);
     }
 
-    protected final View addTitleRightView(View v, View.OnClickListener lisn) {
+    protected final View addTitleRightView(View v, OnClickListener lisn) {
         return mToolbar.addTitleRightView(v, lisn);
     }
 

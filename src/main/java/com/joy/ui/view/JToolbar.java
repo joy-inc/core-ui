@@ -74,17 +74,30 @@ public class JToolbar extends Toolbar implements DimenCons {
         return addTitleMiddleView(getResources().getString(resId));
     }
 
-    public TextView addTitleMiddleView(String str) {
+    public TextView addTitleMiddleView(String text) {
+
+        return addTitleMiddleView(text, null);
+    }
+
+    public TextView addTitleMiddleView(@StringRes int resId, OnClickListener lisn) {
+
+        return addTitleMiddleView(getResources().getString(resId), lisn);
+    }
+
+    public TextView addTitleMiddleView(String text, OnClickListener lisn) {
 
         TextView tvTitle = new TextView(getContext());
         tvTitle.setTextAppearance(getContext(), R.style.base_style_toolbar_title);
         tvTitle.setSingleLine();
         tvTitle.setEllipsize(TextUtils.TruncateAt.END);
-        tvTitle.setText(str);
-        return (TextView) addTitleMiddleView(tvTitle, null);
+        tvTitle.setText(text);
+        return (TextView) addTitleMiddleView(tvTitle, lisn);
     }
 
     public View addTitleMiddleView(View v, OnClickListener lisn) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            v.setBackgroundResource(R.drawable.control_background_52dp_material);
 
         if (lisn != null)
             v.setOnClickListener(lisn);
