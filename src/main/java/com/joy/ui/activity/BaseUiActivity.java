@@ -13,7 +13,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -113,11 +112,11 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
             // toolbar
             mToolbar = inflateLayout(R.layout.lib_view_toolbar);
             setSupportActionBar(mToolbar);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
             LayoutParams toolbarLp = new LayoutParams(MATCH_PARENT, mTbHeight);
             toolbarLp.topMargin = isSystemBarTrans ? STATUS_BAR_HEIGHT : 0;
             toolbarLp.gravity = Gravity.TOP;
             contentParent.addView(mToolbar, toolbarLp);
-            setTitle(null);
         }
     }
 
@@ -247,10 +246,6 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         return addTitleLeftView(R.drawable.ic_arrow_back_white_24dp, lisn);
     }
 
-    protected final ImageButton addTitleRightMoreView(OnClickListener lisn) {
-        return addTitleRightView(R.drawable.ic_more_vert_white_24dp, lisn);
-    }
-
     protected final ImageButton addTitleLeftBackView(@DrawableRes int resId) {
         return addTitleLeftView(resId, v -> finish());
     }
@@ -259,19 +254,27 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         return mToolbar.addTitleLeftView(resId, lisn);
     }
 
+    public TextView addTitleLeftTextView(@StringRes int resId, OnClickListener lisn) {
+        return mToolbar.addTitleLeftTextView(resId, lisn);
+    }
+
+    public TextView addTitleLeftTextView(CharSequence text, OnClickListener lisn) {
+        return mToolbar.addTitleLeftTextView(text, lisn);
+    }
+
     protected final TextView addTitleMiddleView(@StringRes int resId) {
         return mToolbar.addTitleMiddleView(resId);
     }
 
-    protected final TextView addTitleMiddleView(String str) {
-        return mToolbar.addTitleMiddleView(str);
+    protected final TextView addTitleMiddleView(CharSequence text) {
+        return mToolbar.addTitleMiddleView(text);
     }
 
     protected final TextView addTitleMiddleView(@StringRes int resId, OnClickListener lisn) {
         return mToolbar.addTitleMiddleView(resId, lisn);
     }
 
-    protected final TextView addTitleMiddleView(String text, OnClickListener lisn) {
+    protected final TextView addTitleMiddleView(CharSequence text, OnClickListener lisn) {
         return mToolbar.addTitleMiddleView(text, lisn);
     }
 
@@ -279,8 +282,8 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         return mToolbar.addTitleMiddleView(v, lisn);
     }
 
-    protected final View addTitleMiddleViewMatchParent(View v) {
-        return mToolbar.addTitleMiddleViewWithLp(v, new Toolbar.LayoutParams(MATCH_PARENT, MATCH_PARENT));
+    protected final ImageButton addTitleRightMoreView(OnClickListener lisn) {
+        return addTitleRightView(R.drawable.ic_more_vert_white_24dp, lisn);
     }
 
     protected final ImageButton addTitleRightView(@DrawableRes int resId) {

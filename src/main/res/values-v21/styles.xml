@@ -39,8 +39,13 @@
         <item name="subtitleTextAppearance">@style/base_style_toolbar_subtitle</item>
         <item name="android:background">?attr/colorPrimary</item>
         <item name="android:elevation">@dimen/design_appbar_elevation</item>
-        <item name="contentInsetStart">4dp</item><!-- according to the size of the icons, such as R.drawable.ic_back -->
-        <item name="contentInsetEnd">4dp</item>
+        <item name="contentInsetStart">0dp</item><!-- according to the size of the icons, such as R.drawable.ic_back -->
+        <item name="contentInsetEnd">0dp</item>
+    </style>
+
+    <style name="base_style_toolbar_button_navigation" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="android:minHeight">56dp</item>
+        <item name="android:background">@drawable/control_background_52dp_material</item>
     </style>
 
 </resources>

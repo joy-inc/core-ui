@@ -40,12 +40,13 @@
         <item name="titleTextAppearance">@style/base_style_toolbar_title</item>
         <item name="subtitleTextAppearance">@style/base_style_toolbar_subtitle</item>
         <item name="android:background">?attr/colorPrimary</item>
-        <item name="contentInsetStart">4dp</item><!-- according to the size of the icons, such as R.drawable.ic_back -->
-        <item name="contentInsetEnd">4dp</item>
+        <item name="contentInsetStart">0dp</item><!-- according to the size of the icons, such as R.drawable.ic_back -->
+        <item name="contentInsetEnd">0dp</item>
     </style>
 
     <style name="base_style_toolbar_button_navigation" parent="Widget.AppCompat.Toolbar.Button.Navigation">
-        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:background">@drawable/selector_bg_click</item>
     </style>
 
 </resources>
