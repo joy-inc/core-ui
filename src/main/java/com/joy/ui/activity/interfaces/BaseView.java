@@ -17,6 +17,7 @@ import com.trello.rxlifecycle.ActivityLifecycleProvider;
 public interface BaseView extends ActivityLifecycleProvider {
 
     void finish();
+    boolean isFinishing();
 
     void showView(View v);
     void hideView(View v);
