@@ -19,4 +19,5 @@ public interface DimenCons {
     int SCREEN_HEIGHT_ABSOLUTE = SCREEN_HEIGHT + NAVIGATION_BAR_HEIGHT;
 
     int TITLE_BAR_HEIGHT = DensityUtil.getDimensionPixelSize(BaseApplication.getContext(), R.dimen.def_toolbar_height);
+    int HORIZONTAL_MARGINS = DensityUtil.getDimensionPixelSize(BaseApplication.getContext(), R.dimen.def_horizontal_margins);
 }

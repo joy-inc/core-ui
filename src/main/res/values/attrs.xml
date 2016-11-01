@@ -8,6 +8,8 @@
         <attr name="loadingView" format="reference" />
         <attr name="errorTip" format="reference" />
         <attr name="emptyTip" format="reference" />
+        <attr name="colorAccentLight" format="color" />
+        <attr name="colorAccentDark" format="color" />
     </declare-styleable>
 
     <declare-styleable name="Toolbar">

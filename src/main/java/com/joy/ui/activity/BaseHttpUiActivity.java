@@ -49,7 +49,7 @@ public abstract class BaseHttpUiActivity extends BaseUiActivity implements BaseV
     }
 
     @SuppressWarnings("ResourceType")
-    private void addTipView(FrameLayout frame) {
+    private void addTipView(FrameLayout contentParent) {
         mIvTip = new ImageView(this);
         mIvTip.setScaleType(ScaleType.CENTER_INSIDE);
         mIvTip.setOnClickListener(v -> onTipViewClick());
@@ -58,11 +58,11 @@ public abstract class BaseHttpUiActivity extends BaseUiActivity implements BaseV
         if (!isNoTitle() && !isOverlay()) {
             lp.topMargin = isSystemBarTrans() ? STATUS_BAR_HEIGHT + getToolbarHeight() : getToolbarHeight();
         }
-        frame.addView(mIvTip, lp);
+        contentParent.addView(mIvTip, lp);
     }
 
     @SuppressWarnings("ResourceType")
-    private void addLoadingView(FrameLayout frame) {
+    private void addLoadingView(FrameLayout contentParent) {
         mLoadingView = getLoadingView();
         hideView(mLoadingView);
         LayoutParams lp = (LayoutParams) mLoadingView.getLayoutParams();
@@ -72,7 +72,7 @@ public abstract class BaseHttpUiActivity extends BaseUiActivity implements BaseV
         if (!isNoTitle() && !isOverlay()) {
             lp.topMargin = isSystemBarTrans() ? (STATUS_BAR_HEIGHT + getToolbarHeight()) / 2 : getToolbarHeight() / 2;
         }
-        frame.addView(mLoadingView, lp);
+        contentParent.addView(mLoadingView, lp);
     }
 
     protected View getLoadingView() {
