@@ -32,7 +32,7 @@ public abstract class BaseHttpUiActivity extends BaseUiActivity implements BaseV
     private int EMPTY_RES_ID = R.drawable.ic_tip_empty;
 
     @Override
-    protected void resolveThemeAttribute() {
+    public void resolveThemeAttribute() {
         super.resolveThemeAttribute();
         TypedArray a = obtainStyledAttributes(R.styleable.Theme);
         LOADING_RES_ID = a.getResourceId(R.styleable.Theme_loadingView, -1);
@@ -42,7 +42,7 @@ public abstract class BaseHttpUiActivity extends BaseUiActivity implements BaseV
     }
 
     @Override
-    protected void wrapContentView(FrameLayout contentParent, View contentView) {
+    public void wrapContentView(FrameLayout contentParent, View contentView) {
         super.wrapContentView(contentParent, contentView);
         addTipView(contentParent);
         addLoadingView(contentParent);
@@ -75,7 +75,7 @@ public abstract class BaseHttpUiActivity extends BaseUiActivity implements BaseV
         contentParent.addView(mLoadingView, lp);
     }
 
-    protected View getLoadingView() {
+    public View getLoadingView() {
         if (LOADING_RES_ID == -1) {
             return JLoadingView.get(this);
         } else {
@@ -95,7 +95,7 @@ public abstract class BaseHttpUiActivity extends BaseUiActivity implements BaseV
         }
     }
 
-    protected abstract void doOnRetry();
+    public abstract void doOnRetry();
 
     @Override
     public void showLoading() {

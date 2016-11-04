@@ -76,7 +76,7 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
     }
 
     @SuppressWarnings("ResourceType")
-    protected void resolveThemeAttribute() {
+    public void resolveThemeAttribute() {
         TypedArray a = obtainStyledAttributes(R.styleable.Toolbar);
         isNoTitle = a.getBoolean(R.styleable.Toolbar_noTitle, false);
         isOverlay = a.getBoolean(R.styleable.Toolbar_overlay, false);
@@ -96,7 +96,7 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
     }
 
     @SuppressWarnings("ResourceType")
-    protected void wrapContentView(FrameLayout contentParent, View contentView) {
+    public void wrapContentView(FrameLayout contentParent, View contentView) {
         // add transition animation
 //        LayoutTransition lt = new LayoutTransition();
 //        lt.setDuration(100);
@@ -129,128 +129,128 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
     protected void initContentView() {
     }
 
-    protected final FrameLayout getContentParent() {
+    public final FrameLayout getContentParent() {
         return mContentParent;
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    protected final void setBackground(Drawable background) {
+    public final void setBackground(Drawable background) {
         mContentParent.setBackground(background);
     }
 
-    protected final void setBackgroundResource(@DrawableRes int resId) {
+    public final void setBackgroundResource(@DrawableRes int resId) {
         mContentParent.setBackgroundResource(resId);
     }
 
-    protected final void setBackgroundColor(@ColorInt int color) {
+    public final void setBackgroundColor(@ColorInt int color) {
         mContentParent.setBackgroundColor(color);
     }
 
-    protected final View getContentView() {
+    public final View getContentView() {
         return mContentView;
     }
 
-    protected final LayoutParams getContentViewLp() {
+    public final LayoutParams getContentViewLp() {
         return (LayoutParams) mContentView.getLayoutParams();
     }
 
-    protected final JToolbar getToolbar() {
+    public final JToolbar getToolbar() {
         return mToolbar;
     }
 
-    protected final LayoutParams getToolbarLp() {
+    public final LayoutParams getToolbarLp() {
         return (LayoutParams) mToolbar.getLayoutParams();
     }
 
-    protected final int getToolbarHeight() {
+    public final int getToolbarHeight() {
         return mTbHeight;
     }
 
-    protected final boolean isNoTitle() {
+    public final boolean isNoTitle() {
         return isNoTitle;
     }
 
-    protected final boolean isOverlay() {
+    public final boolean isOverlay() {
         return isOverlay;
     }
 
-    protected final boolean isSystemBarTrans() {
+    public final boolean isSystemBarTrans() {
         return isSystemBarTrans;
     }
 
-    protected final void setStatusBarColorResId(@ColorRes int colorResId) {
+    public final void setStatusBarColorResId(@ColorRes int colorResId) {
         setStatusBarColor(getResources().getColor(colorResId));
     }
 
-    protected final void setStatusBarColor(@ColorInt int color) {
+    public final void setStatusBarColor(@ColorInt int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(color);
         }
     }
 
-    protected final void setNavigationBarColorResId(@ColorRes int colorResId) {
+    public final void setNavigationBarColorResId(@ColorRes int colorResId) {
         setNavigationBarColor(getResources().getColor(colorResId));
     }
 
-    protected final void setNavigationBarColor(@ColorInt int color) {
+    public final void setNavigationBarColor(@ColorInt int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(color);
         }
     }
 
-    protected final void setTitleBgColorResId(@ColorRes int colorResId) {
+    public final void setTitleBgColorResId(@ColorRes int colorResId) {
         setTitleBgColor(getResources().getColor(colorResId));
     }
 
-    protected final void setTitleBgColor(@ColorInt int color) {
+    public final void setTitleBgColor(@ColorInt int color) {
         mToolbar.setBackgroundColor(color);
     }
 
-    protected final void setTitleBarAlpha(int alpha) {
+    public final void setTitleBarAlpha(int alpha) {
         mToolbar.getBackground().setAlpha(alpha);
     }
 
-    protected final void setTitleText(@StringRes int resId) {
+    public final void setTitleText(@StringRes int resId) {
         setTitleText(getString(resId));
     }
 
-    protected final void setTitleText(String text) {
+    public final void setTitleText(String text) {
         mToolbar.setTitle(text);
     }
 
-    protected final void setSubtitle(@StringRes int resId) {
+    public final void setSubtitle(@StringRes int resId) {
         setSubtitle(getString(resId));
     }
 
-    protected final void setSubtitle(String text) {
+    public final void setSubtitle(String text) {
         mToolbar.setSubtitle(text);
     }
 
-    protected final void setTitleTextColor(@ColorInt int color) {
+    public final void setTitleTextColor(@ColorInt int color) {
         mToolbar.setTitleTextColor(color);
     }
 
-    protected final void setSubtitleTextColor(@ColorInt int color) {
+    public final void setSubtitleTextColor(@ColorInt int color) {
         mToolbar.setSubtitleTextColor(color);
     }
 
-    protected final ImageButton setTitleLogo(@DrawableRes int resId) {
+    public final ImageButton setTitleLogo(@DrawableRes int resId) {
         return mToolbar.setTitleLogo(resId);
     }
 
-    protected final ImageButton addTitleLeftBackView() {
+    public final ImageButton addTitleLeftBackView() {
         return addTitleLeftBackView(R.drawable.ic_arrow_back_white_24dp);
     }
 
-    protected final ImageButton addTitleLeftBackView(OnClickListener lisn) {
+    public final ImageButton addTitleLeftBackView(OnClickListener lisn) {
         return addTitleLeftView(R.drawable.ic_arrow_back_white_24dp, lisn);
     }
 
-    protected final ImageButton addTitleLeftBackView(@DrawableRes int resId) {
+    public final ImageButton addTitleLeftBackView(@DrawableRes int resId) {
         return addTitleLeftView(resId, v -> finish());
     }
 
-    protected final ImageButton addTitleLeftView(@DrawableRes int resId, OnClickListener lisn) {
+    public final ImageButton addTitleLeftView(@DrawableRes int resId, OnClickListener lisn) {
         return mToolbar.addTitleLeftView(resId, lisn);
     }
 
@@ -262,76 +262,76 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         return mToolbar.addTitleLeftTextView(text, lisn);
     }
 
-    protected final TextView addTitleMiddleView(@StringRes int resId) {
+    public final TextView addTitleMiddleView(@StringRes int resId) {
         return mToolbar.addTitleMiddleView(resId);
     }
 
-    protected final TextView addTitleMiddleView(CharSequence text) {
+    public final TextView addTitleMiddleView(CharSequence text) {
         return mToolbar.addTitleMiddleView(text);
     }
 
-    protected final TextView addTitleMiddleView(@StringRes int resId, OnClickListener lisn) {
+    public final TextView addTitleMiddleView(@StringRes int resId, OnClickListener lisn) {
         return mToolbar.addTitleMiddleView(resId, lisn);
     }
 
-    protected final TextView addTitleMiddleView(CharSequence text, OnClickListener lisn) {
+    public final TextView addTitleMiddleView(CharSequence text, OnClickListener lisn) {
         return mToolbar.addTitleMiddleView(text, lisn);
     }
 
-    protected final View addTitleMiddleView(View v, OnClickListener lisn) {
+    public final View addTitleMiddleView(View v, OnClickListener lisn) {
         return mToolbar.addTitleMiddleView(v, lisn);
     }
 
-    protected final ImageButton addTitleRightMoreView(OnClickListener lisn) {
+    public final ImageButton addTitleRightMoreView(OnClickListener lisn) {
         return addTitleRightView(R.drawable.ic_more_vert_white_24dp, lisn);
     }
 
-    protected final ImageButton addTitleRightView(@DrawableRes int resId) {
+    public final ImageButton addTitleRightView(@DrawableRes int resId) {
         return mToolbar.addTitleRightView(resId);
     }
 
-    protected final ImageButton addTitleRightView(@DrawableRes int resId, OnClickListener lisn) {
+    public final ImageButton addTitleRightView(@DrawableRes int resId, OnClickListener lisn) {
         return mToolbar.addTitleRightView(resId, lisn);
     }
 
-    protected final View addTitleRightView(View v, OnClickListener lisn) {
+    public final View addTitleRightView(View v, OnClickListener lisn) {
         return mToolbar.addTitleRightView(v, lisn);
     }
 
     /**
      * fragment activity part
      */
-    protected final void addFragment(Fragment f, String tag) {
+    public final void addFragment(Fragment f, String tag) {
         if (f != null) {
             getSupportFragmentManager().beginTransaction().add(f, tag).commitAllowingStateLoss();
         }
     }
 
-    protected final void addFragment(int frameId, Fragment f) {
+    public final void addFragment(int frameId, Fragment f) {
         if (f != null) {
             getSupportFragmentManager().beginTransaction().add(frameId, f).commitAllowingStateLoss();
         }
     }
 
-    protected final void addFragment(int frameId, Fragment f, String tag) {
+    public final void addFragment(int frameId, Fragment f, String tag) {
         if (f != null) {
             getSupportFragmentManager().beginTransaction().add(frameId, f, tag).commitAllowingStateLoss();
         }
     }
 
-    protected final void replaceFragment(int frameId, Fragment f) {
+    public final void replaceFragment(int frameId, Fragment f) {
         if (f != null) {
             getSupportFragmentManager().beginTransaction().replace(frameId, f).commitAllowingStateLoss();
         }
     }
 
-    protected final void replaceFragment(int frameId, Fragment f, String tag) {
+    public final void replaceFragment(int frameId, Fragment f, String tag) {
         if (f != null) {
             getSupportFragmentManager().beginTransaction().replace(frameId, f, tag).commitAllowingStateLoss();
         }
     }
 
-    protected final void removeFragment(Fragment f) {
+    public final void removeFragment(Fragment f) {
         if (f != null) {
             getSupportFragmentManager().beginTransaction().remove(f).commitAllowingStateLoss();
         }
@@ -410,15 +410,15 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         ViewUtil.goneImageView(v);
     }
 
-    protected final <T extends View> T inflateLayout(@LayoutRes int layoutResId) {
+    public final <T extends View> T inflateLayout(@LayoutRes int layoutResId) {
         return LayoutInflater.inflate(this, layoutResId);
     }
 
-    protected final <T extends View> T inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root) {
+    public final <T extends View> T inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root) {
         return LayoutInflater.inflate(this, layoutResId, root);
     }
 
-    protected final <T extends View> T inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root, boolean attachToRoot) {
+    public final <T extends View> T inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root, boolean attachToRoot) {
         return LayoutInflater.inflate(this, layoutResId, root, attachToRoot);
     }
 }
