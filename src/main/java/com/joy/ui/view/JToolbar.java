@@ -2,8 +2,11 @@ package com.joy.ui.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -36,12 +39,24 @@ public class JToolbar extends Toolbar implements DimenCons {
     }
 
     public ImageButton setTitleLogo(@DrawableRes int resId) {
+        return setTitleLogo(ContextCompat.getDrawable(getContext(), resId));
+    }
+
+    public ImageButton setTitleLogo(@NonNull Drawable drawable) {
+        return addTitleLeftView(drawable, null);
+    }
+
+    public ImageButton addTitleLeftView(@DrawableRes int resId) {
         return addTitleLeftView(resId, null);
     }
 
     public ImageButton addTitleLeftView(@DrawableRes int resId, OnClickListener lisn) {
+        return addTitleLeftView(ContextCompat.getDrawable(getContext(), resId), lisn);
+    }
+
+    public ImageButton addTitleLeftView(@NonNull Drawable drawable, OnClickListener lisn) {
         ImageButton ib = LayoutInflater.inflate(getContext(), R.layout.lib_view_toolbar_imagebutton);
-        ib.setImageResource(resId);
+        ib.setImageDrawable(drawable);
         return (ImageButton) addTitleLeftView(ib, lisn);
     }
 
@@ -93,8 +108,12 @@ public class JToolbar extends Toolbar implements DimenCons {
     }
 
     public ImageButton addTitleRightView(@DrawableRes int resId, OnClickListener lisn) {
+        return addTitleRightView(ContextCompat.getDrawable(getContext(), resId), lisn);
+    }
+
+    public ImageButton addTitleRightView(@NonNull Drawable drawable, OnClickListener lisn) {
         ImageButton ib = LayoutInflater.inflate(getContext(), R.layout.lib_view_toolbar_imagebutton);
-        ib.setImageResource(resId);
+        ib.setImageDrawable(drawable);
         return (ImageButton) addTitleRightView(ib, lisn);
     }
 

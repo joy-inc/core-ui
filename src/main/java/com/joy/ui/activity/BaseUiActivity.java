@@ -238,6 +238,10 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         return mToolbar.setTitleLogo(resId);
     }
 
+    public final ImageButton setTitleLogo(@NonNull Drawable drawable) {
+        return mToolbar.setTitleLogo(drawable);
+    }
+
     public final ImageButton addTitleLeftBackView() {
         return addTitleLeftBackView(R.drawable.ic_arrow_back_white_24dp);
     }
@@ -250,8 +254,16 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         return addTitleLeftView(resId, v -> finish());
     }
 
+    public final ImageButton addTitleLeftView(@DrawableRes int resId) {
+        return mToolbar.addTitleLeftView(resId);
+    }
+
     public final ImageButton addTitleLeftView(@DrawableRes int resId, OnClickListener lisn) {
         return mToolbar.addTitleLeftView(resId, lisn);
+    }
+
+    public final ImageButton addTitleLeftView(@NonNull Drawable drawable, OnClickListener lisn) {
+        return mToolbar.addTitleLeftView(drawable, lisn);
     }
 
     public TextView addTitleLeftTextView(@StringRes int resId, OnClickListener lisn) {
@@ -292,6 +304,10 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
 
     public final ImageButton addTitleRightView(@DrawableRes int resId, OnClickListener lisn) {
         return mToolbar.addTitleRightView(resId, lisn);
+    }
+
+    public final ImageButton addTitleRightView(@NonNull Drawable drawable, OnClickListener lisn) {
+        return mToolbar.addTitleRightView(drawable, lisn);
     }
 
     public final View addTitleRightView(View v, OnClickListener lisn) {
