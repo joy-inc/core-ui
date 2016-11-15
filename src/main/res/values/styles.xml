@@ -21,6 +21,8 @@
         <item name="android:footerDividersEnabled">false</item>
         <item name="noTitle">false</item>
         <item name="overlay">false</item>
+        <item name="titleTextColor">@color/color_text_primary</item>
+        <item name="subtitleTextColor">@color/color_text_secondary</item>
     </style>
 
     <style name="base_theme.noTitle">
@@ -29,10 +31,12 @@
 
     <style name="base_style_toolbar_title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">18dp</item>
+        <item name="android:textColor">?titleTextColor</item>
     </style>
 
     <style name="base_style_toolbar_subtitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
         <item name="android:textSize">14dp</item>
+        <item name="android:textColor">?subtitleTextColor</item>
     </style>
 
     <style name="base_style_toolbar" parent="Widget.AppCompat.Toolbar">

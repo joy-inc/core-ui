@@ -25,6 +25,8 @@
         <!--<item name="colorControlActivated">@color/white_trans26</item>-->
         <item name="noTitle">false</item>
         <item name="overlay">false</item>
+        <item name="titleTextColor">@color/color_text_primary</item>
+        <item name="subtitleTextColor">@color/color_text_secondary</item>
         <!-- enable window content transitions -->
         <!--
         <item name="android:windowContentTransitions">true</item>
