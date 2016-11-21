@@ -26,29 +26,23 @@ public class JRecyclerView extends RecyclerView {
     private LayoutManager mLayoutMgr;
 
     public JRecyclerView(Context context) {
-
         super(context);
         init(context);
     }
 
     public JRecyclerView(Context context, @Nullable AttributeSet attrs) {
-
         super(context, attrs);
         init(context);
     }
 
     private void init(Context context) {
-
         addOnScrollListener(new RvOnScrollListener());
-
         mFooterView = new JFooterView(context);
         mFooterView.setOnRetryListener(() -> startLoadMore(false));
     }
 
     public void addLoadMoreIfNotExist() {
-
         if (getAdapter() instanceof RecyclerAdapter) {
-
             RecyclerAdapter ra = (RecyclerAdapter) getAdapter();
             if (ra.getFootersCount() == 0)
                 ra.addFooterView(mFooterView);
@@ -56,14 +50,12 @@ public class JRecyclerView extends RecyclerView {
     }
 
     public int getHeaderViewsCount() {
-
         if (getAdapter() instanceof RecyclerAdapter)
             return ((RecyclerAdapter) getAdapter()).getHeadersCount();
         return 0;
     }
 
     public int getFooterViewsCount() {
-
         if (getAdapter() instanceof RecyclerAdapter)
             return ((RecyclerAdapter) getAdapter()).getFootersCount();
         return 0;
@@ -71,11 +63,8 @@ public class JRecyclerView extends RecyclerView {
 
     @Override
     public void setLayoutManager(LayoutManager layout) {
-
         super.setLayoutManager(layout);
-
         if (layout instanceof StaggeredGridLayoutManager) {
-
             StaggeredGridLayoutManager sglm = (StaggeredGridLayoutManager) layout;
             mPositions = new int[sglm.getSpanCount()];
         }
@@ -86,7 +75,6 @@ public class JRecyclerView extends RecyclerView {
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
             int totalItemsCount = mLayoutMgr.getItemCount();
             int extraItemsCount = getHeaderViewsCount() + getFooterViewsCount();
 
@@ -95,33 +83,26 @@ public class JRecyclerView extends RecyclerView {
 
             int lastVisiblePos;
             if (mLayoutMgr instanceof LinearLayoutManager) {
-
                 lastVisiblePos = ((LinearLayoutManager) mLayoutMgr).findLastVisibleItemPosition();
             } else if (mLayoutMgr instanceof GridLayoutManager) {
-
                 lastVisiblePos = ((GridLayoutManager) mLayoutMgr).findLastVisibleItemPosition();
             } else if (mLayoutMgr instanceof StaggeredGridLayoutManager) {
-
                 StaggeredGridLayoutManager sglm = (StaggeredGridLayoutManager) mLayoutMgr;
                 sglm.findLastVisibleItemPositions(mPositions);
                 lastVisiblePos = getLastPos(mPositions);
             } else {
-
                 return;
             }
 
             if (lastVisiblePos == totalItemsCount - 1) {
-
                 startLoadMore(true);
             }
         }
     }
 
     private int getLastPos(int[] positions) {
-
         int last = positions[0];
         for (int value : positions) {
-
             if (value > last)
                 last = value;
         }
@@ -129,7 +110,6 @@ public class JRecyclerView extends RecyclerView {
     }
 
     private void startLoadMore(boolean isAuto) {
-
         if (mIsLoadingMore)
             return;
 
@@ -143,49 +123,39 @@ public class JRecyclerView extends RecyclerView {
     }
 
     public void stopLoadMore() {
-
         if (mIsLoadingMore) {
-
             mIsLoadingMore = false;
 //            mFooterView.done();
         }
     }
 
     public void setLoadMoreFailed() {
-
         if (mIsLoadingMore)
             mIsLoadingMore = false;
-
         mFooterView.failed();
     }
 
     public boolean isLoadingMore() {
-
         return mIsLoadingMore;
     }
 
     public boolean isLoadMoreEnable() {
-
         return mIsLoadMoreEnable;
     }
 
     public boolean isLoadMoreFailed() {
-
         return mFooterView != null && mFooterView.isFailed();
     }
 
     public void setLoadMoreEnable(boolean enable) {
-
         if (mIsLoadMoreEnable == enable)
             return;
 
         mIsLoadMoreEnable = enable;
 
         if (enable) {
-
             mFooterView.ready();
         } else {
-
             mFooterView.done();
             if (mIsLoadingMore)
                 mIsLoadingMore = false;
@@ -193,33 +163,27 @@ public class JRecyclerView extends RecyclerView {
     }
 
     public void hideLoadMore() {
-
 //        mFooterView.done();
         setLoadMoreEnable(false);
     }
 
     public void setLoadMoreView(View v, FrameLayout.LayoutParams flLp) {
-
         mFooterView.setLoadingView(v, flLp);
     }
 
     public void setLoadMoreDarkTheme() {
-
         mFooterView.setDarkTheme();
     }
 
     public void setLoadMoreLightTheme() {
-
         mFooterView.setLightTheme();
     }
 
     public void setLoadMoreHintTextColor(@ColorRes int resId) {
-
         mFooterView.setHintTextColor(resId);
     }
 
     public void setLoadMoreListener(OnLoadMoreListener l) {
-
         mOnLoadMoreListener = l;
     }
 }

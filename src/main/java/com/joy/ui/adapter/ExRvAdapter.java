@@ -23,131 +23,107 @@ public abstract class ExRvAdapter<K extends ExRvViewHolder<T>, T> extends Recycl
     private int mHeadersCount;
 
     protected ExRvAdapter() {
-
         this(null);
     }
 
     protected ExRvAdapter(List<T> data) {
-
         mData = data;
     }
 
     @Override
     public int getItemCount() {
-
         return mData == null ? 0 : mData.size();
     }
 
     @Override
     public void onBindViewHolder(K holder, int position) {
-
         holder.invalidateItemView(position, getItem(position));
     }
 
     public T getItem(int position) {
-
         if (mData == null)
             return null;
 
         T t = null;
         try {
-
             t = mData.get(position);
         } catch (Exception e) {
-
             e.printStackTrace();
         }
         return t;
     }
 
     public View inflate(@NonNull ViewGroup parent, @LayoutRes int layoutResId) {
-
         return LayoutInflater.from(parent.getContext()).inflate(layoutResId, parent, false);
     }
 
     public boolean isEmpty() {
-
         return getItemCount() == 0;
     }
 
     public boolean isNotEmpty() {
-
         return !isEmpty();
     }
 
     public void setData(List<T> data) {
-
         mData = data;
     }
 
     public List<T> getData() {
-
         return mData;
     }
 
     public void add(int position, T t) {
-
         if (mData != null && t != null)
             mData.add(position, t);
     }
 
     public void add(T t) {
-
         if (mData != null && t != null)
             mData.add(t);
     }
 
     public void addAll(List<T> ts) {
-
         if (ts == null)
             return;
 
         if (mData == null) {
-
             mData = ts;
         } else {
-
             mData.addAll(ts);
         }
     }
 
     public void addAll(int position, List<T> ts) {
-
         if (mData != null && ts != null)
             mData.addAll(position, ts);
     }
 
     public int indexOf(T t) {
-
         return mData == null ? -1 : mData.indexOf(t);
     }
 
     public void remove(T t) {
-
         if (mData != null)
             mData.remove(t);
     }
 
     public void remove(int position) {
-
         if (mData != null)
             mData.remove(position);
     }
 
     public void removeAll() {
-
         if (mData != null)
             mData.clear();
     }
 
     public void clear() {
-
         if (mData != null)
             mData.clear();
     }
 
     public boolean checkPosition(int position) {
-
         return position >= 0 && position < getItemCount();
     }
 
@@ -155,36 +131,30 @@ public abstract class ExRvAdapter<K extends ExRvViewHolder<T>, T> extends Recycl
      * click listener part
 	 */
     public void setOnItemClickListener(OnItemClickListener<T> lisn) {
-
         mOnItemClickListener = lisn;
     }
 
     public void setOnItemLongClickListener(OnItemLongClickListener<T> lisn) {
-
         mOnItemLongClickListener = lisn;
     }
 
     protected void callbackOnItemClickListener(int position, View view) {
-
         position -= mHeadersCount;
         if (mOnItemClickListener != null)
             mOnItemClickListener.onItemClick(position, view, getItem(position));
     }
 
     protected void callbackOnItemLongClickListener(int position, View view) {
-
         position -= mHeadersCount;
         if (mOnItemLongClickListener != null)
             mOnItemLongClickListener.onItemLongClick(position, view, getItem(position));
     }
 
     public void setHeadersCount(int headersCount) {
-
         mHeadersCount = headersCount;
     }
 
     public int getHeadersCount() {
-
         return mHeadersCount;
     }
 }

@@ -18,40 +18,34 @@ public class JBottomSheetRvDialog extends JBottomSheetDialog {
 
     private RecyclerView.LayoutManager mLayoutManager;
     private ExRvAdapter mAdapter;
-
     private RecyclerView.ItemDecoration mItemDecoration;
 
     public JBottomSheetRvDialog(@NonNull Context context) {
-
         super(context);
         mLayoutManager = new LinearLayoutManager(context);
     }
 
     public void setLayoutManager(@NonNull RecyclerView.LayoutManager layoutManager) {
-
         mLayoutManager = layoutManager;
     }
 
     public void setAdapter(@NonNull ExRvAdapter adapter) {
-
         mAdapter = adapter;
     }
 
     public void addItemDecoration(@NonNull RecyclerView.ItemDecoration itemDecoration) {
-
         mItemDecoration = itemDecoration;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         JRecyclerView jrv = inflateLayout(R.layout.lib_view_recycler);
         jrv.setLayoutManager(mLayoutManager);
         jrv.setAdapter(mAdapter);
-        if (mItemDecoration != null)
+        if (mItemDecoration != null) {
             jrv.addItemDecoration(mItemDecoration);
+        }
         setContentView(jrv);
-
         super.onCreate(savedInstanceState);
     }
 }

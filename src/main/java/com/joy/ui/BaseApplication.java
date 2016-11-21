@@ -21,61 +21,50 @@ public class BaseApplication extends Application {
 
     @Override
     public void onCreate() {
-
         super.onCreate();
         initAppComponent();
         initContext();
     }
 
     private void initAppComponent() {
-
         mComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
     }
 
     public AppComponent component() {
-
         return mComponent;
     }
 
     private void initContext() {
-
         mContext = getApplicationContext();
     }
 
     public static Context getContext() {
-
         return mContext;
     }
 
     private static void releaseContext() {
-
         mContext = null;
     }
 
     public static Resources getAppResources() {
-
         return mContext.getResources();
     }
 
     public static String getAppString(@StringRes int resId) {
-
         return getAppResources().getString(resId);
     }
 
     public static String getAppString(@StringRes int resId, Object... formatArgs) {
-
         return getAppResources().getString(resId, formatArgs);
     }
 
     public static String[] getAppStringArray(@ArrayRes int resId) {
-
         return getAppResources().getStringArray(resId);
     }
 
     protected static void release() {
-
         ToastUtil.release();
     }
 }

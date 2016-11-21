@@ -16,31 +16,26 @@ public class AdapterDelegateCombine<VH extends ExRvViewHolder<DisplayableItem>> 
     private AdapterDelegateManager<DisplayableItem, VH> delegateManager;
 
     public AdapterDelegateCombine(AdapterDelegateManager<DisplayableItem, VH> delegateManager) {
-
         this(null, delegateManager);
     }
 
     public AdapterDelegateCombine(List<DisplayableItem> data, AdapterDelegateManager<DisplayableItem, VH> delegateManager) {
-
         super(data);
         this.delegateManager = delegateManager;
     }
 
     @Override
     public int getItemViewType(int position) {
-
         return delegateManager.getItemViewType(position, getItem(position));
     }
 
     @Override
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
-
         return delegateManager.onCreateViewHolder(parent, viewType);
     }
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
-
         delegateManager.onBindViewHolder(holder, position, getItem(position));
     }
 }

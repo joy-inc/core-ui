@@ -17,29 +17,27 @@ public class SnackbarUtil {
 
     @SuppressWarnings("ResourceType")
     public static void showSnackbar(@NonNull View view, @NonNull CharSequence text) {
-
         showSnackbar(view, text, LENGTH_SHORT);
     }
 
     public static void showSnackbar(@NonNull View view, @NonNull CharSequence text, @Snackbar.Duration int duration) {
-
         showSnackbar(view, text, duration, NO_COLOR, NO_COLOR);
     }
 
     public static void showSnackbar(@NonNull View view, @NonNull CharSequence text, @Snackbar.Duration int duration, @ColorInt int textColor) {
-
         showSnackbar(view, text, duration, NO_COLOR, textColor);
     }
 
     public static void showSnackbar(@NonNull View view, @NonNull CharSequence text, @Snackbar.Duration int duration, @ColorInt int bgColor, @ColorInt int textColor) {
-
         Snackbar snackbar = Snackbar.make(view, text, duration);
         Snackbar.SnackbarLayout sLayout = (Snackbar.SnackbarLayout) snackbar.getView();
         TextView tvMessage = (TextView) sLayout.getChildAt(0);
-        if (bgColor != NO_COLOR)
+        if (bgColor != NO_COLOR) {
             sLayout.setBackgroundColor(bgColor);
-        if (textColor != NO_COLOR)
+        }
+        if (textColor != NO_COLOR) {
             tvMessage.setTextColor(textColor);
+        }
         snackbar.show();
     }
 }

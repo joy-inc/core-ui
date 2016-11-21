@@ -16,12 +16,10 @@ public abstract class AdapterDelegateImpl<T extends DisplayableItem, VH extends 
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position, @NonNull DisplayableItem item) {
-
         holder.invalidateItemView(position, (T) item);
     }
 
     public View inflate(@NonNull ViewGroup parent, @LayoutRes int layoutResId) {
-
         return LayoutInflater.from(parent.getContext()).inflate(layoutResId, parent, false);
     }
 }

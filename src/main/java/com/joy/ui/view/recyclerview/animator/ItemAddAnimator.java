@@ -17,18 +17,15 @@ public class ItemAddAnimator extends FadeInUpAnimator {
     private static final float DEFAULT_INTERPOLATOR_FACTOR = 3.f;
 
     public ItemAddAnimator() {
-
         init();
     }
 
     public ItemAddAnimator(int pageLimit) {
-
         mPageLimit = pageLimit;
         init();
     }
 
     private void init() {
-
         setAddDuration(DEFAULT_ADD_DURATION);
         setInterpolator(new DecelerateInterpolator(DEFAULT_INTERPOLATOR_FACTOR));
     }
@@ -39,19 +36,15 @@ public class ItemAddAnimator extends FadeInUpAnimator {
      * @param pageLimit 分页大小
      */
     public void setPageLimit(int pageLimit) {
-
         mPageLimit = pageLimit;
     }
 
     @Override
     protected long getAddDelay(RecyclerView.ViewHolder holder) {
-
         long delay;
         if (holder.getLayoutPosition() >= mPageLimit) {
-
             delay = 0;
         } else {
-
             delay = super.getAddDelay(holder);
         }
         return delay;

@@ -11,13 +11,11 @@ import android.util.AttributeSet;
 public class JTextView extends AppCompatTextView {
 
     public JTextView(Context context) {
-
         super(context);
         //QaTypeFaceUtil.setHYQiHeiTypeFace(this);
     }
 
     public JTextView(Context context, AttributeSet attrs) {
-
         super(context, attrs);
         //QaTypeFaceUtil.setHYQiHeiTypeFace(this);
     }

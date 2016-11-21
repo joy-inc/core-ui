@@ -11,14 +11,12 @@ public class SpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
     private int mSpanSize;
 
     public SpanSizeLookup(RecyclerAdapter adapter, int spanSize) {
-
         mAdapter = adapter;
         mSpanSize = spanSize;
     }
 
     @Override
     public int getSpanSize(int position) {
-
         boolean isHeaderOrFooter = mAdapter.isHeader(position) || mAdapter.isFooter(position);
         return isHeaderOrFooter ? mSpanSize : 1;
     }

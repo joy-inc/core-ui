@@ -16,27 +16,22 @@ import com.joy.utils.DensityUtil;
 public class JLoadingView extends ProgressBar {
 
     public JLoadingView(Context context) {
-
         super(context);
     }
 
     public JLoadingView(Context context, AttributeSet attrs) {
-
         super(context, attrs);
     }
 
     public void hide() {
-
         setVisibility(INVISIBLE);
     }
 
     public void gone() {
-
         setVisibility(GONE);
     }
 
     public void show() {
-
         setVisibility(VISIBLE);
     }
 
@@ -47,7 +42,6 @@ public class JLoadingView extends ProgressBar {
      * @return
      */
     public static JLoadingView get(Context context) {
-
         JLoadingView v = new JLoadingView(context);
         int size = DensityUtil.getDimensionPixelSize(context.getApplicationContext(), R.dimen.def_loading_primary);
         v.setLayoutParams(new LayoutParams(size, size, Gravity.CENTER));
@@ -62,7 +56,6 @@ public class JLoadingView extends ProgressBar {
      * @return
      */
     public static JLoadingView getLoadMore(Context context) {
-
         JLoadingView v = new JLoadingView(context);
         int size = DensityUtil.getDimensionPixelSize(context.getApplicationContext(), R.dimen.def_loading_loadmore);
         v.setLayoutParams(new LayoutParams(size, size));
