@@ -3,13 +3,13 @@ package com.joy.ui.view;
 import android.content.Context;
 import android.support.annotation.ColorRes;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.joy.ui.R;
 import com.joy.ui.widget.JTextView;
+import com.joy.utils.LayoutInflater;
 import com.joy.utils.ViewUtil;
 
 /**
@@ -35,7 +35,7 @@ public class JFooterView extends LinearLayout {
         setOrientation(VERTICAL);
         setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
-        mRootView = LayoutInflater.from(context).inflate(R.layout.lib_view_footer, null);
+        mRootView = LayoutInflater.inflate(context, R.layout.lib_view_footer);
         addView(mRootView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
         mLoadingDiv = findViewById(R.id.llLoadingDiv);

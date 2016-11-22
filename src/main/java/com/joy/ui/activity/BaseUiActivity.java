@@ -39,7 +39,7 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 /**
  * 基本的UI框架
- * Created by KEVIN.DAI on 15/7/16.
+ * Created by KEVIN.DAI on 16/7/3.
  */
 public abstract class BaseUiActivity extends RxAppCompatActivity implements BaseView, DimenCons {
 
@@ -100,7 +100,7 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         // add transition animation
 //        LayoutTransition lt = new LayoutTransition();
 //        lt.setDuration(100);
-//        rootView.setLayoutTransition(lt);
+//        contentParent.setLayoutTransition(lt);
 
         contentParent.addView(contentView);
         LayoutParams contentLp = getContentViewLp();
@@ -355,7 +355,7 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
 
     @Override
     public final void showToast(String text) {
-        ToastUtil.showToast(getApplicationContext(), text);
+        ToastUtil.showToast(this, text);
     }
 
     @Override
@@ -376,18 +376,19 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
 
     @Override
     public final void showSnackbar(@NonNull CharSequence text, @Snackbar.Duration int duration) {
-        showSnackbar(text, duration, -1);
+        showSnackbar(text, duration, SnackbarUtil.NO_COLOR);
     }
 
     @Override
     public final void showSnackbar(@NonNull CharSequence text, @Snackbar.Duration int duration, @ColorInt int textColor) {
-        showSnackbar(text, duration, -1, textColor);
+        showSnackbar(text, duration, SnackbarUtil.NO_COLOR, textColor);
     }
 
     @Override
     public final void showSnackbar(@NonNull CharSequence text, @Snackbar.Duration int duration, @ColorInt int bgColor, @ColorInt int textColor) {
-        if (textColor == -1)
+        if (textColor == SnackbarUtil.NO_COLOR) {
             textColor = getResources().getColor(R.color.color_text_primary);
+        }
         SnackbarUtil.showSnackbar(getContentView(), text, duration, bgColor, textColor);
     }
 
@@ -426,14 +427,17 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         ViewUtil.goneImageView(v);
     }
 
+    @Override
     public final <T extends View> T inflateLayout(@LayoutRes int layoutResId) {
         return LayoutInflater.inflate(this, layoutResId);
     }
 
+    @Override
     public final <T extends View> T inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root) {
         return LayoutInflater.inflate(this, layoutResId, root);
     }
 
+    @Override
     public final <T extends View> T inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root, boolean attachToRoot) {
         return LayoutInflater.inflate(this, layoutResId, root, attachToRoot);
     }

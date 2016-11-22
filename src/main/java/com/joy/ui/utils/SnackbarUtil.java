@@ -13,7 +13,7 @@ import static android.support.design.widget.Snackbar.LENGTH_SHORT;
  */
 public class SnackbarUtil {
 
-    private static final int NO_COLOR = -1;
+    public static final int NO_COLOR = -1;
 
     @SuppressWarnings("ResourceType")
     public static void showSnackbar(@NonNull View view, @NonNull CharSequence text) {

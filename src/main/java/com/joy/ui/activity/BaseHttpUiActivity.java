@@ -27,7 +27,7 @@ public abstract class BaseHttpUiActivity extends BaseUiActivity implements BaseV
     private ImageView mIvTip;
     private View mLoadingView;
     private int mTipResId;
-    private int LOADING_RES_ID = -1;
+    private int LOADING_RES_ID = View.NO_ID;
     private int ERROR_RES_ID = R.drawable.ic_tip_error;
     private int EMPTY_RES_ID = R.drawable.ic_tip_empty;
 
@@ -35,9 +35,9 @@ public abstract class BaseHttpUiActivity extends BaseUiActivity implements BaseV
     public void resolveThemeAttribute() {
         super.resolveThemeAttribute();
         TypedArray a = obtainStyledAttributes(R.styleable.Theme);
-        LOADING_RES_ID = a.getResourceId(R.styleable.Theme_loadingView, -1);
-        ERROR_RES_ID = a.getResourceId(R.styleable.Theme_errorTip, -1);
-        EMPTY_RES_ID = a.getResourceId(R.styleable.Theme_emptyTip, -1);
+        LOADING_RES_ID = a.getResourceId(R.styleable.Theme_loadingView, View.NO_ID);
+        ERROR_RES_ID = a.getResourceId(R.styleable.Theme_errorTip, R.drawable.ic_tip_error);
+        EMPTY_RES_ID = a.getResourceId(R.styleable.Theme_emptyTip, R.drawable.ic_tip_empty);
         a.recycle();
     }
 
@@ -48,23 +48,31 @@ public abstract class BaseHttpUiActivity extends BaseUiActivity implements BaseV
         addLoadingView(contentParent);
     }
 
-    @SuppressWarnings("ResourceType")
     private void addTipView(FrameLayout contentParent) {
         mIvTip = new ImageView(this);
         mIvTip.setScaleType(ScaleType.CENTER_INSIDE);
         mIvTip.setOnClickListener(v -> onTipViewClick());
         hideImageView(mIvTip);
+        contentParent.addView(mIvTip, getTipViewLp());
+    }
+
+    @SuppressWarnings("ResourceType")
+    private LayoutParams getTipViewLp() {
         LayoutParams lp = new LayoutParams(MATCH_PARENT, MATCH_PARENT);
         if (!isNoTitle() && !isOverlay()) {
             lp.topMargin = isSystemBarTrans() ? STATUS_BAR_HEIGHT + getToolbarHeight() : getToolbarHeight();
         }
-        contentParent.addView(mIvTip, lp);
+        return lp;
     }
 
-    @SuppressWarnings("ResourceType")
     private void addLoadingView(FrameLayout contentParent) {
         mLoadingView = getLoadingView();
         hideView(mLoadingView);
+        contentParent.addView(mLoadingView, getLoadingViewLp());
+    }
+
+    @SuppressWarnings("ResourceType")
+    private LayoutParams getLoadingViewLp() {
         LayoutParams lp = (LayoutParams) mLoadingView.getLayoutParams();
         if (lp == null) {
             lp = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT, Gravity.CENTER);
@@ -72,20 +80,21 @@ public abstract class BaseHttpUiActivity extends BaseUiActivity implements BaseV
         if (!isNoTitle() && !isOverlay()) {
             lp.topMargin = isSystemBarTrans() ? (STATUS_BAR_HEIGHT + getToolbarHeight()) / 2 : getToolbarHeight() / 2;
         }
-        contentParent.addView(mLoadingView, lp);
+        return lp;
     }
 
     public View getLoadingView() {
-        if (LOADING_RES_ID == -1) {
+        if (LOADING_RES_ID == View.NO_ID) {
             return JLoadingView.get(this);
         } else {
-            ImageView loadingIv = new ImageView(this);
-            loadingIv.setImageResource(LOADING_RES_ID);
-            return loadingIv;
+            ImageView ivLoading = new ImageView(this);
+            ivLoading.setLayoutParams(new LayoutParams(WRAP_CONTENT, WRAP_CONTENT, Gravity.CENTER));
+            ivLoading.setImageResource(LOADING_RES_ID);
+            return ivLoading;
         }
     }
 
-    private void onTipViewClick() {
+    public void onTipViewClick() {
         if (getTipType() == TipType.ERROR) {
             if (isNetworkEnable()) {
                 doOnRetry();

@@ -1,11 +1,12 @@
 package com.joy.ui.adapter;
 
 import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.joy.utils.LayoutInflater;
 
 import java.util.List;
 
@@ -53,8 +54,8 @@ public abstract class ExRvAdapter<K extends ExRvViewHolder<T>, T> extends Recycl
         return t;
     }
 
-    public View inflate(@NonNull ViewGroup parent, @LayoutRes int layoutResId) {
-        return LayoutInflater.from(parent.getContext()).inflate(layoutResId, parent, false);
+    public final <T extends View> T inflateLayout(@Nullable ViewGroup root, @LayoutRes int layoutResId) {
+        return LayoutInflater.inflate(root.getContext(), layoutResId, root, false);
     }
 
     public boolean isEmpty() {
