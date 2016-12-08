@@ -27,8 +27,6 @@ import com.joy.utils.ToastUtil;
 import com.joy.utils.ViewUtil;
 import com.trello.rxlifecycle.components.support.RxFragment;
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-
 /**
  * 基本的UI框架
  * Created by KEVIN.DAI on 16/11/22.
@@ -50,11 +48,13 @@ public abstract class BaseUiFragment extends RxFragment implements BaseView, Dim
     }
 
     public final void setContentView(View contentView) {
-        setContentView(contentView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
+        setContentView(contentView, null);
     }
 
     public final void setContentView(View contentView, LayoutParams params) {
-        contentView.setLayoutParams(params);
+        if (params != null) {
+            contentView.setLayoutParams(params);
+        }
         mContentView = contentView;
 
         resolveThemeAttribute();

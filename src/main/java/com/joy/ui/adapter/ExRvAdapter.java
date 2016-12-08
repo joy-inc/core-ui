@@ -42,9 +42,9 @@ public abstract class ExRvAdapter<K extends ExRvViewHolder<T>, T> extends Recycl
     }
 
     public T getItem(int position) {
-        if (mData == null)
+        if (mData == null) {
             return null;
-
+        }
         T t = null;
         try {
             t = mData.get(position);
@@ -75,19 +75,21 @@ public abstract class ExRvAdapter<K extends ExRvViewHolder<T>, T> extends Recycl
     }
 
     public void add(int position, T t) {
-        if (mData != null && t != null)
+        if (mData != null && t != null) {
             mData.add(position, t);
+        }
     }
 
     public void add(T t) {
-        if (mData != null && t != null)
+        if (mData != null && t != null) {
             mData.add(t);
+        }
     }
 
     public void addAll(List<T> ts) {
-        if (ts == null)
+        if (ts == null) {
             return;
-
+        }
         if (mData == null) {
             mData = ts;
         } else {
@@ -96,8 +98,9 @@ public abstract class ExRvAdapter<K extends ExRvViewHolder<T>, T> extends Recycl
     }
 
     public void addAll(int position, List<T> ts) {
-        if (mData != null && ts != null)
+        if (mData != null && ts != null) {
             mData.addAll(position, ts);
+        }
     }
 
     public int indexOf(T t) {
@@ -105,23 +108,27 @@ public abstract class ExRvAdapter<K extends ExRvViewHolder<T>, T> extends Recycl
     }
 
     public void remove(T t) {
-        if (mData != null)
+        if (mData != null) {
             mData.remove(t);
+        }
     }
 
     public void remove(int position) {
-        if (mData != null)
+        if (mData != null) {
             mData.remove(position);
+        }
     }
 
     public void removeAll() {
-        if (mData != null)
+        if (mData != null) {
             mData.clear();
+        }
     }
 
     public void clear() {
-        if (mData != null)
+        if (mData != null) {
             mData.clear();
+        }
     }
 
     public boolean checkPosition(int position) {
@@ -141,14 +148,16 @@ public abstract class ExRvAdapter<K extends ExRvViewHolder<T>, T> extends Recycl
 
     protected void callbackOnItemClickListener(int position, View view) {
         position -= mHeadersCount;
-        if (mOnItemClickListener != null)
+        if (mOnItemClickListener != null) {
             mOnItemClickListener.onItemClick(position, view, getItem(position));
+        }
     }
 
     protected void callbackOnItemLongClickListener(int position, View view) {
         position -= mHeadersCount;
-        if (mOnItemLongClickListener != null)
+        if (mOnItemLongClickListener != null) {
             mOnItemLongClickListener.onItemLongClick(position, view, getItem(position));
+        }
     }
 
     public void setHeadersCount(int headersCount) {

@@ -8,7 +8,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.joy.ui.R;
-import com.joy.ui.widget.JTextView;
 import com.joy.utils.LayoutInflater;
 import com.joy.utils.ViewUtil;
 

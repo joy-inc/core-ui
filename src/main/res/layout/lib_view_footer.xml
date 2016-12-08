@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="?selectableItemBackground">
 
-    <com.joy.ui.widget.JTextView
+    <com.joy.ui.view.JTextView
         android:id="@+id/jtvRetry"
         android:layout_width="match_parent"
         android:layout_height="70dp"
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <com.joy.ui.widget.JTextView
+        <com.joy.ui.view.JTextView
             android:id="@+id/jtvHint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

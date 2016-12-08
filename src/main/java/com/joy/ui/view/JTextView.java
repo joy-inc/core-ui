@@ -1,4 +1,4 @@
-package com.joy.ui.widget;
+package com.joy.ui.view;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatTextView;

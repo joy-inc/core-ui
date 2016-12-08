@@ -13,9 +13,9 @@ import java.util.List;
 /**
  * @author Daisw
  */
-public class ExFragmentPagerAdapter extends FragmentPagerAdapter {
+public class ExFragmentPagerAdapter<T extends BaseUiFragment> extends FragmentPagerAdapter {
 
-    private List<? extends BaseUiFragment> mFragments;
+    private List<T> mFragments;
     private boolean mFragmentItemDestoryEnable = true;
 
     public ExFragmentPagerAdapter(FragmentManager fragmentManager) {
@@ -49,8 +49,37 @@ public class ExFragmentPagerAdapter extends FragmentPagerAdapter {
         return mFragments == null ? 0 : mFragments.size();
     }
 
-    public void setFragments(List<? extends BaseUiFragment> fragments) {
+    public void setFragments(List<T> fragments) {
         mFragments = fragments;
+    }
+
+    public void add(int position, T t) {
+        if (mFragments != null && t != null) {
+            mFragments.add(position, t);
+        }
+    }
+
+    public void add(T t) {
+        if (mFragments != null && t != null) {
+            mFragments.add(t);
+        }
+    }
+
+    public void addAll(List<T> ts) {
+        if (ts == null) {
+            return;
+        }
+        if (mFragments == null) {
+            mFragments = ts;
+        } else {
+            mFragments.addAll(ts);
+        }
+    }
+
+    public void addAll(int position, List<T> ts) {
+        if (mFragments != null && ts != null) {
+            mFragments.addAll(position, ts);
+        }
     }
 
     public void setFragmentItemDestoryEnable(boolean enable) {
