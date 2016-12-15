@@ -148,6 +148,8 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
                 outRect.set(0, paddingTop, 0, marginBottom);
             } else if (isLastRow(position, spanCount, itemCount)) {
                 outRect.set(0, marginTop, 0, paddingBottom);
+            } else {
+                outRect.set(0, marginTop, 0, marginBottom);
             }
         } else if (lm instanceof LinearLayoutManager) {
             if (builder.orientationParams.orientation == HORIZONTAL) {
@@ -201,7 +203,7 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     private boolean isLastRow(int position, int spanCount, int childCount) {
-        int totalRow = childCount / spanCount + childCount % spanCount > 0 ? 1 : 0;
+        int totalRow = (childCount / spanCount) + ((childCount % spanCount > 0) ? 1 : 0);
         return position >= (totalRow - 1) * spanCount;
     }
 
