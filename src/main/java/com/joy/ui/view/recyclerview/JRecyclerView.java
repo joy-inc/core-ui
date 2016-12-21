@@ -44,20 +44,23 @@ public class JRecyclerView extends RecyclerView {
     public void addLoadMoreIfNotExist() {
         if (getAdapter() instanceof RecyclerAdapter) {
             RecyclerAdapter ra = (RecyclerAdapter) getAdapter();
-            if (ra.getFootersCount() == 0)
+            if (ra.getFootersCount() == 0) {
                 ra.addFooterView(mFooterView);
+            }
         }
     }
 
     public int getHeaderViewsCount() {
-        if (getAdapter() instanceof RecyclerAdapter)
+        if (getAdapter() instanceof RecyclerAdapter) {
             return ((RecyclerAdapter) getAdapter()).getHeadersCount();
+        }
         return 0;
     }
 
     public int getFooterViewsCount() {
-        if (getAdapter() instanceof RecyclerAdapter)
+        if (getAdapter() instanceof RecyclerAdapter) {
             return ((RecyclerAdapter) getAdapter()).getFootersCount();
+        }
         return 0;
     }
 
@@ -77,10 +80,9 @@ public class JRecyclerView extends RecyclerView {
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             int totalItemsCount = mLayoutMgr.getItemCount();
             int extraItemsCount = getHeaderViewsCount() + getFooterViewsCount();
-
-            if (!mIsLoadMoreEnable || mIsLoadingMore || isLoadMoreFailed() || totalItemsCount <= extraItemsCount)
+            if (!mIsLoadMoreEnable || mIsLoadingMore || isLoadMoreFailed() || totalItemsCount <= extraItemsCount) {
                 return;
-
+            }
             int lastVisiblePos;
             if (mLayoutMgr instanceof LinearLayoutManager) {
                 lastVisiblePos = ((LinearLayoutManager) mLayoutMgr).findLastVisibleItemPosition();
@@ -103,23 +105,25 @@ public class JRecyclerView extends RecyclerView {
     private int getLastPos(int[] positions) {
         int last = positions[0];
         for (int value : positions) {
-            if (value > last)
+            if (value > last) {
                 last = value;
+            }
         }
         return last;
     }
 
     private void startLoadMore(boolean isAuto) {
-        if (mIsLoadingMore)
+        if (mIsLoadingMore) {
             return;
-
+        }
         mIsLoadingMore = true;
 
 //        mFooterView.ready();
         mFooterView.loading();
 
-        if (mOnLoadMoreListener != null)
+        if (mOnLoadMoreListener != null) {
             mOnLoadMoreListener.onRefresh(isAuto);
+        }
     }
 
     public void stopLoadMore() {
@@ -130,8 +134,9 @@ public class JRecyclerView extends RecyclerView {
     }
 
     public void setLoadMoreFailed() {
-        if (mIsLoadingMore)
+        if (mIsLoadingMore) {
             mIsLoadingMore = false;
+        }
         mFooterView.failed();
     }
 
@@ -148,17 +153,18 @@ public class JRecyclerView extends RecyclerView {
     }
 
     public void setLoadMoreEnable(boolean enable) {
-        if (mIsLoadMoreEnable == enable)
+        if (mIsLoadMoreEnable == enable) {
             return;
-
+        }
         mIsLoadMoreEnable = enable;
 
         if (enable) {
             mFooterView.ready();
         } else {
             mFooterView.done();
-            if (mIsLoadingMore)
+            if (mIsLoadingMore) {
                 mIsLoadingMore = false;
+            }
         }
     }
 

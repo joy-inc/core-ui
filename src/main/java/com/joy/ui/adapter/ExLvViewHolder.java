@@ -6,29 +6,34 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.joy.ui.view.recyclerview.JRecyclerView;
 import com.joy.utils.LayoutInflater;
 import com.joy.utils.ToastUtil;
 import com.joy.utils.ViewUtil;
 
 /**
- * Created by KEVIN.DAI on 15/11/10.
- * Modified by KEVIN.DAI on 16/7/6.(add some methods)
+ * Created by KEVIN.DAI on 15/7/16.
  *
  * @param <T>
+ * @see {@link JRecyclerView,ExRvViewHolder}
  */
-public abstract class ExRvViewHolder<T> extends RecyclerView.ViewHolder {
+public abstract class ExLvViewHolder<T> {
 
-    public ExRvViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId) {
-        super(LayoutInflater.inflate(parent.getContext(), layoutResId, parent, false));
+    public final View itemView;
+
+    public ExLvViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId) {
+        this(LayoutInflater.inflate(parent.getContext(), layoutResId, parent, false));
     }
 
-    public ExRvViewHolder(View itemView) {
-        super(itemView);
+    public ExLvViewHolder(View itemView) {
+        if (itemView == null) {
+            throw new IllegalArgumentException("itemView may not be null");
+        }
+        this.itemView = itemView;
     }
 
     public final View getItemView() {

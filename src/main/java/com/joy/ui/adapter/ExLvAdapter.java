@@ -2,44 +2,45 @@ package com.joy.ui.adapter;
 
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 
+import com.joy.ui.view.recyclerview.JRecyclerView;
 import com.joy.utils.LayoutInflater;
 
 import java.util.List;
 
 /**
- * Created by KEVIN.DAI on 15/11/10.
+ * Created by KEVIN.DAI on 15/7/16.
  *
- * @param <K>
  * @param <T>
+ * @see {@link JRecyclerView,ExRvAdapter}
  */
-public abstract class ExRvAdapter<K extends ExRvViewHolder<T>, T> extends RecyclerView.Adapter<K> {
+public abstract class ExLvAdapter<T> extends BaseAdapter {
 
     private List<T> mTs;
     private OnItemClickListener<T> mOnItemClickListener;
     private OnItemLongClickListener<T> mOnItemLongClickListener;
-    private int mHeadersCount;
 
-    protected ExRvAdapter() {
+    protected ExLvAdapter() {
     }
 
-    protected ExRvAdapter(List<T> ts) {
+    protected ExLvAdapter(List<T> ts) {
         mTs = ts;
     }
 
     @Override
-    public int getItemCount() {
+    public int getCount() {
         return mTs == null ? 0 : mTs.size();
     }
 
     @Override
-    public void onBindViewHolder(K holder, int position) {
-        holder.invalidateItemView(position, getItem(position));
+    public long getItemId(int position) {
+        return position;
     }
 
+    @Override
     public T getItem(int position) {
         if (mTs == null) {
             return null;
@@ -57,8 +58,24 @@ public abstract class ExRvAdapter<K extends ExRvViewHolder<T>, T> extends Recycl
         return LayoutInflater.inflate(root.getContext(), layoutResId, root, false);
     }
 
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ExLvViewHolder<T> viewHolder;
+        if (convertView == null) {
+            viewHolder = onCreateViewHolder(parent, position);
+            convertView = viewHolder.getItemView();
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ExLvViewHolder<T>) convertView.getTag();
+        }
+        viewHolder.invalidateItemView(position, getItem(position));
+        return convertView;
+    }
+
+    protected abstract ExLvViewHolder<T> onCreateViewHolder(ViewGroup parent, int position);
+
     public boolean isEmpty() {
-        return getItemCount() == 0;
+        return getCount() == 0;
     }
 
     public boolean isNotEmpty() {
@@ -73,15 +90,15 @@ public abstract class ExRvAdapter<K extends ExRvViewHolder<T>, T> extends Recycl
         return mTs;
     }
 
-    public void add(int position, T t) {
-        if (mTs != null && t != null) {
-            mTs.add(position, t);
+    public void add(int position, T item) {
+        if (mTs != null && item != null) {
+            mTs.add(position, item);
         }
     }
 
-    public void add(T t) {
-        if (mTs != null && t != null) {
-            mTs.add(t);
+    public void add(T item) {
+        if (mTs != null && item != null) {
+            mTs.add(item);
         }
     }
 
@@ -96,9 +113,9 @@ public abstract class ExRvAdapter<K extends ExRvViewHolder<T>, T> extends Recycl
         }
     }
 
-    public void addAll(int position, List<T> ts) {
-        if (mTs != null && ts != null) {
-            mTs.addAll(position, ts);
+    public void addAll(int position, List<T> item) {
+        if (mTs != null && item != null) {
+            mTs.addAll(position, item);
         }
     }
 
@@ -106,9 +123,9 @@ public abstract class ExRvAdapter<K extends ExRvViewHolder<T>, T> extends Recycl
         return mTs == null ? -1 : mTs.indexOf(t);
     }
 
-    public void remove(T t) {
+    public void remove(T item) {
         if (mTs != null) {
-            mTs.remove(t);
+            mTs.remove(item);
         }
     }
 
@@ -129,12 +146,12 @@ public abstract class ExRvAdapter<K extends ExRvViewHolder<T>, T> extends Recycl
     }
 
     public boolean checkPosition(int position) {
-        return position >= 0 && position < getItemCount();
+        return position >= 0 && position < getCount();
     }
 
     /*
      * click listener part
-	 */
+     */
     public void setOnItemClickListener(OnItemClickListener<T> lisn) {
         mOnItemClickListener = lisn;
     }
@@ -144,24 +161,14 @@ public abstract class ExRvAdapter<K extends ExRvViewHolder<T>, T> extends Recycl
     }
 
     protected void callbackOnItemClickListener(int position, View view) {
-        position -= mHeadersCount;
         if (mOnItemClickListener != null) {
             mOnItemClickListener.onItemClick(position, view, getItem(position));
         }
     }
 
     protected void callbackOnItemLongClickListener(int position, View view) {
-        position -= mHeadersCount;
         if (mOnItemLongClickListener != null) {
             mOnItemLongClickListener.onItemLongClick(position, view, getItem(position));
         }
-    }
-
-    public void setHeadersCount(int headersCount) {
-        mHeadersCount = headersCount;
-    }
-
-    public int getHeadersCount() {
-        return mHeadersCount;
     }
 }
