@@ -15,6 +15,8 @@ import com.joy.utils.LayoutInflater;
 import com.joy.utils.ToastUtil;
 import com.joy.utils.ViewUtil;
 
+import static android.support.v7.widget.ListViewCompat.NO_POSITION;
+
 /**
  * Created by KEVIN.DAI on 15/7/16.
  *
@@ -24,6 +26,7 @@ import com.joy.utils.ViewUtil;
 public abstract class ExLvViewHolder<T> {
 
     public final View itemView;
+    int mPosition = NO_POSITION;
 
     public ExLvViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId) {
         this(LayoutInflater.inflate(parent.getContext(), layoutResId, parent, false));
@@ -38,6 +41,18 @@ public abstract class ExLvViewHolder<T> {
 
     public final View getItemView() {
         return itemView;
+    }
+
+    public final int getPosition() {
+        return mPosition;
+    }
+
+    public final int getLayoutPosition() {
+        return mPosition;
+    }
+
+    public final int getAdapterPosition() {
+        return mPosition;
     }
 
     public abstract void invalidateItemView(int position, T t);

@@ -14,10 +14,11 @@ import java.util.List;
 /**
  * Created by KEVIN.DAI on 15/7/16.
  *
+ * @param <VH>
  * @param <T>
  * @see {@link JRecyclerView,ExRvAdapter}
  */
-public abstract class ExLvAdapter<T> extends BaseAdapter {
+public abstract class ExLvAdapter<VH extends ExLvViewHolder<T>, T> extends BaseAdapter {
 
     private List<T> mTs;
     private OnItemClickListener<T> mOnItemClickListener;
@@ -54,29 +55,22 @@ public abstract class ExLvAdapter<T> extends BaseAdapter {
         return t;
     }
 
-    public final <T extends View> T inflateLayout(@Nullable ViewGroup root, @LayoutRes int layoutResId) {
-        return LayoutInflater.inflate(root.getContext(), layoutResId, root, false);
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ExLvViewHolder<T> viewHolder;
+        VH vh;
         if (convertView == null) {
-            viewHolder = onCreateViewHolder(parent, position);
-            convertView = viewHolder.getItemView();
-            convertView.setTag(viewHolder);
+            vh = onCreateViewHolder(parent, getItemViewType(position));
+            convertView = vh.getItemView();
+            convertView.setTag(vh);
         } else {
-            viewHolder = (ExLvViewHolder<T>) convertView.getTag();
+            vh = (VH) convertView.getTag();
         }
-        viewHolder.invalidateItemView(position, getItem(position));
+        vh.mPosition = position;
+        vh.invalidateItemView(position, getItem(position));
         return convertView;
     }
 
-    protected abstract ExLvViewHolder<T> onCreateViewHolder(ViewGroup parent, int position);
-
-    public boolean isEmpty() {
-        return getCount() == 0;
-    }
+    public abstract VH onCreateViewHolder(ViewGroup parent, int viewType);
 
     public boolean isNotEmpty() {
         return !isEmpty();
@@ -170,5 +164,9 @@ public abstract class ExLvAdapter<T> extends BaseAdapter {
         if (mOnItemLongClickListener != null) {
             mOnItemLongClickListener.onItemLongClick(position, view, getItem(position));
         }
+    }
+
+    public final <T extends View> T inflateLayout(@Nullable ViewGroup root, @LayoutRes int layoutResId) {
+        return LayoutInflater.inflate(root.getContext(), layoutResId, root, false);
     }
 }

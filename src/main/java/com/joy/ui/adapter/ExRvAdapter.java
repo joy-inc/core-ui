@@ -13,10 +13,10 @@ import java.util.List;
 /**
  * Created by KEVIN.DAI on 15/11/10.
  *
- * @param <K>
+ * @param <VH>
  * @param <T>
  */
-public abstract class ExRvAdapter<K extends ExRvViewHolder<T>, T> extends RecyclerView.Adapter<K> {
+public abstract class ExRvAdapter<VH extends ExRvViewHolder<T>, T> extends RecyclerView.Adapter<VH> {
 
     private List<T> mTs;
     private OnItemClickListener<T> mOnItemClickListener;
@@ -36,8 +36,8 @@ public abstract class ExRvAdapter<K extends ExRvViewHolder<T>, T> extends Recycl
     }
 
     @Override
-    public void onBindViewHolder(K holder, int position) {
-        holder.invalidateItemView(position, getItem(position));
+    public void onBindViewHolder(VH vh, int position) {
+        vh.invalidateItemView(position, getItem(position));
     }
 
     public T getItem(int position) {
@@ -51,10 +51,6 @@ public abstract class ExRvAdapter<K extends ExRvViewHolder<T>, T> extends Recycl
             e.printStackTrace();
         }
         return t;
-    }
-
-    public final <T extends View> T inflateLayout(@Nullable ViewGroup root, @LayoutRes int layoutResId) {
-        return LayoutInflater.inflate(root.getContext(), layoutResId, root, false);
     }
 
     public boolean isEmpty() {
@@ -163,5 +159,9 @@ public abstract class ExRvAdapter<K extends ExRvViewHolder<T>, T> extends Recycl
 
     public int getHeadersCount() {
         return mHeadersCount;
+    }
+
+    public final <T extends View> T inflateLayout(@Nullable ViewGroup root, @LayoutRes int layoutResId) {
+        return LayoutInflater.inflate(root.getContext(), layoutResId, root, false);
     }
 }
