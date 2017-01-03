@@ -62,12 +62,12 @@ public class JFooterView extends LinearLayout {
         return mJtvRetry.getVisibility() == VISIBLE;
     }
 
-    public void setLoadingView(View v, FrameLayout.LayoutParams flLp) {
+    public void setLoadingView(View v, FrameLayout.LayoutParams fllp) {
         FrameLayout flDiv = (FrameLayout) findViewById(R.id.flProgressBarDiv);
         if (flDiv.getChildCount() > 0) {
             flDiv.removeAllViews();
         }
-        flDiv.addView(v, flLp);
+        flDiv.addView(v, fllp);
     }
 
     public void setDarkTheme() {

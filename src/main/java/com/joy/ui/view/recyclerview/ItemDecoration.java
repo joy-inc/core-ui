@@ -36,10 +36,15 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
 
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
-        if (builder.orientationParams.orientation == HORIZONTAL) {
+        if (parent.getLayoutManager() instanceof GridLayoutManager) {
             drawHorizontal(c, parent);
-        } else {
             drawVertical(c, parent);
+        } else {
+            if (builder.orientationParams.orientation == HORIZONTAL) {
+                drawHorizontal(c, parent);
+            } else {
+                drawVertical(c, parent);
+            }
         }
     }
 
@@ -257,7 +262,7 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
         public PaddingParams paddingParams;
 
         @SuppressWarnings("ResourceType")
-        public Builder(Context context) {
+        private Builder(Context context) {
             dividerStyle = new DividerStyle();
             orientationParams = new OrientationParams();
             marginParams = new MarginParams();
@@ -388,5 +393,9 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
         public ItemDecoration build() {
             return new ItemDecoration(this);
         }
+    }
+
+    public static Builder builder(Context context) {
+        return new Builder(context);
     }
 }

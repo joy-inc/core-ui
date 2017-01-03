@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.joy.ui.view.JFooterView;
+import com.joy.ui.view.OnLoadMoreListener;
 
 /**
  * Created by KEVIN.DAI on 15/12/3.
@@ -173,8 +174,12 @@ public class JRecyclerView extends RecyclerView {
         setLoadMoreEnable(false);
     }
 
-    public void setLoadMoreView(View v, FrameLayout.LayoutParams flLp) {
-        mFooterView.setLoadingView(v, flLp);
+    public void setLoadMoreView(View v) {
+        setLoadMoreView(v, (FrameLayout.LayoutParams) v.getLayoutParams());
+    }
+
+    public void setLoadMoreView(View v, FrameLayout.LayoutParams fllp) {
+        mFooterView.setLoadingView(v, fllp);
     }
 
     public void setLoadMoreDarkTheme() {

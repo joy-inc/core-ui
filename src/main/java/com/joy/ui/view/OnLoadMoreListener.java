@@ -1,4 +1,4 @@
-package com.joy.ui.view.recyclerview;
+package com.joy.ui.view;
 
 /**
  * Created by KEVIN.DAI on 15/12/1.
