@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.FrameLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 /**
@@ -19,7 +18,6 @@ public class JListView extends ListView implements OnScrollListener {
     private JFooterView mFooterView;
     private boolean mIsLoadMoreEnable = true;
     private boolean mIsLoadingMore;
-    private boolean mIsFooterAdded;
 
     public JListView(Context context) {
         super(context);
@@ -33,18 +31,14 @@ public class JListView extends ListView implements OnScrollListener {
 
     private void init(Context context) {
         setOnScrollListener(this);
-
         mFooterView = new JFooterView(context);
         mFooterView.setOnRetryListener(() -> startLoadMore(false));
     }
 
-    @Override
-    public void setAdapter(ListAdapter adapter) {
-        if (!mIsFooterAdded) {
+    public void addLoadMoreIfNotExist() {
+        if (getFooterViewsCount() == 0) {
             addFooterView(mFooterView);
-            mIsFooterAdded = true;
         }
-        super.setAdapter(adapter);
     }
 
     @Override
@@ -54,7 +48,6 @@ public class JListView extends ListView implements OnScrollListener {
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         int extraItemsCount = getHeaderViewsCount() + getFooterViewsCount();
-
         if (!mIsLoadMoreEnable || mIsLoadingMore || isLoadMoreFailed() || totalItemCount <= extraItemsCount) {
             return;
         }
@@ -84,11 +77,11 @@ public class JListView extends ListView implements OnScrollListener {
         }
     }
 
-    public void stopLoadMoreFailed() {
+    public void setLoadMoreFailed() {
         if (mIsLoadingMore) {
             mIsLoadingMore = false;
-            mFooterView.failed();
         }
+        mFooterView.failed();
     }
 
     public boolean isLoadingMore() {
@@ -113,7 +106,15 @@ public class JListView extends ListView implements OnScrollListener {
             mFooterView.ready();
         } else {
             mFooterView.done();
+            if (mIsLoadingMore) {
+                mIsLoadingMore = false;
+            }
         }
+    }
+
+    public void hideLoadMore() {
+//        mFooterView.done();
+        setLoadMoreEnable(false);
     }
 
     public void setLoadMoreView(View v) {
