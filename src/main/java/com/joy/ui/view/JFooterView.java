@@ -4,39 +4,38 @@ import android.content.Context;
 import android.support.annotation.ColorRes;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import com.joy.ui.R;
-import com.joy.utils.LayoutInflater;
 import com.joy.utils.ViewUtil;
 
 /**
  * Created by KEVIN.DAI on 15/11/20.
  */
-public class JFooterView extends LinearLayout {
+public class JFooterView extends FrameLayout {
 
-    private View mRootView, mLoadingDiv;
+    private View mFlRoot;
+    private View mLoadingDiv;
     private OnRetryListener mOnRetryLisn;
     private JTextView mJtvHint, mJtvRetry;
 
     public JFooterView(Context context) {
         super(context);
-        init(context);
     }
 
     public JFooterView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
     }
 
-    private void init(Context context) {
-        setOrientation(VERTICAL);
-        setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+        init();
+    }
 
-        mRootView = LayoutInflater.inflate(context, R.layout.lib_view_footer);
-        addView(mRootView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-
+    private void init() {
+        mFlRoot = findViewById(R.id.flRoot);
         mLoadingDiv = findViewById(R.id.llLoadingDiv);
         mJtvHint = (JTextView) findViewById(R.id.jtvHint);
         mJtvRetry = (JTextView) findViewById(R.id.jtvRetry);
@@ -62,7 +61,7 @@ public class JFooterView extends LinearLayout {
         return mJtvRetry.getVisibility() == VISIBLE;
     }
 
-    public void setLoadingView(View v, FrameLayout.LayoutParams fllp) {
+    public void setLoadingView(View v, LayoutParams fllp) {
         FrameLayout flDiv = (FrameLayout) findViewById(R.id.flProgressBarDiv);
         if (flDiv.getChildCount() > 0) {
             flDiv.removeAllViews();
@@ -84,15 +83,15 @@ public class JFooterView extends LinearLayout {
     }
 
     public void done() {
-        LayoutParams lp = (LayoutParams) mRootView.getLayoutParams();
+        ViewGroup.LayoutParams lp = mFlRoot.getLayoutParams();
         lp.height = 0;
-        mRootView.setLayoutParams(lp);
+        mFlRoot.setLayoutParams(lp);
     }
 
     public void ready() {
-        LayoutParams lp = (LayoutParams) mRootView.getLayoutParams();
+        ViewGroup.LayoutParams lp = mFlRoot.getLayoutParams();
         lp.height = LayoutParams.WRAP_CONTENT;
-        mRootView.setLayoutParams(lp);
+        mFlRoot.setLayoutParams(lp);
     }
 
     public interface OnRetryListener {

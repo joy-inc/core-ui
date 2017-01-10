@@ -9,6 +9,9 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
+import com.joy.ui.R;
+import com.joy.utils.LayoutInflater;
+
 /**
  * Created by KEVIN.DAI on 15/11/20.
  */
@@ -31,7 +34,7 @@ public class JListView extends ListView implements OnScrollListener {
 
     private void init(Context context) {
         setOnScrollListener(this);
-        mFooterView = new JFooterView(context);
+        mFooterView = LayoutInflater.inflate(context, R.layout.lib_view_footer);
         mFooterView.setOnRetryListener(() -> startLoadMore(false));
     }
 

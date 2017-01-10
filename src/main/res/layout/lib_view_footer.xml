@@ -1,41 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.joy.ui.view.JFooterView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?selectableItemBackground">
 
-    <com.joy.ui.view.JTextView
-        android:id="@+id/jtvRetry"
+    <FrameLayout
+        android:id="@+id/flRoot"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:gravity="center"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:text="@string/footer_load_failed"
-        android:textColor="?textColorSubMain"
-        android:textSize="14dp"
-        android:visibility="invisible" />
-
-    <LinearLayout
-        android:id="@+id/llLoadingDiv"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="invisible">
-
-        <FrameLayout
-            android:id="@+id/flProgressBarDiv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
 
         <com.joy.ui.view.JTextView
-            android:id="@+id/jtvHint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:text="@string/footer_loading_hint"
+            android:id="@+id/jtvRetry"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/footer_load_failed"
             android:textColor="?textColorSubMain"
-            android:textSize="14dp" />
-    </LinearLayout>
-</FrameLayout>
+            android:textSize="14dp"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:id="@+id/llLoadingDiv"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <FrameLayout
+                android:id="@+id/flProgressBarDiv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.joy.ui.view.JTextView
+                android:id="@+id/jtvHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:text="@string/footer_loading_hint"
+                android:textColor="?textColorSubMain"
+                android:textSize="14dp" />
+        </LinearLayout>
+    </FrameLayout>
+</com.joy.ui.view.JFooterView>

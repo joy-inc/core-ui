@@ -11,8 +11,10 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.joy.ui.R;
 import com.joy.ui.view.JFooterView;
 import com.joy.ui.view.OnLoadMoreListener;
+import com.joy.utils.LayoutInflater;
 
 /**
  * Created by KEVIN.DAI on 15/12/3.
@@ -38,7 +40,7 @@ public class JRecyclerView extends RecyclerView {
 
     private void init(Context context) {
         addOnScrollListener(new RvOnScrollListener());
-        mFooterView = new JFooterView(context);
+        mFooterView = LayoutInflater.inflate(context, R.layout.lib_view_footer);
         mFooterView.setOnRetryListener(() -> startLoadMore(false));
     }
 
