@@ -10,7 +10,9 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.trello.rxlifecycle.ActivityLifecycleProvider;
 
@@ -43,4 +45,15 @@ public interface BaseView extends ActivityLifecycleProvider {
     <T extends View> T inflateLayout(@LayoutRes int layoutResId);
     <T extends View> T inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root);
     <T extends View> T inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root, boolean attachToRoot);
+
+    ImageButton getTitleLeftButtonView();
+    TextView getTitleTextView();
+    TextView getSubtitleTextView();
+    ImageView getTitleLogoView();
+    boolean hasTitleBack();
+    boolean hasTitleMore();
+    void disableTitleBack();
+    void disableTitleMore();
+    void onTitleBackClick(View v);
+    void onTitleMoreClick(View v);
 }

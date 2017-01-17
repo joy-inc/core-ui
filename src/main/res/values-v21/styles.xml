@@ -23,10 +23,18 @@
         <item name="android:colorEdgeEffect">?colorPrimary</item>
         <item name="colorControlHighlight">@color/white_trans26</item>
         <!--<item name="colorControlActivated">@color/white_trans26</item>-->
+
+        <!-- About Toolbar -->
         <item name="noTitle">false</item>
         <item name="overlay">false</item>
         <item name="titleTextColor">@color/color_text_primary</item>
-        <item name="subtitleTextColor">@color/color_text_secondary</item>
+        <item name="subtitleTextColor">@color/color_text_primary</item>
+        <item name="titleTextSize">18dp</item>
+        <item name="subtitleTextSize">14dp</item>
+        <item name="titleTextGravity">left</item>
+        <item name="titleHeight">@dimen/def_toolbar_height</item>
+        <!-- About Toolbar -->
+
         <!-- enable window content transitions -->
         <!--
         <item name="android:windowContentTransitions">true</item>
@@ -37,18 +45,20 @@
 
     <style name="base_style_toolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:layout_height">?titleHeight</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="titleTextAppearance">@style/base_style_toolbar_title</item>
         <item name="subtitleTextAppearance">@style/base_style_toolbar_subtitle</item>
         <item name="android:background">?attr/colorPrimary</item>
         <item name="android:elevation">@dimen/design_appbar_elevation</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
         <item name="contentInsetStart">0dp</item><!-- according to the size of the icons, such as R.drawable.ic_back -->
         <item name="contentInsetEnd">0dp</item>
+        <item name="android:minHeight">?titleHeight</item>
     </style>
 
     <style name="base_style_toolbar_button_navigation" parent="Widget.AppCompat.Toolbar.Button.Navigation">
-        <item name="android:minHeight">56dp</item>
+        <item name="android:minHeight">?titleHeight</item>
         <item name="android:background">@drawable/selector_bg_click_material_light</item>
     </style>
 

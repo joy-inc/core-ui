@@ -1,6 +1,5 @@
 package com.joy.ui.activity;
 
-import android.annotation.TargetApi;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -13,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -35,7 +35,11 @@ import com.joy.utils.ToastUtil;
 import com.joy.utils.ViewUtil;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
+import static android.view.View.NO_ID;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static com.joy.ui.view.JToolbar.TITLE_GRAVITY_CENTER;
+import static com.joy.ui.view.JToolbar.TITLE_GRAVITY_LEFT;
+import static com.joy.ui.view.JToolbar.TITLE_GRAVITY_RIGHT;
 
 /**
  * 基本的UI框架
@@ -49,6 +53,13 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
     private int mTbHeight;
     private boolean isNoTitle, isOverlay;
     private boolean isSystemBarTrans;
+    private int mTitleTextGravity = TITLE_GRAVITY_LEFT;
+    private int mTitleBackIconResId = NO_ID;
+    private int mTitleMoreIconResId = NO_ID;
+    private int mTitleBackgroundResId = NO_ID;
+    private ImageButton mTitleBackView;
+    private ImageButton mTitleMoreView;
+    private TextView mTitleTextView;
 
     @Override
     public final void setContentView(@LayoutRes int layoutResId) {
@@ -80,7 +91,11 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         TypedArray a = obtainStyledAttributes(R.styleable.Toolbar);
         isNoTitle = a.getBoolean(R.styleable.Toolbar_noTitle, false);
         isOverlay = a.getBoolean(R.styleable.Toolbar_overlay, false);
-        mTbHeight = a.getDimensionPixelSize(R.styleable.Toolbar_android_minHeight, TITLE_BAR_HEIGHT);
+        mTbHeight = a.getDimensionPixelSize(R.styleable.Toolbar_titleHeight, TITLE_BAR_HEIGHT);
+        mTitleTextGravity = a.getInt(R.styleable.Toolbar_titleTextGravity, TITLE_GRAVITY_LEFT);
+        mTitleBackIconResId = a.getResourceId(R.styleable.Toolbar_titleBackIcon, NO_ID);
+        mTitleMoreIconResId = a.getResourceId(R.styleable.Toolbar_titleMoreIcon, NO_ID);
+        mTitleBackgroundResId = a.getResourceId(R.styleable.Toolbar_titleBackground, NO_ID);
         a.recycle();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -123,7 +138,59 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
     protected void initData() {
     }
 
+    /**
+     * @Notice 注意调用时机，在initTitleView之前调用
+     */
+    @Override
+    public final void disableTitleBack() {
+        mTitleBackIconResId = NO_ID;
+    }
+
+    /**
+     * @Notice 注意调用时机，在initTitleView之前调用
+     */
+    @Override
+    public final void disableTitleMore() {
+        mTitleMoreIconResId = NO_ID;
+    }
+
+    @Override
+    public final boolean hasTitleBack() {
+        return mTitleBackIconResId != NO_ID;
+    }
+
+    @Override
+    public final boolean hasTitleMore() {
+        return mTitleMoreIconResId != NO_ID;
+    }
+
     protected void initTitleView() {
+        if (mTitleBackgroundResId != NO_ID) {
+            setTitleBgResource(mTitleBackgroundResId);
+        }
+        if (hasTitleBack()) {
+            mTitleBackView = addTitleBackView(v -> onTitleBackClick(v));
+        }
+        if (hasTitleMore()) {
+            mTitleMoreView = addTitleRightMoreView(v -> onTitleMoreClick(v));
+        }
+    }
+
+    @Override
+    public void onTitleBackClick(View v) {
+        finish();
+    }
+
+    @Override
+    public void onTitleMoreClick(View v) {
+    }
+
+    public ImageButton getTitleBackView() {
+        return mTitleBackView;
+    }
+
+    public ImageButton getTitleMoreView() {
+        return mTitleMoreView;
     }
 
     protected void initContentView() {
@@ -133,9 +200,12 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         return mContentParent;
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public final void setBackground(Drawable background) {
-        mContentParent.setBackground(background);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mContentParent.setBackground(background);
+        } else {
+            mContentParent.setBackgroundDrawable(background);
+        }
     }
 
     public final void setBackgroundResource(@DrawableRes int resId) {
@@ -178,7 +248,7 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         return isSystemBarTrans;
     }
 
-    public final void setStatusBarColorResId(@ColorRes int colorResId) {
+    public final void setStatusBarColorResource(@ColorRes int colorResId) {
         setStatusBarColor(getResources().getColor(colorResId));
     }
 
@@ -188,7 +258,7 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         }
     }
 
-    public final void setNavigationBarColorResId(@ColorRes int colorResId) {
+    public final void setNavigationBarColorResource(@ColorRes int colorResId) {
         setNavigationBarColor(getResources().getColor(colorResId));
     }
 
@@ -198,7 +268,7 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         }
     }
 
-    public final void setTitleBgColorResId(@ColorRes int colorResId) {
+    public final void setTitleBgColorResource(@ColorRes int colorResId) {
         setTitleBgColor(getResources().getColor(colorResId));
     }
 
@@ -206,16 +276,75 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         mToolbar.setBackgroundColor(color);
     }
 
+    public final void setTitleBgDrawable(Drawable drawable) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mToolbar.setBackground(drawable);
+        } else {
+            mToolbar.setBackgroundDrawable(drawable);
+        }
+        if (!isNoTitle && !isOverlay && isSystemBarTrans) {
+            LayoutParams lp = getToolbarLp();
+            lp.height = lp.height + STATUS_BAR_HEIGHT;
+            lp.topMargin = 0;
+            mToolbar.setPadding(0, STATUS_BAR_HEIGHT, 0, 0);
+        }
+    }
+
+    public final void setTitleBgResource(@DrawableRes int drawableResId) {
+        setTitleBgDrawable(ContextCompat.getDrawable(this, drawableResId));
+    }
+
     public final void setTitleBarAlpha(int alpha) {
         mToolbar.getBackground().setAlpha(alpha);
     }
 
-    public final void setTitleText(@StringRes int resId) {
-        setTitleText(getString(resId));
+    /**
+     * @param titleResId
+     * @see {@link android.support.v7.widget.Toolbar#setTitle(int)}
+     */
+    @Override
+    public final void setTitle(@StringRes int titleResId) {
+        setTitle(getText(titleResId));
     }
 
-    public final void setTitleText(String text) {
-        mToolbar.setTitle(text);
+    /**
+     * @param title
+     * @see {@link android.support.v7.widget.Toolbar#setTitle(CharSequence)}
+     */
+    @Override
+    public void setTitle(CharSequence title) {
+        if (mTitleTextGravity == TITLE_GRAVITY_CENTER) {
+            mTitleTextView = addTitleMiddleView(title);
+        } else if (mTitleTextGravity == TITLE_GRAVITY_RIGHT) {
+            mTitleTextView = addTitleRightView(title);
+        } else {
+            mToolbar.setTitle(title);
+            mTitleTextView = mToolbar.getTitleTextView();
+            return;
+        }
+        TextView titleTextView = getTitleTextView();
+        if (titleTextView != null) {
+            mTitleTextView.setTypeface(titleTextView.getTypeface());
+        }
+    }
+
+    @Override
+    public final TextView getTitleTextView() {
+//        return mToolbar.getTitleTextView();
+        return mTitleTextView;
+    }
+
+    /**
+     * @param textColor
+     * @see {@link #setTitleTextColor(int)}
+     */
+    @Override
+    public final void setTitleColor(@ColorInt int textColor) {
+        setTitleTextColor(textColor);
+    }
+
+    public final void setTitleTextColor(@ColorInt int color) {
+        mToolbar.setTitleTextColor(color);
     }
 
     public final void setSubtitle(@StringRes int resId) {
@@ -226,31 +355,37 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         mToolbar.setSubtitle(text);
     }
 
-    public final void setTitleTextColor(@ColorInt int color) {
-        mToolbar.setTitleTextColor(color);
+    @Override
+    public final TextView getSubtitleTextView() {
+        return mToolbar.getSubtitleTextView();
     }
 
     public final void setSubtitleTextColor(@ColorInt int color) {
         mToolbar.setSubtitleTextColor(color);
     }
 
-    public final ImageButton setTitleLogo(@DrawableRes int resId) {
+    public final ImageView setTitleLogo(@DrawableRes int resId) {
         return mToolbar.setTitleLogo(resId);
     }
 
-    public final ImageButton setTitleLogo(@NonNull Drawable drawable) {
+    public final ImageView setTitleLogo(@NonNull Drawable drawable) {
         return mToolbar.setTitleLogo(drawable);
     }
 
-    public final ImageButton addTitleLeftBackView() {
-        return addTitleLeftBackView(R.drawable.ic_arrow_back_white_24dp);
+    @Override
+    public final ImageView getTitleLogoView() {
+        return mToolbar.getLogoView();
     }
 
-    public final ImageButton addTitleLeftBackView(OnClickListener lisn) {
-        return addTitleLeftView(R.drawable.ic_arrow_back_white_24dp, lisn);
+    public final ImageButton addTitleBackView() {
+        return addTitleBackView(mTitleBackIconResId == NO_ID ? R.drawable.ic_arrow_back_white_24dp : mTitleBackIconResId);
     }
 
-    public final ImageButton addTitleLeftBackView(@DrawableRes int resId) {
+    public final ImageButton addTitleBackView(OnClickListener lisn) {
+        return addTitleLeftView(mTitleBackIconResId == NO_ID ? R.drawable.ic_arrow_back_white_24dp : mTitleBackIconResId, lisn);
+    }
+
+    public final ImageButton addTitleBackView(@DrawableRes int resId) {
         return addTitleLeftView(resId, v -> finish());
     }
 
@@ -264,6 +399,11 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
 
     public final ImageButton addTitleLeftView(@NonNull Drawable drawable, OnClickListener lisn) {
         return mToolbar.addTitleLeftView(drawable, lisn);
+    }
+
+    @Override
+    public final ImageButton getTitleLeftButtonView() {
+        return mToolbar.getNavButtonView();
     }
 
     public TextView addTitleLeftTextView(@StringRes int resId, OnClickListener lisn) {
@@ -295,11 +435,19 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
     }
 
     public final ImageButton addTitleRightMoreView(OnClickListener lisn) {
-        return addTitleRightView(R.drawable.ic_more_vert_white_24dp, lisn);
+        return addTitleRightView(mTitleMoreIconResId == NO_ID ? R.drawable.ic_more_vert_white_24dp : mTitleMoreIconResId, lisn);
     }
 
-    public final ImageButton addTitleRightView(@DrawableRes int resId) {
+    public TextView addTitleRightView(@StringRes int resId) {
         return mToolbar.addTitleRightView(resId);
+    }
+
+    public TextView addTitleRightView(CharSequence text) {
+        return mToolbar.addTitleRightView(text);
+    }
+
+    public TextView addTitleRightView(CharSequence text, OnClickListener lisn) {
+        return mToolbar.addTitleRightView(text, lisn);
     }
 
     public final ImageButton addTitleRightView(@DrawableRes int resId, OnClickListener lisn) {

@@ -70,11 +70,13 @@ public class JFooterView extends FrameLayout {
     }
 
     public void setDarkTheme() {
-        setHintTextColor(R.color.black_trans54);
+        setHintTextColor(R.color.white_trans87);
+        setBackgroundResource(R.drawable.selector_bg_click_light);
     }
 
     public void setLightTheme() {
-        setHintTextColor(R.color.white_trans87);
+        setHintTextColor(R.color.black_trans54);
+        setBackgroundResource(R.drawable.selector_bg_click_dark);
     }
 
     public void setHintTextColor(@ColorRes int resId) {

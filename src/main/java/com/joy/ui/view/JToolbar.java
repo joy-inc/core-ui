@@ -3,28 +3,42 @@ package com.joy.ui.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.joy.ui.R;
 import com.joy.ui.utils.DimenCons;
 import com.joy.utils.LayoutInflater;
+import com.joy.utils.ReflectionUtil;
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
  * Created by Daisw on 16/4/27.
  */
 public class JToolbar extends Toolbar implements DimenCons {
+
+    public static final int TITLE_GRAVITY_CENTER = 0x01;
+    public static final int TITLE_GRAVITY_LEFT = 0x02;
+    public static final int TITLE_GRAVITY_RIGHT = 0x03;
+
+    private ImageButton mNavButtonView;
+    private ImageView mLogoView;
+    private TextView mTitleTextView;
+    private TextView mSubtitleTextView;
+    private ActionMenuView mMenuView;
 
     public JToolbar(Context context) {
         this(context, null);
@@ -38,12 +52,58 @@ public class JToolbar extends Toolbar implements DimenCons {
         super(context, attrs, defStyleAttr);
     }
 
-    public ImageButton setTitleLogo(@DrawableRes int resId) {
+    public ImageButton getNavButtonView() {
+        if (mNavButtonView == null) {
+            mNavButtonView = ReflectionUtil.getField(Toolbar.class, "mNavButtonView", this);
+        }
+        return mNavButtonView;
+    }
+
+    public ImageView getLogoView() {
+        if (mLogoView == null) {
+            mLogoView = ReflectionUtil.getField(Toolbar.class, "mLogoView", this);
+        }
+        return mLogoView;
+    }
+
+    public TextView getTitleTextView() {
+        if (mTitleTextView == null) {
+            mTitleTextView = ReflectionUtil.getField(Toolbar.class, "mTitleTextView", this);
+        }
+        return mTitleTextView;
+    }
+
+    public TextView getSubtitleTextView() {
+        if (mSubtitleTextView == null) {
+            mSubtitleTextView = ReflectionUtil.getField(Toolbar.class, "mSubtitleTextView", this);
+        }
+        return mSubtitleTextView;
+    }
+
+    @Override
+    public void setTitle(@StringRes int resId) {
+        setTitle(getContext().getText(resId));
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        super.setTitle(title);
+    }
+
+    public ActionMenuView getMenuView() {
+        if (mMenuView == null) {
+            mMenuView = ReflectionUtil.getField(Toolbar.class, "mMenuView", this);
+        }
+        return mMenuView;
+    }
+
+    public ImageView setTitleLogo(@DrawableRes int resId) {
         return setTitleLogo(ContextCompat.getDrawable(getContext(), resId));
     }
 
-    public ImageButton setTitleLogo(@NonNull Drawable drawable) {
-        return addTitleLeftView(drawable, null);
+    public ImageView setTitleLogo(@NonNull Drawable drawable) {
+        setLogo(drawable);
+        return getLogoView();
     }
 
     public ImageButton addTitleLeftView(@DrawableRes int resId) {
@@ -55,9 +115,13 @@ public class JToolbar extends Toolbar implements DimenCons {
     }
 
     public ImageButton addTitleLeftView(@NonNull Drawable drawable, OnClickListener lisn) {
-        ImageButton ib = LayoutInflater.inflate(getContext(), R.layout.lib_view_toolbar_imagebutton);
-        ib.setImageDrawable(drawable);
-        return (ImageButton) addTitleLeftView(ib, lisn);
+        setNavigationIcon(drawable);
+        setNavigationOnClickListener(lisn);
+        ImageButton ib = getNavButtonView();
+        ib.setBackgroundResource(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                ? R.drawable.selector_bg_click_material_light
+                : R.drawable.selector_bg_click_light);
+        return ib;
     }
 
     public TextView addTitleLeftTextView(@StringRes int resId, OnClickListener lisn) {
@@ -98,13 +162,33 @@ public class JToolbar extends Toolbar implements DimenCons {
         if (lisn != null) {
             v.setOnClickListener(lisn);
         }
-        LayoutParams lp = new LayoutParams(MATCH_PARENT, MATCH_PARENT);
+        LayoutParams lp = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+        lp.gravity = Gravity.CENTER;
         addView(v, lp);
         return v;
     }
 
-    public ImageButton addTitleRightView(@DrawableRes int resId) {
-        return addTitleRightView(resId, null);
+    public TextView addTitleRightView(@StringRes int resId) {
+        return addTitleRightView(getResources().getString(resId));
+    }
+
+    public TextView addTitleRightView(CharSequence text) {
+        return addTitleRightView(text, null);
+    }
+
+    public TextView addTitleRightView(CharSequence text, OnClickListener lisn) {
+        TextView tv = (TextView) addTitleRightView(initDefTextView(text), lisn);
+        int insetEnd = getContentInsetEnd();
+        if (insetEnd == 0) {
+            setContentInsetsRelative(getContentInsetStart(), HORIZONTAL_MARGINS);
+        }
+        TextView subtitleTextView = getSubtitleTextView();
+        if (subtitleTextView != null) {
+            tv.setTypeface(subtitleTextView.getTypeface());
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, subtitleTextView.getTextSize());
+            tv.setTextColor(subtitleTextView.getTextColors());
+        }
+        return tv;
     }
 
     public ImageButton addTitleRightView(@DrawableRes int resId, OnClickListener lisn) {

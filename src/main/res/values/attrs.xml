@@ -15,6 +15,17 @@
     <declare-styleable name="Toolbar">
         <attr name="noTitle" format="boolean" />
         <attr name="overlay" format="boolean" />
+        <attr name="titleTextSize" format="dimension" />
+        <attr name="subtitleTextSize" format="dimension" />
+        <attr name="titleTextGravity" format="enum">
+            <enum name="center" value="0x01" />
+            <enum name="left" value="0x02" />
+            <enum name="right" value="0x03" />
+        </attr>
+        <attr name="titleBackIcon" format="reference" />
+        <attr name="titleMoreIcon" format="reference" />
+        <attr name="titleBackground" format="reference" />
+        <attr name="titleHeight" format="dimension" />
     </declare-styleable>
 
 </resources>

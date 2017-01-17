@@ -48,6 +48,7 @@ dependencies {
     // joy support library
     compile rootProject.ext.dependencies.joy_core_inject
     compile rootProject.ext.dependencies.joy_core_utils
+//    compile project(':core-utils')
 }
 
 install {

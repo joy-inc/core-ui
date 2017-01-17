@@ -1,6 +1,5 @@
 package com.joy.ui.fragment;
 
-import android.annotation.TargetApi;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -89,9 +88,12 @@ public abstract class BaseUiFragment extends RxFragment implements BaseView, Dim
         return mContentParent;
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public final void setBackground(Drawable background) {
-        mContentParent.setBackground(background);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mContentParent.setBackground(background);
+        } else {
+            mContentParent.setBackgroundDrawable(background);
+        }
     }
 
     public final void setBackgroundResource(@DrawableRes int resId) {

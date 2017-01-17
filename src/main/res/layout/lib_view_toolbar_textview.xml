@@ -2,9 +2,10 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@drawable/selector_bg_click_light"
     android:ellipsize="end"
     android:gravity="center_vertical"
     android:maxLines="1"
-    android:minHeight="@dimen/def_toolbar_height"
+    android:minHeight="?titleHeight"
     android:textColor="?titleTextColor"
-    android:textSize="18dp" />
+    android:textSize="?titleTextSize" />

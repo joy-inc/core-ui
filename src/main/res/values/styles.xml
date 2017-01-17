@@ -19,10 +19,28 @@
         <item name="android:dividerHeight">1dp</item>
         <item name="android:headerDividersEnabled">false</item>
         <item name="android:footerDividersEnabled">false</item>
+
+        <!-- About Toolbar -->
         <item name="noTitle">false</item>
         <item name="overlay">false</item>
         <item name="titleTextColor">@color/color_text_primary</item>
-        <item name="subtitleTextColor">@color/color_text_secondary</item>
+        <item name="subtitleTextColor">@color/color_text_primary</item>
+        <item name="titleTextSize">18dp</item>
+        <item name="subtitleTextSize">14dp</item>
+        <item name="titleTextGravity">left</item>
+        <item name="titleHeight">@dimen/def_toolbar_height</item>
+        <!-- About Toolbar -->
+    </style>
+
+    <style name="base_theme.translucent">
+        <item name="colorPrimary">@color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="base_theme.translucent.toolbar"/>
+
+    <style name="base_theme.translucent.navigationBar">
+        <item name="colorPrimary">@color/color_primary</item>
     </style>
 
     <style name="base_theme.noTitle">
@@ -30,29 +48,33 @@
     </style>
 
     <style name="base_style_toolbar_title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">18dp</item>
+        <item name="android:textSize">?titleTextSize</item>
         <item name="android:textColor">?titleTextColor</item>
     </style>
 
     <style name="base_style_toolbar_subtitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
-        <item name="android:textSize">14dp</item>
+        <item name="android:textSize">?subtitleTextSize</item>
         <item name="android:textColor">?subtitleTextColor</item>
     </style>
 
     <style name="base_style_toolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:layout_height">?titleHeight</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="titleTextAppearance">@style/base_style_toolbar_title</item>
         <item name="subtitleTextAppearance">@style/base_style_toolbar_subtitle</item>
         <item name="android:background">?attr/colorPrimary</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
         <item name="contentInsetStart">0dp</item><!-- according to the size of the icons, such as R.drawable.ic_back -->
         <item name="contentInsetEnd">0dp</item>
+        <item name="android:minHeight">?titleHeight</item>
     </style>
 
     <style name="base_style_toolbar_button_navigation" parent="Widget.AppCompat.Toolbar.Button.Navigation">
-        <item name="android:minHeight">56dp</item>
+        <item name="android:minHeight">?titleHeight</item>
         <item name="android:background">@drawable/selector_bg_click_light</item>
     </style>
+
+    <style name="base_theme.drawable_toolbar" parent="base_theme.translucent.toolbar"/>
 
 </resources>
