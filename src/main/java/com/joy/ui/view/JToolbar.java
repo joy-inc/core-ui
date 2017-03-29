@@ -22,6 +22,8 @@ import com.joy.ui.R;
 import com.joy.ui.utils.DimenCons;
 import com.joy.utils.LayoutInflater;
 import com.joy.utils.ReflectionUtil;
+import com.joy.utils.TextUtil;
+import com.joy.utils.ViewUtil;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -87,7 +89,7 @@ public class JToolbar extends Toolbar implements DimenCons {
 
     @Override
     public void setTitle(CharSequence title) {
-        super.setTitle(title);
+        super.setTitle(TextUtil.isEmpty(title) ? " " : title);
     }
 
     public ActionMenuView getMenuView() {
@@ -183,6 +185,11 @@ public class JToolbar extends Toolbar implements DimenCons {
             setContentInsetsRelative(getContentInsetStart(), HORIZONTAL_MARGINS);
         }
         TextView subtitleTextView = getSubtitleTextView();
+        if (subtitleTextView == null) {
+            setSubtitle(" ");
+            subtitleTextView = getSubtitleTextView();
+            ViewUtil.goneView(subtitleTextView);
+        }
         if (subtitleTextView != null) {
             tv.setTypeface(subtitleTextView.getTypeface());
             tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, subtitleTextView.getTextSize());

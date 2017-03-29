@@ -117,7 +117,7 @@ public abstract class BaseUiFragment extends RxFragment implements BaseView, Dim
         return this;
     }
 
-    public final BaseUiFragment setLable(@StringRes int resId) {
+    public final BaseUiFragment setLabel(@StringRes int resId) {
         mLabel = BaseApplication.getAppString(resId);
         return this;
     }

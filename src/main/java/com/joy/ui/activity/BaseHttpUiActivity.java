@@ -3,6 +3,7 @@ package com.joy.ui.activity;
 import android.content.res.TypedArray;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
@@ -175,6 +176,16 @@ public abstract class BaseHttpUiActivity extends BaseUiActivity implements BaseV
             }
         }
         return TipType.NULL;
+    }
+
+    @DrawableRes
+    public int getErrorTipResId() {
+        return ERROR_RES_ID;
+    }
+
+    @DrawableRes
+    public int getEmptyTipResId() {
+        return EMPTY_RES_ID;
     }
 
     @Override

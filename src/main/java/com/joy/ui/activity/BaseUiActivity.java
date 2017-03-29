@@ -49,7 +49,7 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
 
     private FrameLayout mContentParent;
     private View mContentView;
-    private JToolbar mToolbar;
+    protected JToolbar mToolbar;
     private int mTbHeight;
     private boolean isNoTitle, isOverlay;
     private boolean isSystemBarTrans;
@@ -165,6 +165,9 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
     }
 
     protected void initTitleView() {
+        if (isNoTitle) {
+            return;
+        }
         if (mTitleBackgroundResId != NO_ID) {
             setTitleBgResource(mTitleBackgroundResId);
         }
