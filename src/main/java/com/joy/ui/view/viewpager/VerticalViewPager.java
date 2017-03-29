@@ -13,10 +13,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
 import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.os.ParcelableCompat;
 import android.support.v4.os.ParcelableCompatCreatorCallbacks;
 import android.support.v4.view.AbsSavedState;
@@ -51,8 +49,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
-import com.joy.utils.LogMgr;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,7 +63,7 @@ import java.util.Comparator;
  */
 public class VerticalViewPager extends ViewGroup {
     private static final String TAG = "VerticalViewPager";
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     private static final boolean USE_CACHE = false;
 
@@ -256,7 +252,7 @@ public class VerticalViewPager extends ViewGroup {
      * Used internally to tag special types of child views that should be added as
      * pager decorations by default.
      */
-    interface Decor {
+    public interface Decor {
     }
 
     public interface Scrollable {
@@ -495,6 +491,7 @@ public class VerticalViewPager extends ViewGroup {
             destY = (int) (height * Math.max(mFirstOffset,
                     Math.min(curInfo.offset, mLastOffset)));
         }
+        destY += mPreviewHeight * (item + 1);
         if (smoothScroll) {
             smoothScrollTo(0, destY, velocity);
             if (dispatchSelected && mOnPageChangeListener != null) {
@@ -515,7 +512,7 @@ public class VerticalViewPager extends ViewGroup {
             pageScrolled(destY);
         }
         mScrolledY = destY;
-        LogMgr.e("daisw", "@@@@@" + destY);
+//        Log.e("daisw", "@@@@@=" + destY);
     }
 
     /**
@@ -641,44 +638,48 @@ public class VerticalViewPager extends ViewGroup {
      * @see #setPageMarginDrawable(Drawable)
      * @see #setPageMarginDrawable(int)
      */
-    public void setPageMargin(int marginPixels) {
-        final int oldMargin = mPageMargin;
-        mPageMargin = marginPixels;
-
-        final int height = getHeight();
-        recomputeScrollPosition(height, height, marginPixels, oldMargin);
-
-        requestLayout();
-    }
+//    public void setPageMargin(int marginPixels) {
+//        final int oldMargin = mPageMargin;
+//        mPageMargin = marginPixels;
+//
+//        final int height = getHeight();
+//        recomputeScrollPosition(height, height, marginPixels, oldMargin);
+//
+//        requestLayout();
+//    }
 
     /**
      * Return the margin between pages.
      *
      * @return The size of the margin in pixels
      */
-    public int getPageMargin() {
-        return mPageMargin;
-    }
+//    public int getPageMargin() {
+//        return mPageMargin;
+//    }
 
-    /**
-     * Set a drawable that will be used to fill the margin between pages.
-     *
-     * @param d Drawable to display between pages
-     */
-    public void setPageMarginDrawable(Drawable d) {
-        mMarginDrawable = d;
-        if (d != null) refreshDrawableState();
-        setWillNotDraw(d == null);
-        invalidate();
-    }
+//    /**
+//     * Set a drawable that will be used to fill the margin between pages.
+//     *
+//     * @param d Drawable to display between pages
+//     */
+//    public void setPageMarginDrawable(Drawable d) {
+//        mMarginDrawable = d;
+//        if (d != null) refreshDrawableState();
+//        setWillNotDraw(d == null);
+//        invalidate();
+//    }
 
-    /**
-     * Set a drawable that will be used to fill the margin between pages.
-     *
-     * @param resId Resource ID of a drawable to display between pages
-     */
-    public void setPageMarginDrawable(@DrawableRes int resId) {
-        setPageMarginDrawable(ContextCompat.getDrawable(getContext(), resId));
+//    /**
+//     * Set a drawable that will be used to fill the margin between pages.
+//     *
+//     * @param resId Resource ID of a drawable to display between pages
+//     */
+//    public void setPageMarginDrawable(@DrawableRes int resId) {
+//        setPageMarginDrawable(ContextCompat.getDrawable(getContext(), resId));
+//    }
+
+    public void setPageMargin(int marginPixels) {
+        mPreviewHeight = marginPixels;
     }
 
     @Override
@@ -1198,7 +1199,7 @@ public class VerticalViewPager extends ViewGroup {
                     + " position=" + position + "}";
         }
 
-        public static final Parcelable.Creator<SavedState> CREATOR = ParcelableCompat.newCreator(
+        public static final Creator<SavedState> CREATOR = ParcelableCompat.newCreator(
                 new ParcelableCompatCreatorCallbacks<SavedState>() {
                     @Override
                     public SavedState createFromParcel(Parcel in, ClassLoader loader) {
@@ -1340,7 +1341,7 @@ public class VerticalViewPager extends ViewGroup {
 
         // Children are just made to fill our space.
         int childWidthSize = getMeasuredWidth() - getPaddingLeft() - getPaddingRight();
-        int childHeightSize = measuredHeight - getPaddingTop() - getPaddingBottom();
+        int childHeightSize = measuredHeight - getPaddingTop() - getPaddingBottom() + mPreviewHeight;
 
         /*
          * Make sure all children have been properly measured. Decor views first.
@@ -1526,7 +1527,7 @@ public class VerticalViewPager extends ViewGroup {
             }
         }
 
-        final int childHeight = height - paddingTop - paddingBottom;
+        final int childHeight = height - paddingTop - paddingBottom + mPreviewHeight;
         // Page views. Do this once we have the right padding offsets from above.
         for (int i = 0; i < count; i++) {
             final View child = getChildAt(i);
@@ -1536,6 +1537,7 @@ public class VerticalViewPager extends ViewGroup {
                 if (!lp.isDecor && (ii = infoForChild(child)) != null) {
                     int toff = (int) (childHeight * ii.offset);
                     int childLeft = paddingLeft;
+//                    int childTop = paddingTop + toff + mPageMargin;
                     int childTop = paddingTop + toff;
                     if (lp.needsMeasure) {
                         // This was added during layout and needs measurement.
@@ -1805,8 +1807,7 @@ public class VerticalViewPager extends ViewGroup {
                 }
 
                 if (DEBUG) {
-                    Log.v(TAG, "Down at " + mLastMotionX + "," + mLastMotionY
-                            + " mIsBeingDragged=" + mIsBeingDragged);
+                    Log.v(TAG, "Down at [" + mLastMotionX + ", " + mLastMotionY + "], mIsBeingDragged = " + mIsBeingDragged);
                 }
                 break;
             }
@@ -1832,7 +1833,7 @@ public class VerticalViewPager extends ViewGroup {
                 final float yDiff = Math.abs(dy);
                 final float x = ev.getX(pointerIndex);
                 final float xDiff = Math.abs(x - mInitialMotionX);
-                if (DEBUG) Log.v(TAG, "Moved x to " + x + "," + y + " diff=" + xDiff + "," + yDiff);
+                if (DEBUG) Log.v(TAG, "Moved = [" + x + ", " + y + "], diff = [" + xDiff + ", " + yDiff + "]");
 
                 if (dy > 0) {
                     if (!canScrollDown()) {
@@ -1841,12 +1842,7 @@ public class VerticalViewPager extends ViewGroup {
                         mLastMotionY = mInitialMotionY = ev.getY(pointerIndex);
                         return false;
                     } else {
-                        float yy = y;
-                        float offsetY = getScrollY() - dy;
-                        if (offsetY < mScrolledY) {
-                            yy -= mScrolledY - offsetY;
-                        }
-                        needsInvalidate |= performDrag(yy, false);
+                        needsInvalidate |= performDrag(y, false);
                         break;
                     }
                 } else if (dy < 0) {
@@ -1856,14 +1852,11 @@ public class VerticalViewPager extends ViewGroup {
                         mLastMotionY = mInitialMotionY = ev.getY(pointerIndex);
                         return false;
                     } else {
-                        float yy = y;
-                        float offsetY = getScrollY() - dy;
-                        if (offsetY > mScrolledY) {
-                            yy += offsetY;
-                        }
-                        needsInvalidate |= performDrag(yy, false);
+                        needsInvalidate |= performDrag(y, false);
                         break;
                     }
+                } else {
+                    break;
                 }
                 // Not else! Note that mIsBeingDragged can be set above.
                 if (mIsBeingDragged) {
@@ -1942,7 +1935,7 @@ public class VerticalViewPager extends ViewGroup {
     private static final float maxDisplacement = 960;
     private DecelerateInterpolator interpolator = new DecelerateInterpolator();
     private int mScrolledY;
-    private int mPreviewHeight = 200;// px
+    private int mPreviewHeight;// px
     private long mPreviewDuration = 400;// ms
     private boolean isPageTurning;
 
@@ -1985,9 +1978,9 @@ public class VerticalViewPager extends ViewGroup {
                     float input = scrollDistance / maxDisplacement;
                     float fraction = interpolator.getInterpolation(input);
                     deltaY -= deltaY * fraction;
-//                LogMgr.e("daisw", "^^^^^" + input + "^^^^^^" + fraction);
+//                    Log.e("daisw", "^^^^^" + input + "^^^^^^" + fraction);
                 } else {
-//                LogMgr.e("daisw", "pull up reached limit");
+//                    Log.e("daisw", "pull up reached limit");
                     return false;
                 }
             } else if (deltaY < 0) {
@@ -1996,9 +1989,9 @@ public class VerticalViewPager extends ViewGroup {
                     float input = scrollDistance / maxDisplacement;
                     float fraction = interpolator.getInterpolation(input);
                     deltaY -= deltaY * fraction;
-//                LogMgr.d("daisw", "=====" + input + "=====" + fraction);
+//                    Log.d("daisw", "=====" + input + "=====" + fraction);
                 } else {
-//                LogMgr.d("daisw", "pull down reached limit");
+//                    Log.d("daisw", "pull down reached limit");
                     return false;
                 }
             } else {
@@ -2006,6 +1999,20 @@ public class VerticalViewPager extends ViewGroup {
             }
         }
         float scrollY = oldScrollY + deltaY;
+        if (deltaY > 0) {
+            if (canScrollUp()) {
+                if (scrollY > mScrolledY) {
+                    scrollY = mScrolledY;
+                }
+            } else {
+            }
+        } else if (deltaY < 0) {
+            if (canScrollDown()) {
+                if (scrollY < mScrolledY) {
+                    scrollY = mScrolledY;
+                }
+            }
+        }
 
 //        final int height = getClientHeight();
 //        float topBound = height * mFirstOffset;
@@ -2804,7 +2811,7 @@ public class VerticalViewPager extends ViewGroup {
         /**
          * Gravity setting for use on decor views only:
          * Where to position the view page within the overall ViewPager
-         * container; constants are defined in {@link android.view.Gravity}.
+         * container; constants are defined in {@link Gravity}.
          */
         public int gravity;
 
