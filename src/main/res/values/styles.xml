@@ -37,6 +37,10 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
+    <style name="base_theme.translucent.noTitle">
+        <item name="noTitle">true</item>
+    </style>
+
     <style name="base_theme.translucent.toolbar"/>
 
     <style name="base_theme.translucent.navigationBar">
@@ -76,5 +80,7 @@
     </style>
 
     <style name="base_theme.drawable_toolbar" parent="base_theme.translucent.toolbar"/>
+
+    <style name="base_style_toolbar.collapse"/>
 
 </resources>

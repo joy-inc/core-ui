@@ -62,4 +62,8 @@
         <item name="android:background">@drawable/selector_bg_click_material_light</item>
     </style>
 
+    <style name="base_style_toolbar.collapse">
+        <item name="android:elevation">0dp</item>
+    </style>
+
 </resources>

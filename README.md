@@ -1,2 +1,1 @@
 # core-ui
-core ui
