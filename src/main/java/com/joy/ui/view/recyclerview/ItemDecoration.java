@@ -149,12 +149,30 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
         final RecyclerView.LayoutManager lm = parent.getLayoutManager();
         if (lm instanceof GridLayoutManager) {
             int spanCount = getSpanCount(parent);
-            if (isFirstRow(position, spanCount)) {
-                outRect.set(0, paddingTop, 0, marginBottom);
-            } else if (isLastRow(position, spanCount, itemCount)) {
-                outRect.set(0, marginTop, 0, paddingBottom);
-            } else {
-                outRect.set(0, marginTop, 0, marginBottom);
+            if (position % spanCount == 0) {// first span
+                if (isFirstRow(position, spanCount)) {
+                    outRect.set(paddingLeft, paddingTop, marginRight, marginBottom);
+                } else if (isLastRow(position, spanCount, itemCount)) {
+                    outRect.set(paddingLeft, marginTop, marginRight, paddingBottom);
+                } else {
+                    outRect.set(paddingLeft, marginTop, marginRight, marginBottom);
+                }
+            } else if ((position + 1) % spanCount == 0) {// last span
+                if (isFirstRow(position, spanCount)) {
+                    outRect.set(marginLeft, paddingTop, paddingRight, marginBottom);
+                } else if (isLastRow(position, spanCount, itemCount)) {
+                    outRect.set(marginLeft, marginTop, paddingRight, paddingBottom);
+                } else {
+                    outRect.set(marginLeft, marginTop, paddingRight, marginBottom);
+                }
+            } else {// middle span
+                if (isFirstRow(position, spanCount)) {
+                    outRect.set(marginLeft, paddingTop, marginRight, marginBottom);
+                } else if (isLastRow(position, spanCount, itemCount)) {
+                    outRect.set(marginLeft, marginTop, marginRight, paddingBottom);
+                } else {
+                    outRect.set(marginLeft, marginTop, marginRight, marginBottom);
+                }
             }
         } else if (lm instanceof LinearLayoutManager) {
             if (builder.orientationParams.orientation == HORIZONTAL) {
@@ -305,6 +323,12 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
 
         public Builder dividerFooterEnable(boolean enable) {
             dividerStyle.footerDividerEnabled = enable;
+            return this;
+        }
+
+        public Builder horizontalSpace(int space) {
+            marginLeft(space / 2);
+            marginRight(space / 2);
             return this;
         }
 
