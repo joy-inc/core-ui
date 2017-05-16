@@ -13,7 +13,7 @@ import android.widget.FrameLayout;
 
 import com.joy.ui.R;
 import com.joy.ui.view.JFooterView;
-import com.joy.ui.view.OnLoadMoreListener;
+import com.joy.ui.view.LoadMore;
 import com.joy.utils.LayoutInflater;
 
 /**
@@ -21,7 +21,7 @@ import com.joy.utils.LayoutInflater;
  */
 public class JRecyclerView extends RecyclerView {
 
-    private OnLoadMoreListener mOnLoadMoreListener;
+    private LoadMore.OnLoadMoreListener mOnLoadMoreListener;
     private JFooterView mFooterView;
     private boolean mIsLoadMoreEnable = true;
     private boolean mIsLoadingMore;
@@ -196,7 +196,7 @@ public class JRecyclerView extends RecyclerView {
         mFooterView.setHintTextColor(resId);
     }
 
-    public void setLoadMoreListener(OnLoadMoreListener l) {
+    public void setOnLoadMoreListener(LoadMore.OnLoadMoreListener l) {
         mOnLoadMoreListener = l;
     }
 }

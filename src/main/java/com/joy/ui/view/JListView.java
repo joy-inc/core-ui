@@ -17,7 +17,7 @@ import com.joy.utils.LayoutInflater;
  */
 public class JListView extends ListView implements OnScrollListener {
 
-    private OnLoadMoreListener mOnLoadMoreListener;
+    private LoadMore.OnLoadMoreListener mOnLoadMoreListener;
     private JFooterView mFooterView;
     private boolean mIsLoadMoreEnable = true;
     private boolean mIsLoadingMore;
@@ -140,7 +140,7 @@ public class JListView extends ListView implements OnScrollListener {
         mFooterView.setHintTextColor(resId);
     }
 
-    public void setLoadMoreListener(OnLoadMoreListener l) {
+    public void setOnLoadMoreListener(LoadMore.OnLoadMoreListener l) {
         mOnLoadMoreListener = l;
     }
 }

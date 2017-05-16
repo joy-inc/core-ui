@@ -1,11 +1,13 @@
 package com.joy.ui.activity;
 
 import android.content.res.TypedArray;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IntRange;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +15,7 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.ColorUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -120,17 +123,19 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         contentParent.addView(contentView);
         LayoutParams contentLp = getContentViewLp();
 
-        if (isNoTitle) {
+        if (!hasTitle()) {
             contentLp.topMargin = isSystemBarTrans ? -STATUS_BAR_HEIGHT : 0;
         } else {
-            contentLp.topMargin = isOverlay ? isSystemBarTrans ? -STATUS_BAR_HEIGHT : 0 : isSystemBarTrans ? STATUS_BAR_HEIGHT + mTbHeight : mTbHeight;
+            contentLp.topMargin = isOverlay ?
+                    isSystemBarTrans ? -STATUS_BAR_HEIGHT : 0
+                    : isSystemBarTrans ? STATUS_BAR_HEIGHT + mTbHeight : mTbHeight;
             // toolbar
             mToolbar = inflateLayout(R.layout.lib_view_toolbar);
             setSupportActionBar(mToolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             LayoutParams toolbarLp = new LayoutParams(MATCH_PARENT, mTbHeight);
-            toolbarLp.topMargin = isSystemBarTrans ? STATUS_BAR_HEIGHT : 0;
             toolbarLp.gravity = Gravity.TOP;
+            toolbarLp.topMargin = isSystemBarTrans ? STATUS_BAR_HEIGHT : 0;
             contentParent.addView(mToolbar, toolbarLp);
         }
     }
@@ -165,17 +170,16 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
     }
 
     protected void initTitleView() {
-        if (isNoTitle) {
-            return;
-        }
-        if (mTitleBackgroundResId != NO_ID) {
-            setTitleBgResource(mTitleBackgroundResId);
-        }
-        if (hasTitleBack()) {
-            mTitleBackView = addTitleBackView(v -> onTitleBackClick(v));
-        }
-        if (hasTitleMore()) {
-            mTitleMoreView = addTitleRightMoreView(v -> onTitleMoreClick(v));
+        if (hasTitle()) {
+            if (mTitleBackgroundResId != NO_ID) {
+                setTitleBgResource(mTitleBackgroundResId);
+            }
+            if (hasTitleBack()) {
+                mTitleBackView = addTitleBackView(v -> onTitleBackClick(v));
+            }
+            if (hasTitleMore()) {
+                mTitleMoreView = addTitleRightMoreView(v -> onTitleMoreClick(v));
+            }
         }
     }
 
@@ -239,11 +243,11 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         return mTbHeight;
     }
 
-    public final boolean isNoTitle() {
-        return isNoTitle;
+    public final boolean hasTitle() {
+        return !isNoTitle;
     }
 
-    public final boolean isOverlay() {
+    public final boolean isTitleOverlay() {
         return isOverlay;
     }
 
@@ -297,8 +301,25 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         setTitleBgDrawable(ContextCompat.getDrawable(this, drawableResId));
     }
 
-    public final void setTitleBarAlpha(int alpha) {
-        mToolbar.getBackground().setAlpha(alpha);
+    /**
+     * ToolBar的Background不是色值的情况可以调用此方法，否则请调用{@link #setTitleBarAlpha(int, int)}。
+     * 因为直接改变ColorDrawable的alpha值会影响其它地方。
+     *
+     * @param alpha
+     */
+    public final void setTitleBarAlpha(@IntRange(from = 0x0, to = 0xFF) int alpha) {
+        Drawable drawable = mToolbar.getBackground();
+        if (drawable != null && !(drawable instanceof ColorDrawable)) {
+            drawable.setAlpha(alpha);
+        }
+    }
+
+    /**
+     * @param color
+     * @param alpha
+     */
+    public final void setTitleBarAlpha(@ColorInt int color, @IntRange(from = 0x0, to = 0xFF) int alpha) {
+        mToolbar.setBackgroundColor(ColorUtils.setAlphaComponent(color, alpha));
     }
 
     /**

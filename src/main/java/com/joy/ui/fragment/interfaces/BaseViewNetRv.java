@@ -2,19 +2,19 @@ package com.joy.ui.fragment.interfaces;
 
 import android.support.annotation.ColorRes;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.view.View;
 
 import com.joy.ui.RefreshMode;
 import com.joy.ui.adapter.ExRvAdapter;
+import com.joy.ui.view.LoadMore;
 
 /**
  * Created by Daisw on 16/6/7.
  */
 public interface BaseViewNetRv extends BaseViewNet {
-
-    enum Theme {LIGHT, DARK}
 
     RecyclerView provideRecyclerView();
     LayoutManager provideLayoutManager();
@@ -33,18 +33,21 @@ public interface BaseViewNetRv extends BaseViewNet {
     SwipeRefreshLayout getSwipeRefreshLayout();
     void setSwipeRefreshEnable(boolean enable);
     boolean isSwipeRefreshing();
+    void setOnRefreshListener(OnRefreshListener listener);
     void showSwipeRefresh();
     void hideSwipeRefresh();
     void setSwipeRefreshColors(@ColorRes int... resIds);
 
     void setLoadMoreEnable(boolean enable);
     boolean isLoadMoreEnable();
+    void addLoadMoreIfNecessary();
     boolean isLoadingMore();
+    void setOnLoadMoreListener(LoadMore.OnLoadMoreListener listener);
     void stopLoadMore();
     void setLoadMoreFailed();
     void hideLoadMore();
-    void setLoadMoreTheme(Theme theme);
-    void setLoadMoreColor(@ColorRes int resId);
+    void setLoadMoreTheme(LoadMore.Theme theme);
+    void setLoadMoreHintColor(@ColorRes int resId);
 
     void setRefreshMode(RefreshMode mode);
 }

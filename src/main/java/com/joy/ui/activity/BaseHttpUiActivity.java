@@ -60,7 +60,7 @@ public abstract class BaseHttpUiActivity extends BaseUiActivity implements BaseV
     @SuppressWarnings("ResourceType")
     private LayoutParams getTipViewLp() {
         LayoutParams lp = new LayoutParams(MATCH_PARENT, MATCH_PARENT);
-        if (!isNoTitle() && !isOverlay()) {
+        if (hasTitle() && !isTitleOverlay()) {
             lp.topMargin = isSystemBarTrans() ? STATUS_BAR_HEIGHT + getToolbarHeight() : getToolbarHeight();
         }
         return lp;
@@ -78,7 +78,7 @@ public abstract class BaseHttpUiActivity extends BaseUiActivity implements BaseV
         if (lp == null) {
             lp = new LayoutParams(WRAP_CONTENT, WRAP_CONTENT, Gravity.CENTER);
         }
-        if (!isNoTitle() && !isOverlay()) {
+        if (hasTitle() && !isTitleOverlay()) {
             lp.topMargin = isSystemBarTrans() ? (STATUS_BAR_HEIGHT + getToolbarHeight()) / 2 : getToolbarHeight() / 2;
         }
         return lp;

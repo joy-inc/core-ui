@@ -3,6 +3,7 @@ package com.joy.ui.activity;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
@@ -15,6 +16,7 @@ import com.joy.ui.RefreshMode;
 import com.joy.ui.activity.interfaces.BaseViewNetRv;
 import com.joy.ui.adapter.ExRvAdapter;
 import com.joy.ui.view.JLoadingView;
+import com.joy.ui.view.LoadMore;
 import com.joy.ui.view.recyclerview.JRecyclerView;
 import com.joy.ui.view.recyclerview.RecyclerAdapter;
 
@@ -208,6 +210,7 @@ public abstract class BaseHttpRvActivity extends BaseHttpUiActivity implements B
         }
     }
 
+
     // swipe refresh
     // =============================================================================================
     @Override
@@ -223,6 +226,11 @@ public abstract class BaseHttpRvActivity extends BaseHttpUiActivity implements B
     @Override
     public final boolean isSwipeRefreshing() {
         return mSwipeRl.isRefreshing();
+    }
+
+    @Override
+    public final void setOnRefreshListener(OnRefreshListener listener) {
+        mSwipeRl.setOnRefreshListener(listener);
     }
 
     @Override
@@ -261,8 +269,22 @@ public abstract class BaseHttpRvActivity extends BaseHttpUiActivity implements B
     }
 
     @Override
+    public final void addLoadMoreIfNecessary() {
+        if (isLoadMoreEnable()) {
+            ((JRecyclerView) mRecyclerView).addLoadMoreIfNotExist();
+        }
+    }
+
+    @Override
     public final boolean isLoadingMore() {
         return isLoadMoreEnable() && ((JRecyclerView) mRecyclerView).isLoadingMore();
+    }
+
+    @Override
+    public final void setOnLoadMoreListener(LoadMore.OnLoadMoreListener listener) {
+        if (isLoadMoreEnable()) {
+            ((JRecyclerView) mRecyclerView).setOnLoadMoreListener(listener);
+        }
     }
 
     @Override
@@ -287,7 +309,7 @@ public abstract class BaseHttpRvActivity extends BaseHttpUiActivity implements B
     }
 
     @Override
-    public final void setLoadMoreTheme(Theme theme) {
+    public final void setLoadMoreTheme(LoadMore.Theme theme) {
         if (isLoadMoreEnable()) {
             switch (theme) {
                 case LIGHT:
@@ -303,7 +325,7 @@ public abstract class BaseHttpRvActivity extends BaseHttpUiActivity implements B
     }
 
     @Override
-    public final void setLoadMoreColor(@ColorRes int resId) {
+    public final void setLoadMoreHintColor(@ColorRes int resId) {
         if (isLoadMoreEnable()) {
             ((JRecyclerView) mRecyclerView).setLoadMoreHintTextColor(resId);
         }
