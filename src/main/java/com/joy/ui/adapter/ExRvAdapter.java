@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.joy.utils.CollectionUtil;
 import com.joy.utils.LayoutInflater;
 
 import java.util.List;
@@ -150,6 +151,27 @@ public abstract class ExRvAdapter<VH extends ExRvViewHolder<T>, T> extends Recyc
         position -= mHeadersCount;
         if (mOnItemLongClickListener != null) {
             mOnItemLongClickListener.onItemLongClick(position, view, getItem(position));
+        }
+    }
+
+    protected void callbackOnItemClickListener(VH vh, View... targetViews) {
+        if (CollectionUtil.isEmpty(targetViews)) {
+            targetViews = new View[]{vh.getItemView()};
+        }
+        for (View targetView : targetViews) {
+            targetView.setOnClickListener((v) -> callbackOnItemClickListener(vh.getAdapterPosition(), v));
+        }
+    }
+
+    protected void callbackOnItemLongClickListener(VH vh, View... targetViews) {
+        if (CollectionUtil.isEmpty(targetViews)) {
+            targetViews = new View[]{vh.getItemView()};
+        }
+        for (View targetView : targetViews) {
+            targetView.setOnLongClickListener(v -> {
+                callbackOnItemLongClickListener(vh.getAdapterPosition(), v);
+                return true;
+            });
         }
     }
 

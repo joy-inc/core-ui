@@ -2,9 +2,9 @@ package com.joy.ui.utils;
 
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.design.internal.SnackbarContentLayout;
 import android.support.design.widget.Snackbar;
 import android.view.View;
-import android.widget.TextView;
 
 import static android.support.design.widget.Snackbar.LENGTH_SHORT;
 
@@ -28,15 +28,20 @@ public class SnackbarUtil {
         showSnackbar(view, text, duration, NO_COLOR, textColor);
     }
 
+    @SuppressWarnings("RestrictedApi")
     public static void showSnackbar(@NonNull View view, @NonNull CharSequence text, @Snackbar.Duration int duration, @ColorInt int bgColor, @ColorInt int textColor) {
         Snackbar snackbar = Snackbar.make(view, text, duration);
         Snackbar.SnackbarLayout sLayout = (Snackbar.SnackbarLayout) snackbar.getView();
-        TextView tvMessage = (TextView) sLayout.getChildAt(0);
         if (bgColor != NO_COLOR) {
             sLayout.setBackgroundColor(bgColor);
         }
-        if (textColor != NO_COLOR) {
-            tvMessage.setTextColor(textColor);
+        try {
+            SnackbarContentLayout contentLayout = (SnackbarContentLayout) sLayout.getChildAt(0);
+            if (textColor != NO_COLOR) {
+                contentLayout.getMessageView().setTextColor(textColor);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         snackbar.show();
     }

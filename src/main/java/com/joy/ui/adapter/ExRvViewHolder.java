@@ -3,6 +3,7 @@ package com.joy.ui.adapter;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -18,6 +19,7 @@ import com.joy.utils.ViewUtil;
 /**
  * Created by KEVIN.DAI on 15/11/10.
  * Modified by KEVIN.DAI on 16/7/6.(add some methods)
+ * Modified by Daisw on 17/5/17.(add findViewById method)
  *
  * @param <T>
  */
@@ -33,6 +35,10 @@ public abstract class ExRvViewHolder<T> extends RecyclerView.ViewHolder {
 
     public final View getItemView() {
         return itemView;
+    }
+
+    public <T extends View> T findViewById(@IdRes int id) {
+        return (T) getItemView().findViewById(id);
     }
 
     public abstract void invalidateItemView(int position, T t);

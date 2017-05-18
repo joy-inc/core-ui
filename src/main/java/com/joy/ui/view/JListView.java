@@ -100,6 +100,7 @@ public class JListView extends ListView implements OnScrollListener {
     }
 
     public void setLoadMoreEnable(boolean enable) {
+        mFooterView.switchLoadingView(false);
         if (mIsLoadMoreEnable == enable) {
             return;
         }
@@ -125,6 +126,9 @@ public class JListView extends ListView implements OnScrollListener {
     }
 
     public void setLoadMoreView(View v, FrameLayout.LayoutParams fllp) {
+        if (fllp == null) {
+            fllp = JLoadingView.getDefaultLoadMoreLayoutParams(getContext());
+        }
         mFooterView.setLoadingView(v, fllp);
     }
 

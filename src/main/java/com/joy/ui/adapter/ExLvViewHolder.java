@@ -3,6 +3,7 @@ package com.joy.ui.adapter;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -41,6 +42,10 @@ public abstract class ExLvViewHolder<T> {
 
     public final View getItemView() {
         return itemView;
+    }
+
+    public <T extends View> T findViewById(@IdRes int id) {
+        return (T) getItemView().findViewById(id);
     }
 
     public final int getPosition() {

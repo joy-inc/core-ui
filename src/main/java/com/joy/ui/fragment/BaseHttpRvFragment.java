@@ -50,8 +50,12 @@ public abstract class BaseHttpRvFragment extends BaseHttpUiFragment implements B
     @Override
     public RecyclerView provideRecyclerView() {
         JRecyclerView jrv = inflateLayout(R.layout.lib_view_recycler);
-        jrv.setLoadMoreView(JLoadingView.getLoadMore(getActivity()));
+        jrv.setLoadMoreView(provideLoadMoreView());
         return jrv;
+    }
+
+    protected View provideLoadMoreView() {
+        return JLoadingView.getLoadMore(getActivity());
     }
 
     /**

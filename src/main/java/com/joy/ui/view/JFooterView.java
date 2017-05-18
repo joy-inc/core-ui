@@ -16,7 +16,7 @@ import com.joy.utils.ViewUtil;
 public class JFooterView extends FrameLayout {
 
     private View mFlRoot;
-    private View mLoadingDiv;
+    private View mLoadingDiv, mLoadingView;
     private OnRetryListener mOnRetryLisn;
     private JTextView mJtvHint, mJtvRetry;
 
@@ -49,10 +49,12 @@ public class JFooterView extends FrameLayout {
 
     public void loading() {
         ViewUtil.hideView(mJtvRetry);
+        switchLoadingView(true);
         ViewUtil.showView(mLoadingDiv);
     }
 
     public void failed() {
+        switchLoadingView(false);
         ViewUtil.hideView(mLoadingDiv);
         ViewUtil.showView(mJtvRetry);
     }
@@ -62,6 +64,7 @@ public class JFooterView extends FrameLayout {
     }
 
     public void setLoadingView(View v, LayoutParams fllp) {
+        mLoadingView = v;
         FrameLayout flDiv = (FrameLayout) findViewById(R.id.flProgressBarDiv);
         if (flDiv.getChildCount() > 0) {
             flDiv.removeAllViews();
@@ -94,6 +97,14 @@ public class JFooterView extends FrameLayout {
         ViewGroup.LayoutParams lp = mFlRoot.getLayoutParams();
         lp.height = LayoutParams.WRAP_CONTENT;
         mFlRoot.setLayoutParams(lp);
+    }
+
+    public void switchLoadingView(boolean startAnim) {
+        if (startAnim) {
+            ViewUtil.showView(mLoadingView);
+        } else {
+            ViewUtil.hideView(mLoadingView);
+        }
     }
 
     public interface OnRetryListener {

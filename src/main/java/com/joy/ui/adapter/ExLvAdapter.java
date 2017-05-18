@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.joy.ui.view.recyclerview.JRecyclerView;
+import com.joy.utils.CollectionUtil;
 import com.joy.utils.LayoutInflater;
 
 import java.util.List;
@@ -163,6 +164,27 @@ public abstract class ExLvAdapter<VH extends ExLvViewHolder<T>, T> extends BaseA
     protected void callbackOnItemLongClickListener(int position, View view) {
         if (mOnItemLongClickListener != null) {
             mOnItemLongClickListener.onItemLongClick(position, view, getItem(position));
+        }
+    }
+
+    protected void callbackOnItemClickListener(VH vh, View... targetViews) {
+        if (CollectionUtil.isEmpty(targetViews)) {
+            targetViews = new View[]{vh.getItemView()};
+        }
+        for (View targetView : targetViews) {
+            targetView.setOnClickListener((v) -> callbackOnItemClickListener(vh.getAdapterPosition(), v));
+        }
+    }
+
+    protected void callbackOnItemLongClickListener(VH vh, View... targetViews) {
+        if (CollectionUtil.isEmpty(targetViews)) {
+            targetViews = new View[]{vh.getItemView()};
+        }
+        for (View targetView : targetViews) {
+            targetView.setOnLongClickListener(v -> {
+                callbackOnItemLongClickListener(vh.getAdapterPosition(), v);
+                return true;
+            });
         }
     }
 

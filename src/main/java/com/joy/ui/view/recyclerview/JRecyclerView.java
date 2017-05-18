@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 
 import com.joy.ui.R;
 import com.joy.ui.view.JFooterView;
+import com.joy.ui.view.JLoadingView;
 import com.joy.ui.view.LoadMore;
 import com.joy.utils.LayoutInflater;
 
@@ -41,6 +42,7 @@ public class JRecyclerView extends RecyclerView {
     private void init(Context context) {
         addOnScrollListener(new RvOnScrollListener());
         mFooterView = LayoutInflater.inflate(context, R.layout.lib_view_footer);
+        mFooterView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         mFooterView.setOnRetryListener(() -> startLoadMore(false));
     }
 
@@ -156,6 +158,7 @@ public class JRecyclerView extends RecyclerView {
     }
 
     public void setLoadMoreEnable(boolean enable) {
+        mFooterView.switchLoadingView(false);
         if (mIsLoadMoreEnable == enable) {
             return;
         }
@@ -181,6 +184,9 @@ public class JRecyclerView extends RecyclerView {
     }
 
     public void setLoadMoreView(View v, FrameLayout.LayoutParams fllp) {
+        if (fllp == null) {
+            fllp = JLoadingView.getDefaultLoadMoreLayoutParams(getContext());
+        }
         mFooterView.setLoadingView(v, fllp);
     }
 
