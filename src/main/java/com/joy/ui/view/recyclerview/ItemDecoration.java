@@ -28,7 +28,6 @@ import static android.support.v7.widget.RecyclerView.NO_POSITION;
 public class ItemDecoration extends RecyclerView.ItemDecoration {
 
     private Builder builder;
-    private int prevItemCount;
 
     private ItemDecoration(Builder builder) {
         this.builder = builder;
@@ -36,6 +35,9 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
 
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
+        if (!builder.dividerStyle.dividerEnabled) {
+            return;
+        }
         if (parent.getLayoutManager() instanceof GridLayoutManager) {
             drawHorizontal(c, parent);
             drawVertical(c, parent);
@@ -53,7 +55,6 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
         if (adapter == null) {
             return;
         }
-
         final boolean headerDividerEnabled = builder.dividerStyle.headerDividerEnabled;
         final boolean footerDividerEnabled = builder.dividerStyle.footerDividerEnabled;
         final Drawable divider = builder.dividerStyle.divider;
@@ -78,19 +79,15 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
             if (childPosition == NO_POSITION) {
                 continue;
             }
-
             if (!headerDividerEnabled && !footerDividerEnabled && childPosition >= itemCount - footerDividerOffset) {
                 // Don't draw divider for last line if footerDividerEnabled = false
                 continue;
             }
-
             if (headerDividerEnabled && !footerDividerEnabled) {
                 if (child instanceof JFooterView) {
                     continue;
                 }
             }
-
-//            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
             int top;
             if (headerDividerEnabled) {
                 top = child.getTop() - dividerSize - marginBottom;
@@ -98,7 +95,7 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
                     if (((JRecyclerView) parent).isLoadMoreEnable()) {
                         top = child.getTop() - dividerSize;
                     } else {
-                        top = child.getTop() - paddingBottom - dividerSize;
+                        top = child.getTop();
                     }
                 }
             } else {
@@ -122,7 +119,6 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
         final int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);
-//            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
             final int left = child.getRight() /*+ params.rightMargin + Math.round(ViewCompat.getTranslationX(child))*/ + marginLeft;
             divider.setBounds(left, top, left + dividerSize, bottom);
             divider.draw(c);
@@ -131,7 +127,7 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        final int position = parent.getChildLayoutPosition(view);
+        int position = parent.getChildLayoutPosition(view);
         final int itemCount = state.getItemCount();
 
         final boolean headerDividerEnabled = builder.dividerStyle.headerDividerEnabled;
@@ -148,6 +144,13 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
 
         final RecyclerView.LayoutManager lm = parent.getLayoutManager();
         if (lm instanceof GridLayoutManager) {
+            if (parent.getAdapter() instanceof RecyclerAdapter) {
+                int count = ((RecyclerAdapter) parent.getAdapter()).getHeadersCount();
+                if (position < count) {
+                    return;
+                }
+                position -= count;
+            }
             int spanCount = getSpanCount(parent);
             if (position % spanCount == 0) {// first span
                 if (isFirstRow(position, spanCount)) {
@@ -181,28 +184,16 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
                         if (headerDividerEnabled) {
                             outRect.set(paddingLeft, marginBottom + dividerSize + paddingTop, paddingRight, dividerSize + marginBottom);
                         } else {
-                            outRect.set(paddingLeft, paddingTop, paddingRight, dividerSize + marginTop);
+                            outRect.set(paddingLeft, paddingTop, paddingRight, dividerSize + marginBottom);
                         }
                     } else {
-                        if (itemCount - position == 2) {
-                            if (((JRecyclerView) parent).isLoadMoreEnable()) {
-                                paddingBottom = 0;
-                            }
-                            if (footerDividerEnabled) {
-                                outRect.set(paddingLeft, marginTop, paddingRight, dividerSize + marginBottom + paddingBottom);
-                            } else {
-                                outRect.set(paddingLeft, marginTop, paddingRight, paddingBottom);
-                            }
-                        } else {
-                            if (footerDividerEnabled) {
-                                outRect.set(paddingLeft, marginTop, paddingRight, dividerSize + marginBottom);
-                            } else {
-                                outRect.set(paddingLeft, itemCount > prevItemCount ? marginTop + marginBottom + dividerSize : marginTop, paddingRight, dividerSize + marginBottom);
-                            }
-                        }
+                        outRect.set(paddingLeft, marginTop, paddingRight, dividerSize + marginBottom);
                     }
+                } else {
+                    int top = marginBottom > 0 && !footerDividerEnabled ? -marginBottom : 0;
+                    int bottom = marginTop > 0 && !footerDividerEnabled ? -marginTop : 0;
+                    outRect.set(paddingLeft, top + dividerSize, paddingRight, bottom + paddingBottom);
                 }
-                prevItemCount = itemCount;
             } else {
                 outRect.set(0, 0, dividerSize + marginLeft + marginRight, 0);
             }
@@ -249,6 +240,7 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     public static class DividerStyle {
+        public boolean dividerEnabled = true;
         public Drawable divider;
         public int dividerSize;
         public boolean headerDividerEnabled;
@@ -306,8 +298,25 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
             return this;
         }
 
+        public Builder dividerEnable(boolean enable) {
+            dividerStyle.dividerEnabled = enable;
+            if (!enable) {
+                dividerStyle.dividerSize = 0;
+                dividerStyle.divider = null;
+                dividerStyle.headerDividerEnabled = false;
+                dividerStyle.footerDividerEnabled = false;
+            }
+            return this;
+        }
+
         public Builder divider(Drawable d) {
             dividerStyle.divider = d;
+            if (d == null) {
+                dividerStyle.dividerSize = 0;
+                dividerStyle.dividerEnabled = false;
+                dividerStyle.headerDividerEnabled = false;
+                dividerStyle.footerDividerEnabled = false;
+            }
             return this;
         }
 
