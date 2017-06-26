@@ -47,13 +47,12 @@ public abstract class ExLvAdapter<VH extends ExLvViewHolder<T>, T> extends BaseA
         if (mTs == null) {
             return null;
         }
-        T t = null;
         try {
-            t = mTs.get(position);
+            return mTs.get(position);
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return t;
     }
 
     @Override

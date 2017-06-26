@@ -45,13 +45,12 @@ public abstract class ExRvAdapter<VH extends ExRvViewHolder<T>, T> extends Recyc
         if (mTs == null) {
             return null;
         }
-        T t = null;
         try {
-            t = mTs.get(position);
+            return mTs.get(position);
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return t;
     }
 
     public boolean isEmpty() {
