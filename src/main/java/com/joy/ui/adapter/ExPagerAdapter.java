@@ -14,18 +14,18 @@ import java.util.List;
  */
 public abstract class ExPagerAdapter<T> extends PagerAdapter {
 
-    private List<T> mData;
-    private SparseArray<View> mViews;
+    private List<T> mTs;
+    private SparseArray<View> mCacheViews;
     private OnItemClickListener<T> mOnItemClickListener;
 
     public ExPagerAdapter() {
-        mData = new ArrayList<>();
-        mViews = new SparseArray<>();
+        mTs = new ArrayList<>();
+        mCacheViews = new SparseArray<>();
     }
 
-    public ExPagerAdapter(@NonNull List<T> data) {
-        mData = data;
-        mViews = new SparseArray<>();
+    public ExPagerAdapter(@NonNull List<T> ts) {
+        mTs = ts;
+        mCacheViews = new SparseArray<>();
     }
 
     public boolean isEmpty() {
@@ -34,44 +34,43 @@ public abstract class ExPagerAdapter<T> extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return mData.size();
+        return mTs.size();
     }
 
     public T getItem(int position) {
-        T item = null;
         try {
-            item = mData.get(position);
+            return mTs.get(position);
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return item;
     }
 
-    public SparseArray<View> getViews() {
-        return mViews;
+    public SparseArray<View> getCacheViews() {
+        return mCacheViews;
     }
 
-    public View getItemView(int position) {
-        return mViews.get(position);
+    public View getCacheView(int position) {
+        return mCacheViews.get(position % 4);// ViewPager保留三张，另预留一张用于下一个item
     }
 
-    public void setData(@NonNull List<T> data) {
-        this.mData = data;
+    public void setData(@NonNull List<T> ts) {
+        this.mTs = ts;
     }
 
     public List<T> getData() {
-        return mData;
+        return mTs;
     }
 
     public void add(int position, T t) {
         if (t != null) {
-            mData.add(position, t);
+            mTs.add(position, t);
         }
     }
 
     public void add(T t) {
         if (t != null) {
-            mData.add(t);
+            mTs.add(t);
         }
     }
 
@@ -79,33 +78,33 @@ public abstract class ExPagerAdapter<T> extends PagerAdapter {
         if (ts == null) {
             return;
         }
-        mData.addAll(ts);
+        mTs.addAll(ts);
     }
 
     public void addAll(int position, List<T> ts) {
         if (ts != null) {
-            mData.addAll(position, ts);
+            mTs.addAll(position, ts);
         }
     }
 
     public int indexOf(T t) {
-        return mData.indexOf(t);
+        return mTs.indexOf(t);
     }
 
     public void remove(T t) {
-        mData.remove(t);
+        mTs.remove(t);
     }
 
     public void remove(int position) {
-        mData.remove(position);
+        mTs.remove(position);
     }
 
     public void removeAll() {
-        mData.clear();
+        mTs.clear();
     }
 
     public void clear() {
-        mData.clear();
+        mTs.clear();
     }
 
     @Override
@@ -118,16 +117,22 @@ public abstract class ExPagerAdapter<T> extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View view = mViews.get(position);
+        View view = getCacheView(position);
         if (view == null) {
-            view = getView(position);
-            mViews.put(position, view);
+            view = getItemView(container, position);
+            mCacheViews.put(position, view);
+        }
+        if (view.getParent() != null) {
+            container.removeView(view);
         }
         container.addView(view);
+        invalidateItemView(position, getItem(position));
         return view;
     }
 
-    protected abstract View getView(int position);
+    protected abstract View getItemView(ViewGroup container, int position);
+
+    protected abstract void invalidateItemView(int position, T t);
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {

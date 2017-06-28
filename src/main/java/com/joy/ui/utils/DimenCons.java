@@ -11,6 +11,7 @@ import com.joy.utils.DeviceUtil;
 public interface DimenCons {
 
     int DP_1_PX = DensityUtil.dip2px(BaseApplication.getContext(), 1);
+    int DP_8_PX = DensityUtil.dip2px(BaseApplication.getContext(), 8);
 
     int SCREEN_WIDTH = DeviceUtil.getScreenWidth(BaseApplication.getContext());
     int SCREEN_HEIGHT = DeviceUtil.getScreenHeight(BaseApplication.getContext());

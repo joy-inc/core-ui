@@ -4,6 +4,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -21,6 +23,7 @@ import com.joy.ui.R;
 import com.joy.ui.fragment.interfaces.BaseView;
 import com.joy.ui.utils.DimenCons;
 import com.joy.ui.utils.SnackbarUtil;
+import com.joy.utils.DensityUtil;
 import com.joy.utils.LayoutInflater;
 import com.joy.utils.ToastUtil;
 import com.joy.utils.ViewUtil;
@@ -129,6 +132,9 @@ public abstract class BaseUiFragment extends RxFragment implements BaseView, Dim
     public void onVisible() {
     }
 
+    public void onInvisible() {
+    }
+
     @Override
     public void finish() {
         if (getActivity() != null) {
@@ -228,5 +234,17 @@ public abstract class BaseUiFragment extends RxFragment implements BaseView, Dim
     @Override
     public final <T extends View> T inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root, boolean attachToRoot) {
         return LayoutInflater.inflate(getContext(), layoutResId, root, attachToRoot);
+    }
+
+    public final int DP(float dp) {
+        return DensityUtil.dip2px(getActivity().getApplicationContext(), dp);
+    }
+
+    public final int getDimensionPixelSize(@DimenRes int dimensId) {
+        return DensityUtil.getDimensionPixelSize(getActivity().getApplicationContext(), dimensId);
+    }
+
+    public final int getColorInt(@ColorRes int colorResId) {
+        return getResources().getColor(colorResId);
     }
 }

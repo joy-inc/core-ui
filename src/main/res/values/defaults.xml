@@ -13,4 +13,13 @@
     <dimen name="def_loading_loadmore">30dp</dimen>
     <!-- ========================================= -->
 
+    <!-- About Pager Indicator -->
+    <!-- ========================================= -->
+    <color name="default_circle_indicator_fill_color">@color/white</color>
+    <color name="default_circle_indicator_page_color">@color/white_trans50</color>
+    <dimen name="default_circle_indicator_radius">3dp</dimen>
+    <bool name="default_circle_indicator_snap">true</bool>
+    <color name="default_circle_indicator_stroke_color">@color/white_trans50</color>
+    <dimen name="default_circle_indicator_stroke_width">0dp</dimen>
+    <!-- ========================================= -->
 </resources>

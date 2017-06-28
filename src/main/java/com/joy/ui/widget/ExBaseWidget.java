@@ -47,7 +47,7 @@ public abstract class ExBaseWidget {
         setContentView(contentView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
     }
 
-    public final void setContentView(View contentView, ViewGroup.LayoutParams params) {
+    protected final void setContentView(View contentView, ViewGroup.LayoutParams params) {
         contentView.setLayoutParams(params);
         mContentView = contentView;
 
@@ -58,7 +58,7 @@ public abstract class ExBaseWidget {
         initContentView();
     }
 
-    public void wrapContentView(View contentView) {
+    protected void wrapContentView(View contentView) {
         // add transition animation
 //        LayoutTransition lt = new LayoutTransition();
 //        lt.setDuration(100);
@@ -84,6 +84,10 @@ public abstract class ExBaseWidget {
 
     public View getContentView() {
         return mContentView;
+    }
+
+    public final LayoutParams getContentViewLp() {
+        return (LayoutParams) mContentView.getLayoutParams();
     }
 
     public void onStart() {
