@@ -1,8 +1,8 @@
 <resources>
     <!-- toast common -->
-    <string name="toast_common_no_network">无网络连接，请检查你的网络设置</string>
-    <string name="toast_common_timeout">连接服务器超时了，再试试呢</string>
+    <string name="toast_common_no_network" translatable="false">无网络连接，请检查你的网络设置</string>
+    <string name="toast_common_timeout" translatable="false">连接服务器超时了，再试试呢</string>
     <!-- load more -->
-    <string name="footer_loading_hint">正在加载&#8230;</string>
-    <string name="footer_load_failed">加载失败，点击重试</string>
+    <string name="footer_loading_hint" translatable="false">正在加载&#8230;</string>
+    <string name="footer_load_failed" translatable="false">加载失败，点击重试</string>
 </resources>

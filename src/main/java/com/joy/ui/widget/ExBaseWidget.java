@@ -44,7 +44,11 @@ public abstract class ExBaseWidget {
     }
 
     protected final void setContentView(View contentView) {
-        setContentView(contentView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
+        ViewGroup.LayoutParams lp = contentView.getLayoutParams();
+        if (lp == null) {
+            lp = new LayoutParams(MATCH_PARENT, MATCH_PARENT);
+        }
+        setContentView(contentView, lp);
     }
 
     protected final void setContentView(View contentView, ViewGroup.LayoutParams params) {

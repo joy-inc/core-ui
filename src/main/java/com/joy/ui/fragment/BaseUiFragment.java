@@ -35,9 +35,18 @@ import com.trello.rxlifecycle.components.support.RxFragment;
  */
 public abstract class BaseUiFragment extends RxFragment implements BaseView, DimenCons {
 
-    private CharSequence mLabel;
-    private FrameLayout mContentParent;
-    private View mContentView;
+    protected CharSequence mLabel;
+    protected FrameLayout mContentParent;
+    protected View mContentView;
+    protected boolean isFront;
+
+    public boolean isFront() {
+        return isFront;
+    }
+
+    public void setFront(boolean front) {
+        isFront = front;
+    }
 
     @Override
     public View onCreateView(android.view.LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,15 +54,15 @@ public abstract class BaseUiFragment extends RxFragment implements BaseView, Dim
         return mContentParent;
     }
 
-    public final void setContentView(@LayoutRes int layoutResId) {
+    public void setContentView(@LayoutRes int layoutResId) {
         setContentView(inflateLayout(layoutResId, mContentParent, true));
     }
 
-    public final void setContentView(View contentView) {
+    public void setContentView(View contentView) {
         setContentView(contentView, null);
     }
 
-    public final void setContentView(View contentView, LayoutParams params) {
+    public void setContentView(View contentView, LayoutParams params) {
         if (params != null) {
             contentView.setLayoutParams(params);
         }
@@ -87,11 +96,11 @@ public abstract class BaseUiFragment extends RxFragment implements BaseView, Dim
     protected void initContentView() {
     }
 
-    public final FrameLayout getContentParent() {
+    public FrameLayout getContentParent() {
         return mContentParent;
     }
 
-    public final void setBackground(Drawable background) {
+    public void setBackground(Drawable background) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             mContentParent.setBackground(background);
         } else {
@@ -99,40 +108,42 @@ public abstract class BaseUiFragment extends RxFragment implements BaseView, Dim
         }
     }
 
-    public final void setBackgroundResource(@DrawableRes int resId) {
+    public void setBackgroundResource(@DrawableRes int resId) {
         mContentParent.setBackgroundResource(resId);
     }
 
-    public final void setBackgroundColor(@ColorInt int color) {
+    public void setBackgroundColor(@ColorInt int color) {
         mContentParent.setBackgroundColor(color);
     }
 
-    public final View getContentView() {
+    public View getContentView() {
         return mContentView;
     }
 
-    public final LayoutParams getContentViewLp() {
+    public LayoutParams getContentViewLp() {
         return (LayoutParams) mContentView.getLayoutParams();
     }
 
-    public final BaseUiFragment setLabel(CharSequence label) {
+    public <T extends BaseUiFragment> T setLabel(CharSequence label) {
         mLabel = label;
-        return this;
+        return (T) this;
     }
 
-    public final BaseUiFragment setLabel(@StringRes int resId) {
+    public <T extends BaseUiFragment> T setLabel(@StringRes int resId) {
         mLabel = BaseApplication.getAppString(resId);
-        return this;
+        return (T) this;
     }
 
-    public final CharSequence getLabel() {
+    public CharSequence getLabel() {
         return mLabel;
     }
 
     public void onVisible() {
+        setFront(true);
     }
 
     public void onInvisible() {
+        setFront(false);
     }
 
     @Override
@@ -143,43 +154,43 @@ public abstract class BaseUiFragment extends RxFragment implements BaseView, Dim
     }
 
     @Override
-    public final boolean isFinishing() {
+    public boolean isFinishing() {
         return getActivity() == null || getActivity().isFinishing();
     }
 
     @Override
-    public final void showToast(String text) {
+    public void showToast(String text) {
         ToastUtil.showToast(getContext(), text);
     }
 
     @Override
-    public final void showToast(@StringRes int resId) {
+    public void showToast(@StringRes int resId) {
         showToast(getString(resId));
     }
 
     @Override
-    public final void showToast(@StringRes int resId, Object... formatArgs) {
+    public void showToast(@StringRes int resId, Object... formatArgs) {
         showToast(getString(resId, formatArgs));
     }
 
     @Override
     @SuppressWarnings("ResourceType")
-    public final void showSnackbar(@NonNull CharSequence text) {
+    public void showSnackbar(@NonNull CharSequence text) {
         showSnackbar(text, Snackbar.LENGTH_SHORT);
     }
 
     @Override
-    public final void showSnackbar(@NonNull CharSequence text, @Snackbar.Duration int duration) {
+    public void showSnackbar(@NonNull CharSequence text, @Snackbar.Duration int duration) {
         showSnackbar(text, duration, SnackbarUtil.NO_COLOR);
     }
 
     @Override
-    public final void showSnackbar(@NonNull CharSequence text, @Snackbar.Duration int duration, @ColorInt int textColor) {
+    public void showSnackbar(@NonNull CharSequence text, @Snackbar.Duration int duration, @ColorInt int textColor) {
         showSnackbar(text, duration, SnackbarUtil.NO_COLOR, textColor);
     }
 
     @Override
-    public final void showSnackbar(@NonNull CharSequence text, @Snackbar.Duration int duration, @ColorInt int bgColor, @ColorInt int textColor) {
+    public void showSnackbar(@NonNull CharSequence text, @Snackbar.Duration int duration, @ColorInt int bgColor, @ColorInt int textColor) {
         if (textColor == SnackbarUtil.NO_COLOR) {
             textColor = getResources().getColor(R.color.color_text_primary);
         }
@@ -187,64 +198,64 @@ public abstract class BaseUiFragment extends RxFragment implements BaseView, Dim
     }
 
     @Override
-    public final void showView(View v) {
+    public void showView(View v) {
         ViewUtil.showView(v);
     }
 
     @Override
-    public final void hideView(View v) {
+    public void hideView(View v) {
         ViewUtil.hideView(v);
     }
 
     @Override
-    public final void goneView(View v) {
+    public void goneView(View v) {
         ViewUtil.goneView(v);
     }
 
     @Override
-    public final void showImageView(ImageView v, @DrawableRes int resId) {
+    public void showImageView(ImageView v, @DrawableRes int resId) {
         ViewUtil.showImageView(v, resId);
     }
 
     @Override
-    public final void showImageView(ImageView v, Drawable drawable) {
+    public void showImageView(ImageView v, Drawable drawable) {
         ViewUtil.showImageView(v, drawable);
     }
 
     @Override
-    public final void hideImageView(ImageView v) {
+    public void hideImageView(ImageView v) {
         ViewUtil.hideImageView(v);
     }
 
     @Override
-    public final void goneImageView(ImageView v) {
+    public void goneImageView(ImageView v) {
         ViewUtil.goneImageView(v);
     }
 
     @Override
-    public final <T extends View> T inflateLayout(@LayoutRes int layoutResId) {
+    public <T extends View> T inflateLayout(@LayoutRes int layoutResId) {
         return LayoutInflater.inflate(getContext(), layoutResId);
     }
 
     @Override
-    public final <T extends View> T inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root) {
+    public <T extends View> T inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root) {
         return LayoutInflater.inflate(getContext(), layoutResId, root);
     }
 
     @Override
-    public final <T extends View> T inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root, boolean attachToRoot) {
+    public <T extends View> T inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root, boolean attachToRoot) {
         return LayoutInflater.inflate(getContext(), layoutResId, root, attachToRoot);
     }
 
-    public final int DP(float dp) {
+    public int DP(float dp) {
         return DensityUtil.dip2px(getActivity().getApplicationContext(), dp);
     }
 
-    public final int getDimensionPixelSize(@DimenRes int dimensId) {
+    public int getDimensionPixelSize(@DimenRes int dimensId) {
         return DensityUtil.getDimensionPixelSize(getActivity().getApplicationContext(), dimensId);
     }
 
-    public final int getColorInt(@ColorRes int colorResId) {
+    public int getColorInt(@ColorRes int colorResId) {
         return getResources().getColor(colorResId);
     }
 }

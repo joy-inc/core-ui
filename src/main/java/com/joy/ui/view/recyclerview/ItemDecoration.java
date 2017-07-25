@@ -431,4 +431,8 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
     public static Builder builder(Context context) {
         return new Builder(context);
     }
+
+    public Builder getBuilder() {
+        return builder;
+    }
 }

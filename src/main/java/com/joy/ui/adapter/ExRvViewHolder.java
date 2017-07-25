@@ -2,6 +2,8 @@ package com.joy.ui.adapter;
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ArrayRes;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
@@ -103,5 +105,10 @@ public abstract class ExRvViewHolder<T> extends RecyclerView.ViewHolder {
 
     protected final int DP(float dp) {
         return DensityUtil.dip2px(getItemView().getContext().getApplicationContext(), dp);
+    }
+
+    @ColorInt
+    protected final int getColor(@ColorRes int colorResId) {
+        return getItemView().getContext().getResources().getColor(colorResId);
     }
 }

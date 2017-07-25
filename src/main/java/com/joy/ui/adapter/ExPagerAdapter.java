@@ -2,7 +2,6 @@ package com.joy.ui.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
-import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,17 +14,14 @@ import java.util.List;
 public abstract class ExPagerAdapter<T> extends PagerAdapter {
 
     private List<T> mTs;
-    private SparseArray<View> mCacheViews;
     private OnItemClickListener<T> mOnItemClickListener;
 
     public ExPagerAdapter() {
         mTs = new ArrayList<>();
-        mCacheViews = new SparseArray<>();
     }
 
     public ExPagerAdapter(@NonNull List<T> ts) {
         mTs = ts;
-        mCacheViews = new SparseArray<>();
     }
 
     public boolean isEmpty() {
@@ -44,14 +40,6 @@ public abstract class ExPagerAdapter<T> extends PagerAdapter {
             e.printStackTrace();
             return null;
         }
-    }
-
-    public SparseArray<View> getCacheViews() {
-        return mCacheViews;
-    }
-
-    public View getCacheView(int position) {
-        return mCacheViews.get(position % 4);// ViewPager保留三张，另预留一张用于下一个item
     }
 
     public void setData(@NonNull List<T> ts) {
@@ -117,22 +105,12 @@ public abstract class ExPagerAdapter<T> extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View view = getCacheView(position);
-        if (view == null) {
-            view = getItemView(container, position);
-            mCacheViews.put(position, view);
-        }
-        if (view.getParent() != null) {
-            container.removeView(view);
-        }
+        View view = getItemView(container, position);
         container.addView(view);
-        invalidateItemView(position, getItem(position));
         return view;
     }
 
     protected abstract View getItemView(ViewGroup container, int position);
-
-    protected abstract void invalidateItemView(int position, T t);
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
@@ -149,8 +127,9 @@ public abstract class ExPagerAdapter<T> extends PagerAdapter {
     }
 
     public void callbackOnItemClickListener(int position, View view) {
-        if (mOnItemClickListener != null) {
-            mOnItemClickListener.onItemClick(position, view, getItem(position));
+        T t = getItem(position);
+        if (mOnItemClickListener != null && t != null) {
+            mOnItemClickListener.onItemClick(position, view, t);
         }
     }
 }

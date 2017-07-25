@@ -132,7 +132,7 @@ public class JToolbar extends Toolbar implements DimenCons {
 
     public TextView addTitleLeftTextView(CharSequence text, OnClickListener lisn) {
         TextView tv = initDefTextView(text);
-        tv.setPadding(0, 0, DP_1_PX * 10, 0);
+        tv.setPadding(0, 0, DP_1 * 10, 0);
         return (TextView) addTitleLeftView(tv, lisn);
     }
 

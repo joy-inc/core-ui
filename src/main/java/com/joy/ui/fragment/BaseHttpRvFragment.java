@@ -29,9 +29,9 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
  */
 public abstract class BaseHttpRvFragment extends BaseHttpUiFragment implements BaseViewNetRv {
 
-    private SwipeRefreshLayout mSwipeRl;
-    private RecyclerView mRecyclerView;
-    private RefreshMode mRefreshMode;
+    protected SwipeRefreshLayout mSwipeRl;
+    protected RecyclerView mRecyclerView;
+    protected RefreshMode mRefreshMode;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public abstract class BaseHttpRvFragment extends BaseHttpUiFragment implements B
         return jrv;
     }
 
-    protected View provideLoadMoreView() {
+    public View provideLoadMoreView() {
         return JLoadingView.getLoadMore(getActivity());
     }
 
@@ -79,32 +79,36 @@ public abstract class BaseHttpRvFragment extends BaseHttpUiFragment implements B
     }
 
     @Override
-    public final RecyclerView getRecyclerView() {
+    public RecyclerView getRecyclerView() {
         return mRecyclerView;
     }
 
     @Override
-    public final LayoutManager getLayoutManager() {
+    public LayoutManager getLayoutManager() {
         return mRecyclerView.getLayoutManager();
     }
 
     @Override
-    public final void setRefreshMode(RefreshMode mode) {
+    public void setRefreshMode(RefreshMode mode) {
         mRefreshMode = mode;
     }
 
+    public RefreshMode getRefreshMode() {
+        return mRefreshMode;
+    }
+
     @Override
-    public final int getHeaderViewsCount() {
+    public int getHeaderViewsCount() {
         return ((RecyclerAdapter) mRecyclerView.getAdapter()).getHeadersCount();
     }
 
     @Override
-    public final int getFooterViewsCount() {
+    public int getFooterViewsCount() {
         return ((RecyclerAdapter) mRecyclerView.getAdapter()).getFootersCount();
     }
 
     @Override
-    public final void addHeaderView(View v) {
+    public void addHeaderView(View v) {
         Adapter adapter = mRecyclerView.getAdapter();
         if (adapter == null)
             throw new IllegalStateException(
@@ -113,7 +117,7 @@ public abstract class BaseHttpRvFragment extends BaseHttpUiFragment implements B
     }
 
     @Override
-    public final void addFooterView(View v) {
+    public void addFooterView(View v) {
         Adapter adapter = mRecyclerView.getAdapter();
         if (adapter == null)
             throw new IllegalStateException(
@@ -122,22 +126,22 @@ public abstract class BaseHttpRvFragment extends BaseHttpUiFragment implements B
     }
 
     @Override
-    public final void removeHeaderView(View v) {
+    public void removeHeaderView(View v) {
         ((RecyclerAdapter) mRecyclerView.getAdapter()).removeHeader(v);
     }
 
     @Override
-    public final void removeFooterView(View v) {
+    public void removeFooterView(View v) {
         ((RecyclerAdapter) mRecyclerView.getAdapter()).removeFooter(v);
     }
 
     @Override
-    public final void setAdapter(ExRvAdapter adapter) {
+    public void setAdapter(ExRvAdapter adapter) {
         mRecyclerView.setAdapter(new RecyclerAdapter(adapter, getLayoutManager()));
     }
 
     @Override
-    public final ExRvAdapter getAdapter() {
+    public ExRvAdapter getAdapter() {
         Adapter adapter = mRecyclerView.getAdapter();
         if (adapter instanceof RecyclerAdapter) {
             return (ExRvAdapter) ((RecyclerAdapter) adapter).getWrappedAdapter();
@@ -147,7 +151,7 @@ public abstract class BaseHttpRvFragment extends BaseHttpUiFragment implements B
     }
 
     @Override
-    public final void showLoading() {
+    public void showLoading() {
         switch (mRefreshMode) {
             case SWIPE:
                 showSwipeRefresh();
@@ -168,7 +172,7 @@ public abstract class BaseHttpRvFragment extends BaseHttpUiFragment implements B
     }
 
     @Override
-    public final void hideLoading() {
+    public void hideLoading() {
         switch (mRefreshMode) {
             case SWIPE:
                 hideSwipeRefresh();
@@ -185,7 +189,7 @@ public abstract class BaseHttpRvFragment extends BaseHttpUiFragment implements B
     }
 
     @Override
-    public final void showErrorTip() {
+    public void showErrorTip() {
         switch (mRefreshMode) {
             case SWIPE:
                 showToast(R.string.toast_common_timeout);
@@ -204,14 +208,14 @@ public abstract class BaseHttpRvFragment extends BaseHttpUiFragment implements B
     }
 
     @Override
-    public final void showEmptyTip() {
+    public void showEmptyTip() {
         if ((mRefreshMode == RefreshMode.SWIPE || mRefreshMode == RefreshMode.FRAME) && getAdapter().getItemCount() == 0) {
             super.showEmptyTip();
         }
     }
 
     @Override
-    public final void hideContent() {
+    public void hideContent() {
         if ((mRefreshMode == RefreshMode.SWIPE || mRefreshMode == RefreshMode.FRAME) && getAdapter().getItemCount() == 0) {
             super.hideContent();
         }
@@ -221,41 +225,41 @@ public abstract class BaseHttpRvFragment extends BaseHttpUiFragment implements B
     // swipe refresh
     // =============================================================================================
     @Override
-    public final SwipeRefreshLayout getSwipeRefreshLayout() {
+    public SwipeRefreshLayout getSwipeRefreshLayout() {
         return mSwipeRl;
     }
 
     @Override
-    public final void setSwipeRefreshEnable(boolean enable) {
+    public void setSwipeRefreshEnable(boolean enable) {
         mSwipeRl.setEnabled(enable);
     }
 
     @Override
-    public final boolean isSwipeRefreshing() {
+    public boolean isSwipeRefreshing() {
         return mSwipeRl.isRefreshing();
     }
 
     @Override
-    public final void setOnRefreshListener(OnRefreshListener listener) {
+    public void setOnRefreshListener(OnRefreshListener listener) {
         mSwipeRl.setOnRefreshListener(listener);
     }
 
     @Override
-    public final void showSwipeRefresh() {
+    public void showSwipeRefresh() {
         if (!isSwipeRefreshing()) {
             mSwipeRl.setRefreshing(true);
         }
     }
 
     @Override
-    public final void hideSwipeRefresh() {
+    public void hideSwipeRefresh() {
         if (isSwipeRefreshing()) {
             mSwipeRl.setRefreshing(false);
         }
     }
 
     @Override
-    public final void setSwipeRefreshColors(@ColorRes int... resIds) {
+    public void setSwipeRefreshColors(@ColorRes int... resIds) {
         mSwipeRl.setColorSchemeResources(resIds);
     }
     // =============================================================================================
@@ -264,59 +268,59 @@ public abstract class BaseHttpRvFragment extends BaseHttpUiFragment implements B
     // load more
     // =============================================================================================
     @Override
-    public final void setLoadMoreEnable(boolean enable) {
+    public void setLoadMoreEnable(boolean enable) {
         if (mRecyclerView instanceof JRecyclerView) {
             ((JRecyclerView) mRecyclerView).setLoadMoreEnable(enable);
         }
     }
 
     @Override
-    public final boolean isLoadMoreEnable() {
+    public boolean isLoadMoreEnable() {
         return mRecyclerView instanceof JRecyclerView && ((JRecyclerView) mRecyclerView).isLoadMoreEnable();
     }
 
     @Override
-    public final void addLoadMoreIfNecessary() {
+    public void addLoadMoreIfNecessary() {
         if (isLoadMoreEnable()) {
             ((JRecyclerView) mRecyclerView).addLoadMoreIfNotExist();
         }
     }
 
     @Override
-    public final boolean isLoadingMore() {
+    public boolean isLoadingMore() {
         return isLoadMoreEnable() && ((JRecyclerView) mRecyclerView).isLoadingMore();
     }
 
     @Override
-    public final void setOnLoadMoreListener(LoadMore.OnLoadMoreListener listener) {
+    public void setOnLoadMoreListener(LoadMore.OnLoadMoreListener listener) {
         if (isLoadMoreEnable()) {
             ((JRecyclerView) mRecyclerView).setOnLoadMoreListener(listener);
         }
     }
 
     @Override
-    public final void stopLoadMore() {
+    public void stopLoadMore() {
         if (isLoadMoreEnable()) {
             ((JRecyclerView) mRecyclerView).stopLoadMore();
         }
     }
 
     @Override
-    public final void setLoadMoreFailed() {
+    public void setLoadMoreFailed() {
         if (isLoadMoreEnable()) {
             ((JRecyclerView) mRecyclerView).setLoadMoreFailed();
         }
     }
 
     @Override
-    public final void hideLoadMore() {
+    public void hideLoadMore() {
         if (isLoadMoreEnable()) {
             ((JRecyclerView) mRecyclerView).hideLoadMore();
         }
     }
 
     @Override
-    public final void setLoadMoreTheme(LoadMore.Theme theme) {
+    public void setLoadMoreTheme(LoadMore.Theme theme) {
         if (isLoadMoreEnable()) {
             switch (theme) {
                 case LIGHT:
@@ -332,7 +336,7 @@ public abstract class BaseHttpRvFragment extends BaseHttpUiFragment implements B
     }
 
     @Override
-    public final void setLoadMoreHintColor(@ColorRes int resId) {
+    public void setLoadMoreHintColor(@ColorRes int resId) {
         if (isLoadMoreEnable()) {
             ((JRecyclerView) mRecyclerView).setLoadMoreHintTextColor(resId);
         }

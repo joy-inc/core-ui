@@ -10,6 +10,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.animation.Interpolator;
 
+import com.joy.utils.LogMgr;
+
 import java.lang.reflect.Field;
 
 /**
@@ -181,6 +183,23 @@ public class BannerView extends ViewPager {
                 case SCROLL_WHAT:
                     scrollOnce();
                     sendScrollMessage(interval);
+
+
+                    int count = getChildCount();
+                    for (int i = 0; i < count; i++) {
+                        if (i == 0){
+                            int left = 1440*(getCurrentItem()-1);
+                            getChildAt(i).setLeft(left);
+                            getChildAt(i).setRight(left+1440);
+                            getChildAt(i).setBottom(460);
+                        }else if (i == 1){
+                            int left = 1440*getCurrentItem();
+                            getChildAt(i).setLeft(left);
+                            getChildAt(i).setRight(left+1440);
+                            getChildAt(i).setBottom(460);
+                        }
+                        LogMgr.i("daisw", "---====" + getChildAt(i) + "===" + i + "===" + getCurrentItem());
+                    }
                 default:
                     break;
             }
@@ -284,12 +303,14 @@ public class BannerView extends ViewPager {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        LogMgr.e("daisw", "onAttachedToWindow onAttachedToWindow onAttachedToWindow");
         startAutoScroll(0);
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        LogMgr.e("daisw", "onDetachedFromWindow onDetachedFromWindow onDetachedFromWindow");
         stopAutoScroll();
     }
 }

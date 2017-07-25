@@ -3,6 +3,7 @@ package com.joy.ui.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -84,6 +85,18 @@ public class ExFragmentPagerAdapter<T extends BaseUiFragment> extends FragmentPa
 
     public void setFragmentItemDestoryEnable(boolean enable) {
         mFragmentItemDestoryEnable = enable;
+    }
+
+    public void clear(ViewPager container) {
+        if (mFragments != null) {
+            int size = mFragments.size();
+            int containerChildCount = container.getChildCount();
+            for (int i = 0; i < size && i < containerChildCount; i++) {
+                destroyItem(container, i, mFragments.get(i));
+            }
+            mFragments.clear();
+            mFragments = null;
+        }
     }
 
     @Override

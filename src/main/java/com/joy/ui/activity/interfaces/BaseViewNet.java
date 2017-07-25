@@ -1,14 +1,14 @@
 package com.joy.ui.activity.interfaces;
 
 import android.support.annotation.NonNull;
-import android.widget.ImageView;
+import android.view.View;
+
+import com.joy.ui.TipType;
 
 /**
  * Created by KEVIN.DAI on 16/1/18.
  */
 public interface BaseViewNet extends BaseView {
-
-    enum TipType {NULL, EMPTY, ERROR}
 
     void showLoading();
     void hideLoading();
@@ -19,8 +19,10 @@ public interface BaseViewNet extends BaseView {
     void hideTipView();
 
     @NonNull
-    ImageView getTipView();
-    TipType getTipType();
+    View getTipView();
+    void setTipType(@TipType int tipType);
+    @TipType
+    int getTipType();
 
     boolean isNetworkEnable();
 }

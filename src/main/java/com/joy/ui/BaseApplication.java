@@ -64,6 +64,18 @@ public class BaseApplication extends Application {
         return getAppResources().getStringArray(resId);
     }
 
+    public static void showToast(@StringRes int stringResId, Object... formatArgs) {
+        showToast(getAppString(stringResId, formatArgs));
+    }
+
+    public static void showToast(@StringRes int stringResId) {
+        showToast(getAppString(stringResId));
+    }
+
+    public static void showToast(String text) {
+        ToastUtil.showToast(getContext(), text);
+    }
+
     protected static void release() {
         ToastUtil.release();
     }

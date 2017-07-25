@@ -66,7 +66,10 @@ public abstract class ExLvAdapter<VH extends ExLvViewHolder<T>, T> extends BaseA
             vh = (VH) convertView.getTag();
         }
         vh.mPosition = position;
-        vh.invalidateItemView(position, getItem(position));
+        T t = getItem(position);
+        if (t != null) {
+            vh.invalidateItemView(position, getItem(position));
+        }
         return convertView;
     }
 
@@ -155,14 +158,16 @@ public abstract class ExLvAdapter<VH extends ExLvViewHolder<T>, T> extends BaseA
     }
 
     protected void callbackOnItemClickListener(int position, View view) {
-        if (mOnItemClickListener != null) {
-            mOnItemClickListener.onItemClick(position, view, getItem(position));
+        T t = getItem(position);
+        if (mOnItemClickListener != null && t != null) {
+            mOnItemClickListener.onItemClick(position, view, t);
         }
     }
 
     protected void callbackOnItemLongClickListener(int position, View view) {
-        if (mOnItemLongClickListener != null) {
-            mOnItemLongClickListener.onItemLongClick(position, view, getItem(position));
+        T t = getItem(position);
+        if (mOnItemLongClickListener != null && t != null) {
+            mOnItemLongClickListener.onItemLongClick(position, view, t);
         }
     }
 

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
 import com.joy.ui.R;
+import com.joy.ui.TipType;
 import com.joy.ui.fragment.interfaces.BaseViewNet;
 import com.joy.ui.view.JLoadingView;
 import com.joy.utils.DeviceUtil;
@@ -24,12 +25,14 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  */
 public abstract class BaseHttpUiFragment extends BaseUiFragment implements BaseViewNet {
 
-    private ImageView mIvTip;
-    private View mLoadingView;
-    private int mTipResId;
-    private int LOADING_RES_ID = View.NO_ID;
-    private int ERROR_RES_ID = R.drawable.ic_tip_error;
-    private int EMPTY_RES_ID = R.drawable.ic_tip_empty;
+    protected View mTipView;
+    protected
+    @TipType
+    int mTipType;
+    protected View mLoadingView;
+    protected int LOADING_RES_ID = View.NO_ID;
+    protected int ERROR_RES_ID = R.drawable.ic_tip_error;
+    protected int EMPTY_RES_ID = R.drawable.ic_tip_empty;
 
     @Override
     public void resolveThemeAttribute() {
@@ -48,17 +51,36 @@ public abstract class BaseHttpUiFragment extends BaseUiFragment implements BaseV
         addLoadingView(contentParent);
     }
 
-    private void addTipView(FrameLayout contentParent) {
-        mIvTip = new ImageView(getContext());
-        mIvTip.setScaleType(ScaleType.CENTER_INSIDE);
-        mIvTip.setOnClickListener(v -> onTipViewClick());
-        mIvTip.setLayoutParams(new LayoutParams(MATCH_PARENT, MATCH_PARENT));
-        hideImageView(mIvTip);
-        contentParent.addView(mIvTip);
-        makeCenterIfNecessary(mIvTip);
+    public void addTipView(FrameLayout contentParent) {
+        mTipView = getTipView();
+        setTipType(TipType.NULL);
+        mTipView.setOnClickListener(v -> onTipViewClick());
+        hideView(mTipView);
+        contentParent.addView(mTipView);
+        makeCenterIfNecessary(mTipView);
     }
 
-    private void addLoadingView(FrameLayout contentParent) {
+    @NonNull
+    @Override
+    public View getTipView() {
+        ImageView ivTip = new ImageView(getContext());
+        ivTip.setScaleType(ScaleType.CENTER_INSIDE);
+        ivTip.setLayoutParams(new LayoutParams(MATCH_PARENT, MATCH_PARENT));
+        return ivTip;
+    }
+
+    @Override
+    @TipType
+    public int getTipType() {
+        return mTipType;
+    }
+
+    @Override
+    public void setTipType(int tipType) {
+        this.mTipType = tipType;
+    }
+
+    protected void addLoadingView(FrameLayout contentParent) {
         mLoadingView = getLoadingView();
         hideView(mLoadingView);
         contentParent.addView(mLoadingView);
@@ -76,7 +98,7 @@ public abstract class BaseHttpUiFragment extends BaseUiFragment implements BaseV
         }
     }
 
-    private void makeCenterIfNecessary(View v) {
+    public void makeCenterIfNecessary(View v) {
 //        Activity act = getActivity();
 //        if (act instanceof BaseTabActivity) {
 //            v.setTranslationY(-((BaseTabActivity) act).getToolbarLp().height / 2);
@@ -85,11 +107,11 @@ public abstract class BaseHttpUiFragment extends BaseUiFragment implements BaseV
 
     public void onTipViewClick() {
         if (getTipType() == TipType.ERROR) {
-            if (isNetworkEnable()) {
-                doOnRetry();
-            } else {
-                showToast(R.string.toast_common_no_network);
-            }
+//            if (isNetworkEnable()) {
+            doOnRetry();
+//            } else {
+//                showToast(R.string.toast_common_no_network);
+//            }
         }
     }
 
@@ -133,37 +155,27 @@ public abstract class BaseHttpUiFragment extends BaseUiFragment implements BaseV
 
     @Override
     public void showErrorTip() {
-        mTipResId = ERROR_RES_ID;
-        showImageView(mIvTip, mTipResId);
+        setTipType(TipType.ERROR);
+        if (mTipView instanceof ImageView) {
+            showImageView((ImageView) mTipView, ERROR_RES_ID);
+        } else {
+            showView(mTipView);
+        }
     }
 
     @Override
     public void showEmptyTip() {
-        mTipResId = EMPTY_RES_ID;
-        showImageView(mIvTip, mTipResId);
+        setTipType(TipType.EMPTY);
+        if (mTipView instanceof ImageView) {
+            showImageView((ImageView) mTipView, EMPTY_RES_ID);
+        } else {
+            showView(mTipView);
+        }
     }
 
     @Override
     public void hideTipView() {
-        hideImageView(mIvTip);
-    }
-
-    @NonNull
-    @Override
-    public ImageView getTipView() {
-        return mIvTip;
-    }
-
-    @Override
-    public TipType getTipType() {
-        if (mIvTip.getDrawable() != null) {
-            if (mTipResId == EMPTY_RES_ID) {
-                return TipType.EMPTY;
-            } else if (mTipResId == ERROR_RES_ID) {
-                return TipType.ERROR;
-            }
-        }
-        return TipType.NULL;
+        hideView(mTipView);
     }
 
     @Override

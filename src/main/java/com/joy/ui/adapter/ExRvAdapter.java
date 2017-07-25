@@ -38,7 +38,10 @@ public abstract class ExRvAdapter<VH extends ExRvViewHolder<T>, T> extends Recyc
 
     @Override
     public void onBindViewHolder(VH vh, int position) {
-        vh.invalidateItemView(position, getItem(position));
+        T t = getItem(position);
+        if (t != null) {
+            vh.invalidateItemView(position, t);
+        }
     }
 
     public T getItem(int position) {
@@ -141,15 +144,17 @@ public abstract class ExRvAdapter<VH extends ExRvViewHolder<T>, T> extends Recyc
 
     protected void callbackOnItemClickListener(int position, View view) {
         position -= mHeadersCount;
-        if (mOnItemClickListener != null) {
-            mOnItemClickListener.onItemClick(position, view, getItem(position));
+        T t = getItem(position);
+        if (mOnItemClickListener != null && t != null) {
+            mOnItemClickListener.onItemClick(position, view, t);
         }
     }
 
     protected void callbackOnItemLongClickListener(int position, View view) {
         position -= mHeadersCount;
-        if (mOnItemLongClickListener != null) {
-            mOnItemLongClickListener.onItemLongClick(position, view, getItem(position));
+        T t = getItem(position);
+        if (mOnItemLongClickListener != null && t != null) {
+            mOnItemLongClickListener.onItemLongClick(position, view, t);
         }
     }
 

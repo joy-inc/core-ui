@@ -45,8 +45,8 @@ public class BannerWidget extends ExBaseWidget implements DimenCons {
         mBannerView.stopAutoScroll();
     }
 
-    public void setHeight(int dp) {
-        mBannerView.setLayoutParams(new LayoutParams(MATCH_PARENT, DP_1_PX * dp));
+    public void setHeight(int px) {
+        mBannerView.setLayoutParams(new LayoutParams(MATCH_PARENT, px));
     }
 
 //    public void setPageTransformer(ABaseTransformer transformer) {

@@ -26,10 +26,10 @@ import java.util.List;
  */
 public abstract class BaseTabActivity extends BaseUiActivity {
 
-    private TabLayout mTabLayout;
-    private FloatingActionButton mFloatActionBtn;
-    private List<? extends BaseUiFragment> mFragments;
-    private int mCurrentPosition;
+    protected TabLayout mTabLayout;
+    protected FloatingActionButton mFloatActionBtn;
+    protected List<? extends BaseUiFragment> mFragments;
+    protected int mCurrentPosition;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,14 +83,14 @@ public abstract class BaseTabActivity extends BaseUiActivity {
         viewPager.setAdapter(pagerAdapter);
         // tab layout
         mTabLayout = (TabLayout) findViewById(R.id.tab);
-        mTabLayout.setSelectedTabIndicatorHeight(DP_1_PX * 3);
+        mTabLayout.setSelectedTabIndicatorHeight(DP_1 * 3);
         mTabLayout.setupWithViewPager(viewPager);
         // float action bar
         mFloatActionBtn = (FloatingActionButton) findViewById(R.id.fab);
         setFloatActionBtnDisable();
     }
 
-    protected final BaseUiFragment getFragment(int location) {
+    public BaseUiFragment getFragment(int location) {
         return CollectionUtil.isEmpty(mFragments) ? null : mFragments.get(location);
     }
 
@@ -112,13 +112,13 @@ public abstract class BaseTabActivity extends BaseUiActivity {
         };
     }
 
-    protected boolean isPagerItemDestoryEnable() {
+    public boolean isPagerItemDestoryEnable() {
         return false;
     }
 
-    protected abstract List<? extends BaseUiFragment> getFragments();
+    public abstract List<? extends BaseUiFragment> getFragments();
 
-    protected final TabLayout getTabLayout() {
+    public TabLayout getTabLayout() {
         return mTabLayout;
     }
 
@@ -127,7 +127,7 @@ public abstract class BaseTabActivity extends BaseUiActivity {
      *
      * @param color color to use for the indicator
      */
-    protected final void setTabIndicatorColor(@ColorInt int color) {
+    public void setTabIndicatorColor(@ColorInt int color) {
         mTabLayout.setSelectedTabIndicatorColor(color);
     }
 
@@ -136,32 +136,32 @@ public abstract class BaseTabActivity extends BaseUiActivity {
      *
      * @param height height to use for the indicator in pixels
      */
-    protected final void setTabIndicatorHeight(int height) {
+    public void setTabIndicatorHeight(int height) {
         mTabLayout.setSelectedTabIndicatorHeight(height);
     }
 
     /**
      * Sets the text colors for the different states (normal, selected) used for the tabs.
      */
-    protected final void setTabTextColors(@ColorInt int normalColor, @ColorInt int selectedColor) {
+    public void setTabTextColors(@ColorInt int normalColor, @ColorInt int selectedColor) {
         mTabLayout.setTabTextColors(normalColor, selectedColor);
     }
 
-    protected final FloatingActionButton getFloatActionBtn() {
+    public FloatingActionButton getFloatActionBtn() {
         return mFloatActionBtn;
     }
 
-    protected final void setFloatActionBtnEnable(@DrawableRes int resId, View.OnClickListener lisn) {
+    public void setFloatActionBtnEnable(@DrawableRes int resId, View.OnClickListener lisn) {
         setFloatActionBtnEnable(getResources().getDrawable(resId), lisn);
     }
 
-    protected final void setFloatActionBtnEnable(Drawable drawable, View.OnClickListener lisn) {
+    public void setFloatActionBtnEnable(Drawable drawable, View.OnClickListener lisn) {
         mFloatActionBtn.setEnabled(true);
         showImageView(mFloatActionBtn, drawable);
         mFloatActionBtn.setOnClickListener(lisn);
     }
 
-    protected final void setFloatActionBtnDisable() {
+    public void setFloatActionBtnDisable() {
         mFloatActionBtn.setEnabled(false);
         hideImageView(mFloatActionBtn);
     }

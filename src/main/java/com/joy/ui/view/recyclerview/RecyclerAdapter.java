@@ -20,7 +20,7 @@ import com.joy.ui.adapter.ExRvAdapter;
 public class RecyclerAdapter extends Adapter<ViewHolder> {
 
     // the real adapter for RecyclerView
-    private Adapter<ViewHolder> mAdapter;
+    private Adapter<ViewHolder> mRealAdapter;
     private LayoutManager mLayoutManager;
     private SparseArray<View> mHeaderArrays, mFooterArrays;
 
@@ -41,21 +41,21 @@ public class RecyclerAdapter extends Adapter<ViewHolder> {
         if (adapter == null) {
             return;
         }
-        if (mAdapter != null) {
+        if (mRealAdapter != null) {
             notifyItemRangeRemoved(getHeadersCount(), getWrappedItemCount());
-            mAdapter.unregisterAdapterDataObserver(mDataObserver);
+            mRealAdapter.unregisterAdapterDataObserver(mDataObserver);
         }
-        mAdapter = adapter;
-        mAdapter.registerAdapterDataObserver(mDataObserver);
+        mRealAdapter = adapter;
+        mRealAdapter.registerAdapterDataObserver(mDataObserver);
         notifyItemRangeInserted(getHeadersCount(), getWrappedItemCount());
     }
 
     public Adapter<ViewHolder> getWrappedAdapter() {
-        return mAdapter;
+        return mRealAdapter;
     }
 
     private int getWrappedItemCount() {
-        return mAdapter.getItemCount();
+        return mRealAdapter.getItemCount();
     }
 
     @Override
@@ -66,7 +66,7 @@ public class RecyclerAdapter extends Adapter<ViewHolder> {
     @Override
     public long getItemId(int position) {
         if (isItem(position)) {
-            return mAdapter.getItemId(position - getHeadersCount());
+            return mRealAdapter.getItemId(position - getHeadersCount());
         }
         return RecyclerView.NO_ID;
     }
@@ -78,7 +78,7 @@ public class RecyclerAdapter extends Adapter<ViewHolder> {
         } else if (isFooter(position)) {
             return mFooterArrays.keyAt(position - getHeadersCount() - getWrappedItemCount());
         } else {
-            return mAdapter.getItemViewType(position - getHeadersCount());
+            return mRealAdapter.getItemViewType(position - getHeadersCount());
         }
     }
 
@@ -89,14 +89,14 @@ public class RecyclerAdapter extends Adapter<ViewHolder> {
         } else if (mFooterArrays.indexOfKey(viewType) >= 0) {
             return new RvViewHolder(mFooterArrays.get(viewType));
         } else {
-            return mAdapter.onCreateViewHolder(parent, viewType);
+            return mRealAdapter.onCreateViewHolder(parent, viewType);
         }
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         if (isItem(position)) {
-            mAdapter.onBindViewHolder(holder, position - getHeadersCount());
+            mRealAdapter.onBindViewHolder(holder, position - getHeadersCount());
         } else {
             if (mLayoutManager != null && mLayoutManager instanceof StaggeredGridLayoutManager) {
                 LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
@@ -139,8 +139,8 @@ public class RecyclerAdapter extends Adapter<ViewHolder> {
             mHeaderArrays.put(mHeaderArrays.keyAt(mHeaderArrays.size() - 1) + 1, v);
             notifyItemInserted(getHeadersCount() - 1);
         }
-        if (mAdapter instanceof ExRvAdapter) {
-            ((ExRvAdapter) mAdapter).setHeadersCount(getHeadersCount());
+        if (mRealAdapter instanceof ExRvAdapter) {
+            ((ExRvAdapter) mRealAdapter).setHeadersCount(getHeadersCount());
         }
     }
 
@@ -167,6 +167,16 @@ public class RecyclerAdapter extends Adapter<ViewHolder> {
         return false;
     }
 
+    public void removeAllHeaders() {
+        int size;
+        if (mHeaderArrays != null && (size = mHeaderArrays.size()) > 0) {
+            for (int i = 0; i < size; i++) {
+                mHeaderArrays.removeAt(i);
+            }
+            notifyItemRangeRemoved(0, size);
+        }
+    }
+
     public boolean removeFooter(View v) {
         int index = mFooterArrays.indexOfValue(v);
         if (index >= 0) {
@@ -175,6 +185,17 @@ public class RecyclerAdapter extends Adapter<ViewHolder> {
             return true;
         }
         return false;
+    }
+
+    public void removeAllFooters() {
+        int size;
+        if (mFooterArrays != null && (size = mFooterArrays.size()) > 0) {
+            for (int i = 0; i < size; i++) {
+                mFooterArrays.removeAt(i);
+            }
+            int startIndex = getHeadersCount() + getWrappedItemCount();
+            notifyItemRangeRemoved(startIndex, startIndex + size);
+        }
     }
 
     boolean isHeader(int position) {
@@ -204,6 +225,11 @@ public class RecyclerAdapter extends Adapter<ViewHolder> {
         @Override
         public void onItemRangeRemoved(int positionStart, int itemCount) {
             notifyItemRangeRemoved(positionStart + getHeadersCount(), itemCount);
+        }
+
+        @Override
+        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+            super.onItemRangeMoved(fromPosition + getHeadersCount(), toPosition + getHeadersCount(), itemCount);
         }
     };
 }
