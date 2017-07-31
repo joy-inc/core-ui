@@ -11,7 +11,7 @@ ext {
     libraryName = "core-ui"// 发布到JCenter上的项目名字
 }
 
-version = "0.2.4"// This is the library version used when deploying the artifact
+version = "0.2.5"// This is the library version used when deploying the artifact
 group = "com.joy.support"// Maven Group ID for the artifact，一般填你唯一的包名
 
 android {
@@ -21,7 +21,7 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode 24
+        versionCode 25
         versionName version
     }
     buildTypes {
@@ -47,6 +47,7 @@ dependencies {
 
     // joy support library
     compile rootProject.ext.dependencies.joy_core_inject
+//    compile project(':core-inject')
     compile rootProject.ext.dependencies.joy_core_utils
 //    compile project(':core-utils')
 }
