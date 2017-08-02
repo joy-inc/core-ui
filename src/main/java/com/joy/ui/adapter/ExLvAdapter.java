@@ -66,10 +66,7 @@ public abstract class ExLvAdapter<VH extends ExLvViewHolder<T>, T> extends BaseA
             vh = (VH) convertView.getTag();
         }
         vh.mPosition = position;
-        T t = getItem(position);
-        if (t != null) {
-            vh.invalidateItemView(position, getItem(position));
-        }
+        vh.invalidateItemView(position, getItem(position));
         return convertView;
     }
 

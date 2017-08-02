@@ -38,10 +38,7 @@ public abstract class ExRvAdapter<VH extends ExRvViewHolder<T>, T> extends Recyc
 
     @Override
     public void onBindViewHolder(VH vh, int position) {
-        T t = getItem(position);
-        if (t != null) {
-            vh.invalidateItemView(position, t);
-        }
+        vh.invalidateItemView(position, getItem(position));
     }
 
     public T getItem(int position) {
