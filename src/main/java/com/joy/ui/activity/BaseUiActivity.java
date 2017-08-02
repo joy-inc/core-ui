@@ -293,12 +293,6 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         } else {
             mToolbar.setBackgroundDrawable(drawable);
         }
-        if (!isNoTitle && !isOverlay && isSystemBarTrans) {
-            LayoutParams lp = getToolbarLp();
-            lp.height = lp.height + STATUS_BAR_HEIGHT;
-            lp.topMargin = 0;
-            mToolbar.setPadding(0, STATUS_BAR_HEIGHT, 0, 0);
-        }
     }
 
     public void setTitleBgResource(@DrawableRes int drawableResId) {
