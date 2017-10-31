@@ -128,6 +128,12 @@ public class RecyclerAdapter extends Adapter<ViewHolder> {
         return mFooterArrays.valueAt(index);
     }
 
+    private void syncRealAdapterHeadersCount() {
+        if (mRealAdapter instanceof ExRvAdapter) {
+            ((ExRvAdapter) mRealAdapter).setHeadersCount(getHeadersCount());
+        }
+    }
+
     public void addHeaderView(View v) {
         if (v == null) {
             return;
@@ -139,9 +145,7 @@ public class RecyclerAdapter extends Adapter<ViewHolder> {
             mHeaderArrays.put(mHeaderArrays.keyAt(mHeaderArrays.size() - 1) + 1, v);
             notifyItemInserted(getHeadersCount() - 1);
         }
-        if (mRealAdapter instanceof ExRvAdapter) {
-            ((ExRvAdapter) mRealAdapter).setHeadersCount(getHeadersCount());
-        }
+        syncRealAdapterHeadersCount();
     }
 
     public void addFooterView(View v) {
@@ -162,6 +166,7 @@ public class RecyclerAdapter extends Adapter<ViewHolder> {
         if (index >= 0) {
             mHeaderArrays.removeAt(index);
             notifyItemRemoved(index);
+            syncRealAdapterHeadersCount();
             return true;
         }
         return false;
@@ -174,6 +179,7 @@ public class RecyclerAdapter extends Adapter<ViewHolder> {
                 mHeaderArrays.removeAt(i);
             }
             notifyItemRangeRemoved(0, size);
+            syncRealAdapterHeadersCount();
         }
     }
 

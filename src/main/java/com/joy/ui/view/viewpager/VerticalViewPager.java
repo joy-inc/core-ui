@@ -245,7 +245,7 @@ public class VerticalViewPager extends ViewGroup {
          * @param newAdapter the newly set adapter
          */
         void onAdapterChanged(@NonNull VerticalViewPager viewPager,
-                @Nullable PagerAdapter oldAdapter, @Nullable PagerAdapter newAdapter);
+                              @Nullable PagerAdapter oldAdapter, @Nullable PagerAdapter newAdapter);
     }
 
     /**
@@ -415,10 +415,13 @@ public class VerticalViewPager extends ViewGroup {
      *
      * @param item Item index to select
      */
-    public void setCurrentItem(int item) {
+    private void setCurrentItem(int item) {
         mPopulatePending = false;
         setCurrentItemInternal(item, !mFirstLayout, false);
     }
+
+    boolean quickSkip = false;
+    int quickSkipPosition;
 
     /**
      * Set the currently selected page.
@@ -427,6 +430,12 @@ public class VerticalViewPager extends ViewGroup {
      * @param smoothScroll True to smoothly scroll to the new item, false to transition immediately
      */
     public void setCurrentItem(int item, boolean smoothScroll) {
+        if (!quickSkip) {
+            quickSkip = Math.abs(item - mCurItem) > 1;
+        }
+        if (quickSkip && quickSkipPosition == 0) {
+            quickSkipPosition = item;
+        }
         mPopulatePending = false;
         setCurrentItemInternal(item, smoothScroll, false);
     }
@@ -435,11 +444,11 @@ public class VerticalViewPager extends ViewGroup {
         return mCurItem;
     }
 
-    void setCurrentItemInternal(int item, boolean smoothScroll, boolean always) {
+    private void setCurrentItemInternal(int item, boolean smoothScroll, boolean always) {
         setCurrentItemInternal(item, smoothScroll, always, 0);
     }
 
-    void setCurrentItemInternal(int item, boolean smoothScroll, boolean always, int velocity) {
+    private void setCurrentItemInternal(int item, boolean smoothScroll, boolean always, int velocity) {
         if (mAdapter == null || mAdapter.getCount() <= 0) {
             setScrollingCacheEnabled(false);
             return;
@@ -491,7 +500,15 @@ public class VerticalViewPager extends ViewGroup {
             destY = (int) (height * Math.max(mFirstOffset,
                     Math.min(curInfo.offset, mLastOffset)));
         }
-        destY += mPreviewHeight * (item + 1);
+        if (quickSkip) {
+            if (destY >= 0) {
+                destY += mPreviewHeight * (Math.abs(quickSkipPosition - item) + 1);
+            } else {
+                destY -= mPreviewHeight * (Math.abs(quickSkipPosition - item) - 1);
+            }
+        } else {
+            destY += mPreviewHeight * (item + 1);
+        }
         if (smoothScroll) {
             smoothScrollTo(0, destY, velocity);
             if (dispatchSelected && mOnPageChangeListener != null) {
@@ -1869,7 +1886,7 @@ public class VerticalViewPager extends ViewGroup {
                 if (mIsBeingDragged) {
                     final VelocityTracker velocityTracker = mVelocityTracker;
                     velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
-                    int initialVelocity = (int) VelocityTrackerCompat.getYVelocity(
+                    final int initialVelocity = (int) VelocityTrackerCompat.getYVelocity(
                             velocityTracker, mActivePointerId);
                     mPopulatePending = true;
 
@@ -1896,7 +1913,13 @@ public class VerticalViewPager extends ViewGroup {
                             isPageTurning = true;
                             smoothScrollTo(0, mScrolledY - mPreviewHeight);
                         }
-                        postDelayed(() -> setCurrentItemInternal(nextPage, true, true, initialVelocity), mPreviewDuration);
+                        final int finalNextPage = nextPage;
+                        postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                setCurrentItemInternal(finalNextPage, true, true, initialVelocity);
+                            }
+                        }, mPreviewDuration);
                     } else {
                         int nextPage = curItem;
                         setCurrentItemInternal(nextPage, true, true, initialVelocity);
@@ -1936,7 +1959,7 @@ public class VerticalViewPager extends ViewGroup {
     private DecelerateInterpolator interpolator = new DecelerateInterpolator();
     private int mScrolledY;
     private int mPreviewHeight;// px
-    private long mPreviewDuration = 400;// ms
+    private long mPreviewDuration = 300;// ms
     private boolean isPageTurning;
 
     private boolean canScrollUp() {
@@ -2488,7 +2511,7 @@ public class VerticalViewPager extends ViewGroup {
         } else if (currentFocused != null) {
             boolean isChild = false;
             for (ViewParent parent = currentFocused.getParent(); parent instanceof ViewGroup;
-                    parent = parent.getParent()) {
+                 parent = parent.getParent()) {
                 if (parent == this) {
                     isChild = true;
                     break;
@@ -2499,7 +2522,7 @@ public class VerticalViewPager extends ViewGroup {
                 final StringBuilder sb = new StringBuilder();
                 sb.append(currentFocused.getClass().getSimpleName());
                 for (ViewParent parent = currentFocused.getParent(); parent instanceof ViewGroup;
-                        parent = parent.getParent()) {
+                     parent = parent.getParent()) {
                     sb.append(" => ").append(parent.getClass().getSimpleName());
                 }
                 Log.e(TAG, "arrowScroll tried to find focus based on non-child "
@@ -2573,7 +2596,7 @@ public class VerticalViewPager extends ViewGroup {
         return outRect;
     }
 
-    boolean pageUp() {
+    public boolean pageUp() {
         if (mCurItem > 0) {
             setCurrentItem(mCurItem - 1, true);
             return true;
@@ -2581,7 +2604,7 @@ public class VerticalViewPager extends ViewGroup {
         return false;
     }
 
-    boolean pageDown() {
+    public boolean pageDown() {
         if (mAdapter != null && mCurItem < (mAdapter.getCount() - 1)) {
             setCurrentItem(mCurItem + 1, true);
             return true;

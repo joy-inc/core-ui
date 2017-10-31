@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'me.tatarka.retrolambda'
 apply plugin: "com.github.dcendents.android-maven"
 apply plugin: 'com.jfrog.bintray'
 
@@ -11,7 +10,7 @@ ext {
     libraryName = "core-ui"// 发布到JCenter上的项目名字
 }
 
-version = "0.2.8"// This is the library version used when deploying the artifact
+version = "0.2.9"// This is the library version used when deploying the artifact
 group = "com.joy.support"// Maven Group ID for the artifact，一般填你唯一的包名
 
 android {
@@ -21,7 +20,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode 28
+        versionCode 29
         versionName version
     }
     buildTypes {

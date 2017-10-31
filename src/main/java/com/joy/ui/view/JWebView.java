@@ -26,7 +26,7 @@ public class JWebView extends WebView implements VerticalViewPager.Scrollable {
 
     @Override
     public boolean canScrollUp() {
-        return getScrollY() < getContentHeight() * getScale() - getMeasuredHeight();
+        return getScrollY() < getContentHeight() * getScale() - getMeasuredHeight();// TODO: 2017/10/30 getScale()不为整数时(运行在模拟器)，结果有误差。
     }
 
     @Override
