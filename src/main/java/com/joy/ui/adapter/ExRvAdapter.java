@@ -139,38 +139,46 @@ public abstract class ExRvAdapter<VH extends ExRvViewHolder<T>, T> extends Recyc
         mOnItemLongClickListener = lisn;
     }
 
-    protected void callbackOnItemClickListener(int position, View view) {
-        position -= mHeadersCount;
+    /**
+     * @hide Use {@link #bindOnClickListener(ExRvViewHolder, View...)} instead.
+     * @param position
+     * @param view
+     */
+    void callbackOnItemClickListener(int position, View view) {
         T t = getItem(position);
         if (mOnItemClickListener != null && t != null) {
             mOnItemClickListener.onItemClick(position, view, t);
         }
     }
 
-    protected void callbackOnItemLongClickListener(int position, View view) {
-        position -= mHeadersCount;
+    /**
+     * @hind Use {@link #bindOnLongClickListener(ExRvViewHolder, View...)} instead.
+     * @param position
+     * @param view
+     */
+    void callbackOnItemLongClickListener(int position, View view) {
         T t = getItem(position);
         if (mOnItemLongClickListener != null && t != null) {
             mOnItemLongClickListener.onItemLongClick(position, view, t);
         }
     }
 
-    protected void callbackOnItemClickListener(VH vh, View... targetViews) {
+    protected void bindOnClickListener(VH vh, View... targetViews) {
         if (CollectionUtil.isEmpty(targetViews)) {
             targetViews = new View[]{vh.getItemView()};
         }
         for (View targetView : targetViews) {
-            targetView.setOnClickListener((v) -> callbackOnItemClickListener(vh.getAdapterPosition(), v));
+            targetView.setOnClickListener((v) -> callbackOnItemClickListener(vh.getAdapterPosition() - mHeadersCount, v));
         }
     }
 
-    protected void callbackOnItemLongClickListener(VH vh, View... targetViews) {
+    protected void bindOnLongClickListener(VH vh, View... targetViews) {
         if (CollectionUtil.isEmpty(targetViews)) {
             targetViews = new View[]{vh.getItemView()};
         }
         for (View targetView : targetViews) {
             targetView.setOnLongClickListener(v -> {
-                callbackOnItemLongClickListener(vh.getAdapterPosition(), v);
+                callbackOnItemLongClickListener(vh.getAdapterPosition() - mHeadersCount, v);
                 return true;
             });
         }

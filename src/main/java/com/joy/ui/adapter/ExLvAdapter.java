@@ -154,21 +154,31 @@ public abstract class ExLvAdapter<VH extends ExLvViewHolder<T>, T> extends BaseA
         mOnItemLongClickListener = lisn;
     }
 
-    protected void callbackOnItemClickListener(int position, View view) {
+    /**
+     * @hide Use {@link #bindOnClickListener(ExLvViewHolder, View...)} instead.
+     * @param position
+     * @param view
+     */
+    void callbackOnItemClickListener(int position, View view) {
         T t = getItem(position);
         if (mOnItemClickListener != null && t != null) {
             mOnItemClickListener.onItemClick(position, view, t);
         }
     }
 
-    protected void callbackOnItemLongClickListener(int position, View view) {
+    /**
+     * @hide Use {@link #bindOnLongClickListener(ExLvViewHolder, View...)} instead.
+     * @param position
+     * @param view
+     */
+    void callbackOnItemLongClickListener(int position, View view) {
         T t = getItem(position);
         if (mOnItemLongClickListener != null && t != null) {
             mOnItemLongClickListener.onItemLongClick(position, view, t);
         }
     }
 
-    protected void callbackOnItemClickListener(VH vh, View... targetViews) {
+    protected void bindOnClickListener(VH vh, View... targetViews) {
         if (CollectionUtil.isEmpty(targetViews)) {
             targetViews = new View[]{vh.getItemView()};
         }
@@ -177,7 +187,7 @@ public abstract class ExLvAdapter<VH extends ExLvViewHolder<T>, T> extends BaseA
         }
     }
 
-    protected void callbackOnItemLongClickListener(VH vh, View... targetViews) {
+    protected void bindOnLongClickListener(VH vh, View... targetViews) {
         if (CollectionUtil.isEmpty(targetViews)) {
             targetViews = new View[]{vh.getItemView()};
         }
