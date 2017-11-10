@@ -7,16 +7,13 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.joy.ui.view.recyclerview.JRecyclerView;
 import com.joy.utils.DensityUtil;
-import com.joy.utils.LayoutInflater;
 import com.joy.utils.ToastUtil;
 import com.joy.utils.ViewUtil;
 
@@ -32,10 +29,6 @@ public abstract class ExLvViewHolder<T> {
 
     public final View itemView;
     int mPosition = NO_POSITION;
-
-    public ExLvViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId) {
-        this(LayoutInflater.inflate(parent.getContext(), layoutResId, parent, false));
-    }
 
     public ExLvViewHolder(View itemView) {
         if (itemView == null) {

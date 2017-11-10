@@ -65,13 +65,16 @@ public abstract class BaseTabActivity extends BaseUiActivity {
         contentLp.topMargin = isSystemBarTrans() ? -STATUS_BAR_HEIGHT : 0;
     }
 
+    @Override
     protected void initTitleView() {
         // toolbar
         mToolbar = (JToolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        super.initTitleView();
     }
 
+    @Override
     protected void initContentView() {
         mFragments = getFragments();
         // view pager

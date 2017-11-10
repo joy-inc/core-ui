@@ -7,16 +7,13 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.joy.utils.DensityUtil;
-import com.joy.utils.LayoutInflater;
 import com.joy.utils.ToastUtil;
 import com.joy.utils.ViewUtil;
 
@@ -28,10 +25,6 @@ import com.joy.utils.ViewUtil;
  * @param <T>
  */
 public abstract class ExRvViewHolder<T> extends RecyclerView.ViewHolder {
-
-    public ExRvViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId) {
-        super(LayoutInflater.inflate(parent.getContext(), layoutResId, parent, false));
-    }
 
     public ExRvViewHolder(View itemView) {
         super(itemView);
@@ -47,68 +40,68 @@ public abstract class ExRvViewHolder<T> extends RecyclerView.ViewHolder {
 
     public abstract void invalidateItemView(int position, T t);
 
-    protected final void showToast(String text) {
+    public final void showToast(String text) {
         ToastUtil.showToast(getItemView().getContext().getApplicationContext(), text);
     }
 
-    protected final void showToast(@StringRes int resId) {
+    public final void showToast(@StringRes int resId) {
         showToast(getString(resId));
     }
 
-    protected final void showToast(@StringRes int resId, Object... formatArgs) {
+    public final void showToast(@StringRes int resId, Object... formatArgs) {
         showToast(getString(resId, formatArgs));
     }
 
-    protected final void showView(View v) {
+    public final void showView(View v) {
         ViewUtil.showView(v);
     }
 
-    protected final void hideView(View v) {
+    public final void hideView(View v) {
         ViewUtil.hideView(v);
     }
 
-    protected final void goneView(View v) {
+    public final void goneView(View v) {
         ViewUtil.goneView(v);
     }
 
-    protected final void showImageView(ImageView v, @DrawableRes int resId) {
+    public final void showImageView(ImageView v, @DrawableRes int resId) {
         ViewUtil.showImageView(v, resId);
     }
 
-    protected final void showImageView(ImageView v, @NonNull Drawable drawable) {
+    public final void showImageView(ImageView v, @NonNull Drawable drawable) {
         ViewUtil.showImageView(v, drawable);
     }
 
-    protected final void hideImageView(ImageView v) {
+    public final void hideImageView(ImageView v) {
         ViewUtil.hideImageView(v);
     }
 
-    protected final void goneImageView(ImageView v) {
+    public final void goneImageView(ImageView v) {
         ViewUtil.goneImageView(v);
     }
 
-    protected final String getString(@StringRes int resId) {
+    public final String getString(@StringRes int resId) {
         return getItemView().getResources().getString(resId);
     }
 
-    protected final String getString(@StringRes int resId, Object... formatArgs) {
+    public final String getString(@StringRes int resId, Object... formatArgs) {
         return getItemView().getResources().getString(resId, formatArgs);
     }
 
-    protected final String[] getStringArray(@ArrayRes int resId) {
+    public final String[] getStringArray(@ArrayRes int resId) {
         return getItemView().getResources().getStringArray(resId);
     }
 
-    protected final int getDimenPixelSize(@DimenRes int dimenResId) {
+    public final int getDimenPixelSize(@DimenRes int dimenResId) {
         return getItemView().getResources().getDimensionPixelSize(dimenResId);
     }
 
-    protected final int DP(float dp) {
+    public final int DP(float dp) {
         return DensityUtil.dip2px(getItemView().getContext().getApplicationContext(), dp);
     }
 
     @ColorInt
-    protected final int getColor(@ColorRes int colorResId) {
+    public final int getColor(@ColorRes int colorResId) {
         return getItemView().getContext().getResources().getColor(colorResId);
     }
 }
