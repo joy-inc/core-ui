@@ -167,9 +167,8 @@ public abstract class ExRvAdapter<VH extends ExRvViewHolder<T>, T> extends Recyc
         if (CollectionUtil.isEmpty(targetViews)) {
             targetViews = new View[]{vh.getItemView()};
         }
-        int position = vh.getAdapterPosition() - mHeadersCount;
         for (View targetView : targetViews) {
-            targetView.setOnClickListener((v) -> callbackOnItemClickListener(position, v));
+            targetView.setOnClickListener((v) -> callbackOnItemClickListener(vh.getAdapterPosition() - mHeadersCount, v));
         }
     }
 
@@ -177,10 +176,9 @@ public abstract class ExRvAdapter<VH extends ExRvViewHolder<T>, T> extends Recyc
         if (CollectionUtil.isEmpty(targetViews)) {
             targetViews = new View[]{vh.getItemView()};
         }
-        int position = vh.getAdapterPosition() - mHeadersCount;
         for (View targetView : targetViews) {
             targetView.setOnLongClickListener(v -> {
-                callbackOnItemLongClickListener(position, v);
+                callbackOnItemLongClickListener(vh.getAdapterPosition() - mHeadersCount, v);
                 return true;
             });
         }
