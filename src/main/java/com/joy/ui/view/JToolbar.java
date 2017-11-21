@@ -19,18 +19,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.joy.ui.R;
-import com.joy.ui.utils.DimenCons;
 import com.joy.utils.LayoutInflater;
 import com.joy.utils.ReflectionUtil;
 import com.joy.utils.TextUtil;
 import com.joy.utils.ViewUtil;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static com.joy.ui.utils.DimenCons.DP;
+import static com.joy.ui.utils.DimenCons.HORIZONTAL_MARGINS;
 
 /**
  * Created by Daisw on 16/4/27.
  */
-public class JToolbar extends Toolbar implements DimenCons {
+public class JToolbar extends Toolbar {
 
     public static final int TITLE_GRAVITY_CENTER = 0x01;
     public static final int TITLE_GRAVITY_LEFT = 0x02;
@@ -132,7 +133,7 @@ public class JToolbar extends Toolbar implements DimenCons {
 
     public TextView addTitleLeftTextView(CharSequence text, OnClickListener lisn) {
         TextView tv = initDefTextView(text);
-        tv.setPadding(0, 0, DP_1 * 10, 0);
+        tv.setPadding(0, 0, DP(10), 0);
         return (TextView) addTitleLeftView(tv, lisn);
     }
 

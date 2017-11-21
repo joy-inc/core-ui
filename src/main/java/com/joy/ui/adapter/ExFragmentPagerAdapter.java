@@ -1,6 +1,5 @@
 package com.joy.ui.adapter;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -19,12 +18,12 @@ public class ExFragmentPagerAdapter<T extends BaseUiFragment> extends FragmentPa
     private List<T> mFragments;
     private boolean mFragmentItemDestoryEnable = true;
 
-    public ExFragmentPagerAdapter(FragmentManager fragmentManager) {
-        super(fragmentManager);
+    public ExFragmentPagerAdapter(FragmentManager fm) {
+        super(fm);
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public T getItem(int position) {
         return mFragments.get(position);
     }
 

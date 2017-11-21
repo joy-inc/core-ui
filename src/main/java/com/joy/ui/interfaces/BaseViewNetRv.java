@@ -1,4 +1,4 @@
-package com.joy.ui.activity.interfaces;
+package com.joy.ui.interfaces;
 
 import android.support.annotation.ColorRes;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,9 +12,9 @@ import com.joy.ui.adapter.ExRvAdapter;
 import com.joy.ui.view.LoadMore;
 
 /**
- * Created by Daisw on 16/6/7.
+ * Created by Daisw on 17/11/13.
  */
-public interface BaseViewNetRv extends BaseViewNet {
+public interface BaseViewNetRv<E> extends BaseViewNet<E> {
 
     RecyclerView provideRecyclerView();
     LayoutManager provideLayoutManager();

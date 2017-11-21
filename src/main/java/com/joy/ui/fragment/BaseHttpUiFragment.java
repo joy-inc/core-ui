@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageView;
@@ -13,9 +14,10 @@ import android.widget.ImageView.ScaleType;
 
 import com.joy.ui.R;
 import com.joy.ui.TipType;
-import com.joy.ui.fragment.interfaces.BaseViewNet;
+import com.joy.ui.interfaces.BaseViewNet;
 import com.joy.ui.view.JLoadingView;
 import com.joy.utils.DeviceUtil;
+import com.trello.rxlifecycle.android.FragmentEvent;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -23,12 +25,11 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 /**
  * Created by KEVIN.DAI on 16/11/22.
  */
-public abstract class BaseHttpUiFragment extends BaseUiFragment implements BaseViewNet {
+public abstract class BaseHttpUiFragment extends BaseUiFragment implements BaseViewNet<FragmentEvent> {
 
     protected View mTipView;
-    protected
     @TipType
-    int mTipType;
+    protected int mTipType;
     protected View mLoadingView;
     protected int LOADING_RES_ID = View.NO_ID;
     protected int ERROR_RES_ID = R.drawable.ic_tip_error;
@@ -49,6 +50,19 @@ public abstract class BaseHttpUiFragment extends BaseUiFragment implements BaseV
         super.wrapContentView(contentParent, contentView);
         addTipView(contentParent);
         addLoadingView(contentParent);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mTipView instanceof ViewGroup) {
+            ((ViewGroup) mTipView).removeAllViews();
+        }
+        mTipView = null;
+        if (mLoadingView instanceof ViewGroup) {
+            ((ViewGroup) mLoadingView).removeAllViews();
+        }
+        mLoadingView = null;
     }
 
     public void addTipView(FrameLayout contentParent) {

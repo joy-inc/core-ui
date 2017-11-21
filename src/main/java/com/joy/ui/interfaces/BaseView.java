@@ -1,4 +1,4 @@
-package com.joy.ui.fragment.interfaces;
+package com.joy.ui.interfaces;
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
@@ -12,12 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.trello.rxlifecycle.FragmentLifecycleProvider;
+import com.trello.rxlifecycle.LifecycleProvider;
 
 /**
- * Created by Daisw on 16/6/24.
+ * Created by Daisw on 17/11/13.
  */
-public interface BaseView extends FragmentLifecycleProvider {
+public interface BaseView<E> extends LifecycleProvider<E> {
 
     boolean isFinishing();
     void finish();

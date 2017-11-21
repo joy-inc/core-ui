@@ -14,20 +14,23 @@ import android.widget.ImageView.ScaleType;
 
 import com.joy.ui.R;
 import com.joy.ui.TipType;
-import com.joy.ui.activity.interfaces.BaseViewNet;
+import com.joy.ui.interfaces.BaseViewNet;
 import com.joy.ui.view.JLoadingView;
 import com.joy.utils.DeviceUtil;
+import com.trello.rxlifecycle.android.ActivityEvent;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static com.joy.ui.utils.DimenCons.STATUS_BAR_HEIGHT;
 
 /**
  * Created by KEVIN.DAI on 16/7/3.
  */
-public abstract class BaseHttpUiActivity extends BaseUiActivity implements BaseViewNet {
+public abstract class BaseHttpUiActivity extends BaseUiActivity implements BaseViewNet<ActivityEvent> {
 
     protected View mTipView;
-    protected @TipType int mTipType;
+    @TipType
+    protected int mTipType;
     protected View mLoadingView;
     protected int LOADING_RES_ID = View.NO_ID;
     protected int ERROR_RES_ID = R.drawable.ic_tip_error;

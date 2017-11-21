@@ -16,18 +16,19 @@ import android.view.ViewGroup.LayoutParams;
 import com.joy.ui.R;
 import com.joy.ui.RefreshMode;
 import com.joy.ui.adapter.ExRvAdapter;
-import com.joy.ui.fragment.interfaces.BaseViewNetRv;
+import com.joy.ui.interfaces.BaseViewNetRv;
 import com.joy.ui.view.JLoadingView;
 import com.joy.ui.view.LoadMore;
 import com.joy.ui.view.recyclerview.JRecyclerView;
 import com.joy.ui.view.recyclerview.RecyclerAdapter;
+import com.trello.rxlifecycle.android.FragmentEvent;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 /**
  * Created by Daisw on 16/6/7.
  */
-public abstract class BaseHttpRvFragment extends BaseHttpUiFragment implements BaseViewNetRv {
+public abstract class BaseHttpRvFragment extends BaseHttpUiFragment implements BaseViewNetRv<FragmentEvent> {
 
     protected SwipeRefreshLayout mSwipeRl;
     protected RecyclerView mRecyclerView;

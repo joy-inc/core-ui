@@ -16,9 +16,13 @@ import com.joy.ui.adapter.ExFragmentPagerAdapter;
 import com.joy.ui.fragment.BaseUiFragment;
 import com.joy.ui.view.JToolbar;
 import com.joy.ui.view.viewpager.JViewPager;
+import com.joy.ui.view.viewpager.PageChangeListenerAdapter;
 import com.joy.utils.CollectionUtil;
 
 import java.util.List;
+
+import static com.joy.ui.utils.DimenCons.DP;
+import static com.joy.ui.utils.DimenCons.STATUS_BAR_HEIGHT;
 
 /**
  * 基本的UI框架
@@ -86,7 +90,7 @@ public abstract class BaseTabActivity extends BaseUiActivity {
         viewPager.setAdapter(pagerAdapter);
         // tab layout
         mTabLayout = (TabLayout) findViewById(R.id.tab);
-        mTabLayout.setSelectedTabIndicatorHeight(DP_1 * 3);
+        mTabLayout.setSelectedTabIndicatorHeight(DP(3));
         mTabLayout.setupWithViewPager(viewPager);
         // float action bar
         mFloatActionBtn = (FloatingActionButton) findViewById(R.id.fab);
@@ -98,19 +102,11 @@ public abstract class BaseTabActivity extends BaseUiActivity {
     }
 
     private OnPageChangeListener getPageChangeListener() {
-        return new OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
+        return new PageChangeListenerAdapter() {
             @Override
             public void onPageSelected(int position) {
                 mCurrentPosition = position;
                 mFragments.get(position).onVisible();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
             }
         };
     }

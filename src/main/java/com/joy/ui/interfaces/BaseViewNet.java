@@ -1,4 +1,4 @@
-package com.joy.ui.fragment.interfaces;
+package com.joy.ui.interfaces;
 
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -6,9 +6,9 @@ import android.view.View;
 import com.joy.ui.TipType;
 
 /**
- * Created by KEVIN.DAI on 16/1/18.
+ * Created by KEVIN.DAI on 17/11/13.
  */
-public interface BaseViewNet extends BaseView {
+public interface BaseViewNet<E> extends BaseView<E> {
 
     void showLoading();
     void hideLoading();

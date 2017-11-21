@@ -7,6 +7,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,20 +21,20 @@ import android.widget.ImageView;
 
 import com.joy.ui.BaseApplication;
 import com.joy.ui.R;
-import com.joy.ui.fragment.interfaces.BaseView;
-import com.joy.ui.utils.DimenCons;
+import com.joy.ui.interfaces.BaseView;
 import com.joy.ui.utils.SnackbarUtil;
 import com.joy.utils.DensityUtil;
 import com.joy.utils.LayoutInflater;
 import com.joy.utils.ToastUtil;
 import com.joy.utils.ViewUtil;
+import com.trello.rxlifecycle.android.FragmentEvent;
 import com.trello.rxlifecycle.components.support.RxFragment;
 
 /**
  * 基本的UI框架
  * Created by KEVIN.DAI on 16/11/22.
  */
-public abstract class BaseUiFragment extends RxFragment implements BaseView, DimenCons {
+public abstract class BaseUiFragment extends RxFragment implements BaseView<FragmentEvent> {
 
     protected CharSequence mLabel;
     protected FrameLayout mContentParent;
@@ -52,6 +53,17 @@ public abstract class BaseUiFragment extends RxFragment implements BaseView, Dim
     public View onCreateView(android.view.LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mContentParent = new FrameLayout(getContext());
         return mContentParent;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mContentParent.removeAllViews();
+        mContentParent = null;
+        if (mContentView instanceof ViewGroup) {
+            ((ViewGroup) mContentView).removeAllViews();
+        }
+        mContentView = null;
     }
 
     public void setContentView(@LayoutRes int layoutResId) {
@@ -257,5 +269,9 @@ public abstract class BaseUiFragment extends RxFragment implements BaseView, Dim
 
     public int getColorInt(@ColorRes int colorResId) {
         return getResources().getColor(colorResId);
+    }
+
+    public <T extends View> T findViewById(@IdRes int id) {
+        return mContentParent.findViewById(id);
     }
 }

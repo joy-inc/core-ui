@@ -1,5 +1,7 @@
 package com.joy.ui.utils;
 
+import android.support.annotation.DimenRes;
+
 import com.joy.ui.BaseApplication;
 import com.joy.ui.R;
 import com.joy.utils.DensityUtil;
@@ -8,17 +10,26 @@ import com.joy.utils.DeviceUtil;
 /**
  * Created by KEVIN.DAI on 15/7/16.
  */
-public interface DimenCons {
+public class DimenCons {
 
-    int DP_1 = DensityUtil.dip2px(BaseApplication.getContext(), 1);
-    int DP_8 = DensityUtil.dip2px(BaseApplication.getContext(), 8);
+    public static final int DP_1 = DP(1);
+    public static final int DP_8 = DP(8);
+    public static final int DP_16 = DP(16);
 
-    int SCREEN_WIDTH = DeviceUtil.getScreenWidth(BaseApplication.getContext());
-    int SCREEN_HEIGHT = DeviceUtil.getScreenHeight(BaseApplication.getContext());
-    int STATUS_BAR_HEIGHT = DeviceUtil.getStatusBarHeight(BaseApplication.getContext());
-    int NAVIGATION_BAR_HEIGHT = DeviceUtil.getNavigationBarHeight(BaseApplication.getContext());
-    int SCREEN_HEIGHT_ABSOLUTE = SCREEN_HEIGHT + NAVIGATION_BAR_HEIGHT;
+    public static final int SCREEN_WIDTH = DeviceUtil.getScreenWidth(BaseApplication.getContext());
+    public static final int SCREEN_HEIGHT = DeviceUtil.getScreenHeight(BaseApplication.getContext());
+    public static final int STATUS_BAR_HEIGHT = DeviceUtil.getStatusBarHeight(BaseApplication.getContext());
+    public static final int NAVIGATION_BAR_HEIGHT = DeviceUtil.getNavigationBarHeight(BaseApplication.getContext());
+    public static final int SCREEN_HEIGHT_ABSOLUTE = SCREEN_HEIGHT + NAVIGATION_BAR_HEIGHT;
 
-    int TITLE_BAR_HEIGHT = DensityUtil.getDimensionPixelSize(BaseApplication.getContext(), R.dimen.def_toolbar_height);
-    int HORIZONTAL_MARGINS = DensityUtil.getDimensionPixelSize(BaseApplication.getContext(), R.dimen.def_horizontal_margins);
+    public static final int TITLE_BAR_HEIGHT = DP_RES(R.dimen.def_toolbar_height);
+    public static final int HORIZONTAL_MARGINS = DP_RES(R.dimen.def_horizontal_margins);
+
+    public static int DP(float dp) {
+        return DensityUtil.dip2px(BaseApplication.getContext(), dp);
+    }
+
+    public static int DP_RES(@DimenRes int id) {
+        return DensityUtil.getDimensionPixelSize(BaseApplication.getContext(), id);
+    }
 }

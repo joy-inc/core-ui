@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
-import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntRange;
 import android.support.annotation.LayoutRes;
@@ -29,18 +28,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.joy.ui.R;
-import com.joy.ui.activity.interfaces.BaseView;
-import com.joy.ui.utils.DimenCons;
+import com.joy.ui.interfaces.BaseView;
 import com.joy.ui.utils.SnackbarUtil;
 import com.joy.ui.view.JToolbar;
-import com.joy.utils.DensityUtil;
 import com.joy.utils.LayoutInflater;
+import com.joy.utils.TextUtil;
 import com.joy.utils.ToastUtil;
 import com.joy.utils.ViewUtil;
+import com.trello.rxlifecycle.android.ActivityEvent;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import static android.view.View.NO_ID;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static com.joy.ui.utils.DimenCons.STATUS_BAR_HEIGHT;
+import static com.joy.ui.utils.DimenCons.TITLE_BAR_HEIGHT;
 import static com.joy.ui.view.JToolbar.TITLE_GRAVITY_CENTER;
 import static com.joy.ui.view.JToolbar.TITLE_GRAVITY_LEFT;
 import static com.joy.ui.view.JToolbar.TITLE_GRAVITY_RIGHT;
@@ -49,7 +50,7 @@ import static com.joy.ui.view.JToolbar.TITLE_GRAVITY_RIGHT;
  * 基本的UI框架
  * Created by KEVIN.DAI on 16/7/3.
  */
-public abstract class BaseUiActivity extends RxAppCompatActivity implements BaseView, DimenCons {
+public abstract class BaseUiActivity extends RxAppCompatActivity implements BaseView<ActivityEvent> {
 
     protected FrameLayout mContentParent;
     protected View mContentView;
@@ -64,6 +65,7 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
     protected ImageButton mTitleBackView;
     protected ImageButton mTitleMoreView;
     protected TextView mTitleTextView;
+    protected String mTitleText, mSubtitleText;
 
     @Override
     public void setContentView(@LayoutRes int layoutResId) {
@@ -106,6 +108,8 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         TypedArray a = obtainStyledAttributes(R.styleable.Toolbar);
         isNoTitle = a.getBoolean(R.styleable.Toolbar_noTitle, false);
         isOverlay = a.getBoolean(R.styleable.Toolbar_overlay, false);
+        mTitleText = a.getString(R.styleable.Toolbar_titleText);
+        mSubtitleText = a.getString(R.styleable.Toolbar_subtitleText);
         mTbHeight = a.getDimensionPixelSize(R.styleable.Toolbar_titleHeight, TITLE_BAR_HEIGHT);
         if (isSystemBarTrans) {
             mTbHeight += STATUS_BAR_HEIGHT;
@@ -152,6 +156,12 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
             if (mTitleBackgroundResId != NO_ID) {
                 setTitleBgResource(mTitleBackgroundResId);
             }
+            if (hasTitleText()) {
+                setTitle(mTitleText);
+            }
+            if (hasSubtitleText()) {
+                setSubtitle(mSubtitleText);
+            }
             if (hasTitleBack()) {
                 mTitleBackView = addTitleBackView(v -> onTitleBackClick(v));
             }
@@ -165,37 +175,39 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
     }
 
     /**
-     * @Notice 注意调用时机，在initTitleView之前调用
+     * @Notice 注意调用时机，在super.initTitleView()之前调用
      */
-    @Override
     public void disableTitleBack() {
         mTitleBackIconResId = NO_ID;
     }
 
     /**
-     * @Notice 注意调用时机，在initTitleView之前调用
+     * @Notice 注意调用时机，在super.initTitleView()之前调用
      */
-    @Override
     public void disableTitleMore() {
         mTitleMoreIconResId = NO_ID;
     }
 
-    @Override
+    public boolean hasTitleText() {
+        return TextUtil.isNotEmpty(mTitleText);
+    }
+
+    public boolean hasSubtitleText() {
+        return TextUtil.isNotEmpty(mSubtitleText);
+    }
+
     public boolean hasTitleBack() {
         return mTitleBackIconResId != NO_ID;
     }
 
-    @Override
     public boolean hasTitleMore() {
         return mTitleMoreIconResId != NO_ID;
     }
 
-    @Override
     public void onTitleBackClick(View v) {
         onBackPressed();
     }
 
-    @Override
     public void onTitleMoreClick(View v) {
     }
 
@@ -350,9 +362,7 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         }
     }
 
-    @Override
     public TextView getTitleTextView() {
-//        return mToolbar.getTitleTextView();
         return mTitleTextView;
     }
 
@@ -377,7 +387,6 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         mToolbar.setSubtitle(text);
     }
 
-    @Override
     public TextView getSubtitleTextView() {
         return mToolbar.getSubtitleTextView();
     }
@@ -394,7 +403,6 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         return mToolbar.setTitleLogo(drawable);
     }
 
-    @Override
     public ImageView getTitleLogoView() {
         return mToolbar.getLogoView();
     }
@@ -423,7 +431,6 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
         return mToolbar.addTitleLeftView(drawable, lisn);
     }
 
-    @Override
     public ImageButton getTitleLeftButtonView() {
         return mToolbar.getNavButtonView();
     }
@@ -610,14 +617,6 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
     @Override
     public <T extends View> T inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root, boolean attachToRoot) {
         return LayoutInflater.inflate(this, layoutResId, root, attachToRoot);
-    }
-
-    public int DP(float dp) {
-        return DensityUtil.dip2px(getApplicationContext(), dp);
-    }
-
-    public int getDimensionPixelSize(@DimenRes int dimensId) {
-        return DensityUtil.getDimensionPixelSize(getApplicationContext(), dimensId);
     }
 
     public int getColorInt(@ColorRes int colorResId) {

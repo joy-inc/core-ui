@@ -11,14 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.joy.ui.R;
-import com.joy.ui.utils.DimenCons;
 import com.joy.utils.LayoutInflater;
+
+import static com.joy.ui.utils.DimenCons.SCREEN_HEIGHT;
+import static com.joy.ui.utils.DimenCons.SCREEN_WIDTH;
+import static com.joy.ui.utils.DimenCons.STATUS_BAR_HEIGHT;
 
 /**
  * Created by Daisw on 16/8/4.
  */
 
-public class JBottomSheetDialog extends BottomSheetDialog implements DimenCons {
+public class JBottomSheetDialog extends BottomSheetDialog {
 
     public JBottomSheetDialog(@NonNull Context context) {
         this(context, R.style.base_light_BottomSheetDialog);

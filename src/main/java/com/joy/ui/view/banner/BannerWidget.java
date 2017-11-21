@@ -6,19 +6,19 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout.LayoutParams;
 
 import com.joy.ui.R;
-import com.joy.ui.utils.DimenCons;
 import com.joy.ui.view.banner.indicator.CircleIndicator;
 import com.joy.ui.widget.ExBaseWidget;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static com.joy.ui.utils.DimenCons.SCREEN_WIDTH;
 
 //import com.ToxicBakery.viewpager.transforms.ABaseTransformer;
 
 /**
  * Created by KEVIN.DAI on 15/12/17.
  */
-public class BannerWidget extends ExBaseWidget implements DimenCons {
+public class BannerWidget extends ExBaseWidget {
 
     private BannerView mBannerView;
 
