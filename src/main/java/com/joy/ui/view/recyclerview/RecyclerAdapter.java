@@ -217,6 +217,10 @@ public class RecyclerAdapter extends Adapter<ViewHolder> {
     }
 
     private AdapterDataObserver mDataObserver = new AdapterDataObserver() {
+        @Override
+        public void onChanged() {
+            notifyDataSetChanged();
+        }
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount) {
