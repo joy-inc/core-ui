@@ -19,10 +19,10 @@ import java.util.List;
  */
 public abstract class ExRvAdapter<VH extends ExRvViewHolder<T>, T> extends RecyclerView.Adapter<VH> {
 
-    private List<T> mTs;
-    private OnItemClickListener<T> mOnItemClickListener;
-    private OnItemLongClickListener<T> mOnItemLongClickListener;
-    private int mHeadersCount;
+    protected List<T> mTs;
+    protected OnItemClickListener<T> mOnItemClickListener;
+    protected OnItemLongClickListener<T> mOnItemLongClickListener;
+    protected int mHeadersCount;
 
     protected ExRvAdapter() {
     }
@@ -154,7 +154,7 @@ public abstract class ExRvAdapter<VH extends ExRvViewHolder<T>, T> extends Recyc
     /**
      * @param position
      * @param view
-     * @hind Use {@link #bindOnLongClickListener(ExRvViewHolder, View...)} instead.
+     * @hide Use {@link #bindOnLongClickListener(ExRvViewHolder, View...)} instead.
      */
     protected void callbackOnItemLongClickListener(int position, View view) {
         T t = getItem(position);

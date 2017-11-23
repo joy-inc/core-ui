@@ -21,9 +21,9 @@ import java.util.List;
  */
 public abstract class ExLvAdapter<VH extends ExLvViewHolder<T>, T> extends BaseAdapter {
 
-    private List<T> mTs;
-    private OnItemClickListener<T> mOnItemClickListener;
-    private OnItemLongClickListener<T> mOnItemLongClickListener;
+    protected List<T> mTs;
+    protected OnItemClickListener<T> mOnItemClickListener;
+    protected OnItemLongClickListener<T> mOnItemLongClickListener;
 
     protected ExLvAdapter() {
     }
@@ -84,15 +84,15 @@ public abstract class ExLvAdapter<VH extends ExLvViewHolder<T>, T> extends BaseA
         return mTs;
     }
 
-    public void add(int position, T item) {
-        if (mTs != null && item != null) {
-            mTs.add(position, item);
+    public void add(int position, T t) {
+        if (mTs != null && t != null) {
+            mTs.add(position, t);
         }
     }
 
-    public void add(T item) {
-        if (mTs != null && item != null) {
-            mTs.add(item);
+    public void add(T t) {
+        if (mTs != null && t != null) {
+            mTs.add(t);
         }
     }
 
@@ -107,9 +107,9 @@ public abstract class ExLvAdapter<VH extends ExLvViewHolder<T>, T> extends BaseA
         }
     }
 
-    public void addAll(int position, List<T> item) {
-        if (mTs != null && item != null) {
-            mTs.addAll(position, item);
+    public void addAll(int position, List<T> ts) {
+        if (mTs != null && ts != null) {
+            mTs.addAll(position, ts);
         }
     }
 
@@ -117,9 +117,9 @@ public abstract class ExLvAdapter<VH extends ExLvViewHolder<T>, T> extends BaseA
         return mTs == null ? -1 : mTs.indexOf(t);
     }
 
-    public void remove(T item) {
+    public void remove(T t) {
         if (mTs != null) {
-            mTs.remove(item);
+            mTs.remove(t);
         }
     }
 
@@ -155,11 +155,11 @@ public abstract class ExLvAdapter<VH extends ExLvViewHolder<T>, T> extends BaseA
     }
 
     /**
-     * @hide Use {@link #bindOnClickListener(ExLvViewHolder, View...)} instead.
      * @param position
      * @param view
+     * @hide Use {@link #bindOnClickListener(ExLvViewHolder, View...)} instead.
      */
-    void callbackOnItemClickListener(int position, View view) {
+    protected void callbackOnItemClickListener(int position, View view) {
         T t = getItem(position);
         if (mOnItemClickListener != null && t != null) {
             mOnItemClickListener.onItemClick(position, view, t);
@@ -167,11 +167,11 @@ public abstract class ExLvAdapter<VH extends ExLvViewHolder<T>, T> extends BaseA
     }
 
     /**
-     * @hide Use {@link #bindOnLongClickListener(ExLvViewHolder, View...)} instead.
      * @param position
      * @param view
+     * @hide Use {@link #bindOnLongClickListener(ExLvViewHolder, View...)} instead.
      */
-    void callbackOnItemLongClickListener(int position, View view) {
+    protected void callbackOnItemLongClickListener(int position, View view) {
         T t = getItem(position);
         if (mOnItemLongClickListener != null && t != null) {
             mOnItemLongClickListener.onItemLongClick(position, view, t);
