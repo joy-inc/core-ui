@@ -185,7 +185,7 @@ public class JRecyclerView extends RecyclerView {
 
     public void setLoadMoreView(View v, FrameLayout.LayoutParams fllp) {
         if (fllp == null) {
-            fllp = JLoadingView.getDefaultLoadMoreLayoutParams(getContext());
+            fllp = JLoadingView.getDefaultLoadMoreLayoutParams();
         }
         mFooterView.setLoadingView(v, fllp);
     }

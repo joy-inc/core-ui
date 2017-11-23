@@ -1,11 +1,11 @@
 package com.joy.ui.fragment;
 
+import android.content.ContentResolver;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
-import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
@@ -23,7 +23,6 @@ import com.joy.ui.BaseApplication;
 import com.joy.ui.R;
 import com.joy.ui.interfaces.BaseView;
 import com.joy.ui.utils.SnackbarUtil;
-import com.joy.utils.DensityUtil;
 import com.joy.utils.LayoutInflater;
 import com.joy.utils.ToastUtil;
 import com.joy.utils.ViewUtil;
@@ -259,12 +258,9 @@ public abstract class BaseUiFragment extends RxFragment implements BaseView<Frag
         return LayoutInflater.inflate(getContext(), layoutResId, root, attachToRoot);
     }
 
-    public int DP(float dp) {
-        return DensityUtil.dip2px(getActivity().getApplicationContext(), dp);
-    }
-
-    public int getDimensionPixelSize(@DimenRes int dimensId) {
-        return DensityUtil.getDimensionPixelSize(getActivity().getApplicationContext(), dimensId);
+    @Override
+    public ContentResolver getContentResolver() {
+        return getContext().getContentResolver();
     }
 
     public int getColorInt(@ColorRes int colorResId) {

@@ -4,7 +4,6 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
-import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.joy.ui.view.recyclerview.JRecyclerView;
-import com.joy.utils.DensityUtil;
 import com.joy.utils.ToastUtil;
 import com.joy.utils.ViewUtil;
 
@@ -109,14 +107,6 @@ public abstract class ExLvViewHolder<T> {
 
     protected final String[] getStringArray(@ArrayRes int resId) {
         return getItemView().getResources().getStringArray(resId);
-    }
-
-    protected final int getDimenPixelSize(@DimenRes int dimenResId) {
-        return getItemView().getResources().getDimensionPixelSize(dimenResId);
-    }
-
-    protected final int DP(float dp) {
-        return DensityUtil.dip2px(getItemView().getContext().getApplicationContext(), dp);
     }
 
     @ColorInt

@@ -3,7 +3,6 @@ package com.joy.ui.widget;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.ColorRes;
-import android.support.annotation.DimenRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout.LayoutParams;
 
-import com.joy.utils.DensityUtil;
 import com.joy.utils.LayoutInflater;
 import com.joy.utils.ToastUtil;
 
@@ -157,14 +155,6 @@ public abstract class ExBaseWidget {
 
     public final <T extends View> T inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root, boolean attachToRoot) {
         return LayoutInflater.inflate(getActivity(), layoutResId, root, attachToRoot);
-    }
-
-    public final int DP(float dp) {
-        return DensityUtil.dip2px(getActivity().getApplicationContext(), dp);
-    }
-
-    public final int getDimensionPixelSize(@DimenRes int dimensId) {
-        return DensityUtil.getDimensionPixelSize(getActivity().getApplicationContext(), dimensId);
     }
 
     public final int getColorInt(@ColorRes int colorResId) {

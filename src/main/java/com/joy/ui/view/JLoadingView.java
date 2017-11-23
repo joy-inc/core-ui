@@ -7,7 +7,8 @@ import android.widget.FrameLayout.LayoutParams;
 import android.widget.ProgressBar;
 
 import com.joy.ui.R;
-import com.joy.utils.DensityUtil;
+
+import static com.joy.ui.utils.DimenCons.DP_RES;
 
 /**
  * 全局统一的LoadingView
@@ -31,13 +32,13 @@ public class JLoadingView extends ProgressBar {
      */
     public static JLoadingView get(Context context) {
         JLoadingView v = new JLoadingView(context);
-        v.setLayoutParams(getDefaultFrameLoadingLayoutParams(context));
+        v.setLayoutParams(getDefaultFrameLoadingLayoutParams());
         v.setIndeterminate(true);
         return v;
     }
 
-    public static LayoutParams getDefaultFrameLoadingLayoutParams(Context context) {
-        int size = DensityUtil.getDimensionPixelSize(context.getApplicationContext(), R.dimen.def_loading_primary);
+    public static LayoutParams getDefaultFrameLoadingLayoutParams() {
+        int size = DP_RES(R.dimen.def_loading_primary);
         LayoutParams lp = new LayoutParams(size, size, Gravity.CENTER);
         return lp;
     }
@@ -50,13 +51,13 @@ public class JLoadingView extends ProgressBar {
      */
     public static JLoadingView getLoadMore(Context context) {
         JLoadingView v = new JLoadingView(context);
-        v.setLayoutParams(getDefaultLoadMoreLayoutParams(context));
+        v.setLayoutParams(getDefaultLoadMoreLayoutParams());
         v.setIndeterminate(true);
         return v;
     }
 
-    public static LayoutParams getDefaultLoadMoreLayoutParams(Context context) {
-        int size = DensityUtil.getDimensionPixelSize(context.getApplicationContext(), R.dimen.def_loading_loadmore);
+    public static LayoutParams getDefaultLoadMoreLayoutParams() {
+        int size = DP_RES(R.dimen.def_loading_loadmore);
         LayoutParams lp = new LayoutParams(size, size);
         return lp;
     }
