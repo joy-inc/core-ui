@@ -113,7 +113,7 @@ public class VerticalViewPager extends ViewGroup {
     private final Rect mTempRect = new Rect();
 
     PagerAdapter mAdapter;
-    int mCurItem;   // Index of currently displayed page.
+    int mCurItem;// Index of currently displayed page.
     private int mRestoredCurItem = -1;
     private Parcelable mRestoredAdapterState = null;
     private ClassLoader mRestoredClassLoader = null;
@@ -180,7 +180,7 @@ public class VerticalViewPager extends ViewGroup {
     // If the pager is at least this close to its final position, complete the scroll
     // on touch down and let the user interact with the content inside instead of
     // "catching" the flinging pager.
-    private static final int CLOSE_ENOUGH = 2; // dp
+    private static final int CLOSE_ENOUGH = 2;// dp
 
     private boolean mFakeDragging;
     private long mFakeDragBeginTime;
@@ -646,54 +646,6 @@ public class VerticalViewPager extends ViewGroup {
         }
     }
 
-    /**
-     * Set the margin between pages.
-     *
-     * @param marginPixels Distance between adjacent pages in pixels
-     * @see #getPageMargin()
-     * @see #setPageMarginDrawable(Drawable)
-     * @see #setPageMarginDrawable(int)
-     */
-//    public void setPageMargin(int marginPixels) {
-//        final int oldMargin = mPageMargin;
-//        mPageMargin = marginPixels;
-//
-//        final int height = getHeight();
-//        recomputeScrollPosition(height, height, marginPixels, oldMargin);
-//
-//        requestLayout();
-//    }
-
-    /**
-     * Return the margin between pages.
-     *
-     * @return The size of the margin in pixels
-     */
-//    public int getPageMargin() {
-//        return mPageMargin;
-//    }
-
-//    /**
-//     * Set a drawable that will be used to fill the margin between pages.
-//     *
-//     * @param d Drawable to display between pages
-//     */
-//    public void setPageMarginDrawable(Drawable d) {
-//        mMarginDrawable = d;
-//        if (d != null) refreshDrawableState();
-//        setWillNotDraw(d == null);
-//        invalidate();
-//    }
-
-//    /**
-//     * Set a drawable that will be used to fill the margin between pages.
-//     *
-//     * @param resId Resource ID of a drawable to display between pages
-//     */
-//    public void setPageMarginDrawable(@DrawableRes int resId) {
-//        setPageMarginDrawable(ContextCompat.getDrawable(getContext(), resId));
-//    }
-
     public void setPageMargin(int marginPixels) {
         mPreviewHeight = marginPixels;
     }
@@ -729,7 +681,7 @@ public class VerticalViewPager extends ViewGroup {
     // purely linear fashion. Instead, we use this method to moderate the effect that the distance
     // of travel has on the overall snap duration.
     float distanceInfluenceForSnapDuration(float f) {
-        f -= 0.5f; // center the values about 0.
+        f -= 0.5f;// center the values about 0.
         f *= 0.3f * Math.PI / 2.0f;
         return (float) Math.sin(f);
     }
@@ -2452,7 +2404,6 @@ public class VerticalViewPager extends ViewGroup {
                 }
             }
         }
-
         return checkV && ViewCompat.canScrollVertically(v, -dy);
     }
 

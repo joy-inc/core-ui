@@ -24,6 +24,8 @@ import com.joy.utils.ReflectionUtil;
 import com.joy.utils.TextUtil;
 import com.joy.utils.ViewUtil;
 
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static com.joy.ui.utils.DimenCons.DP;
 import static com.joy.ui.utils.DimenCons.HORIZONTAL_MARGINS;
@@ -121,7 +123,7 @@ public class JToolbar extends Toolbar {
         setNavigationIcon(drawable);
         setNavigationOnClickListener(lisn);
         ImageButton ib = getNavButtonView();
-        ib.setBackgroundResource(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+        ib.setBackgroundResource(SDK_INT >= LOLLIPOP
                 ? R.drawable.selector_bg_click_material_light
                 : R.drawable.selector_bg_click_light);
         return ib;
