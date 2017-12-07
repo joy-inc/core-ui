@@ -1,8 +1,8 @@
 package com.joy.ui.fragment;
 
+import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
@@ -22,12 +22,20 @@ import android.widget.ImageView;
 import com.joy.ui.BaseApplication;
 import com.joy.ui.R;
 import com.joy.ui.interfaces.BaseView;
+import com.joy.ui.permissions.Permissions;
 import com.joy.ui.utils.SnackbarUtil;
 import com.joy.utils.LayoutInflater;
 import com.joy.utils.ToastUtil;
 import com.joy.utils.ViewUtil;
 import com.trello.rxlifecycle.android.FragmentEvent;
 import com.trello.rxlifecycle.components.support.RxFragment;
+
+import rx.Observable;
+import rx.subjects.BehaviorSubject;
+
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.JELLY_BEAN;
+import static android.os.Build.VERSION_CODES.M;
 
 /**
  * 基本的UI框架
@@ -39,6 +47,8 @@ public abstract class BaseUiFragment extends RxFragment implements BaseView<Frag
     protected FrameLayout mContentParent;
     protected View mContentView;
     protected boolean isFront;
+
+    private BehaviorSubject<Permissions> mPermissionsSubject;
 
     public boolean isFront() {
         return isFront;
@@ -66,7 +76,8 @@ public abstract class BaseUiFragment extends RxFragment implements BaseView<Frag
     }
 
     public void setContentView(@LayoutRes int layoutResId) {
-        setContentView(inflateLayout(layoutResId, mContentParent, true));
+//        setContentView(inflateLayout(layoutResId, mContentParent, true));
+        setContentView(inflateLayout(layoutResId));// TODO: 2017/12/4 因为发现getContentView==getContentParent，需要排查BaseUiActivity中是否有此情况
     }
 
     public void setContentView(View contentView) {
@@ -112,7 +123,7 @@ public abstract class BaseUiFragment extends RxFragment implements BaseView<Frag
     }
 
     public void setBackground(Drawable background) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        if (SDK_INT >= JELLY_BEAN) {
             mContentParent.setBackground(background);
         } else {
             mContentParent.setBackgroundDrawable(background);
@@ -261,6 +272,31 @@ public abstract class BaseUiFragment extends RxFragment implements BaseView<Frag
     @Override
     public ContentResolver getContentResolver() {
         return getContext().getContentResolver();
+    }
+
+    @TargetApi(M)
+    @Override
+    public int checkSelfPermission(@NonNull String permission) {
+        return getActivity().checkSelfPermission(permission);
+    }
+
+    @TargetApi(M)
+    @Override
+    public Observable<Permissions> requestPermissions(@NonNull String... permissions) {
+        requestPermissions(permissions, 0);
+        return (mPermissionsSubject = BehaviorSubject.create()).asObservable();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        try {
+            mPermissionsSubject.onNext(new Permissions(permissions, grantResults));
+        } catch (Exception e) {
+            mPermissionsSubject.onError(e);
+        } finally {
+            mPermissionsSubject.onCompleted();
+        }
     }
 
     public int getColorInt(@ColorRes int colorResId) {

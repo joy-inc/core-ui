@@ -1,5 +1,6 @@
 package com.joy.ui.interfaces;
 
+import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
@@ -13,7 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.joy.ui.permissions.Permissions;
 import com.trello.rxlifecycle.LifecycleProvider;
+
+import rx.Observable;
+
+import static android.os.Build.VERSION_CODES.M;
 
 /**
  * Created by Daisw on 17/11/13.
@@ -46,4 +52,9 @@ public interface BaseView<E> extends LifecycleProvider<E> {
     <T extends View> T inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root, boolean attachToRoot);
 
     ContentResolver getContentResolver();
+
+    @TargetApi(M)
+    int checkSelfPermission(@NonNull String permission);
+    @TargetApi(M)
+    Observable<Permissions> requestPermissions(@NonNull String... permissions);
 }

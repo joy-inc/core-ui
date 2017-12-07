@@ -1,5 +1,6 @@
 package com.joy.ui.activity;
 
+import android.annotation.TargetApi;
 import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 
 import com.joy.ui.R;
 import com.joy.ui.interfaces.BaseView;
+import com.joy.ui.permissions.Permissions;
 import com.joy.ui.utils.SnackbarUtil;
 import com.joy.ui.view.JToolbar;
 import com.joy.utils.LayoutInflater;
@@ -38,6 +40,12 @@ import com.joy.utils.ViewUtil;
 import com.trello.rxlifecycle.android.ActivityEvent;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
+import rx.Observable;
+import rx.subjects.BehaviorSubject;
+
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.KITKAT;
+import static android.os.Build.VERSION_CODES.M;
 import static android.view.View.NO_ID;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static com.joy.ui.utils.DimenCons.STATUS_BAR_HEIGHT;
@@ -67,6 +75,8 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
     protected TextView mTitleTextView;
     protected String mTitleText, mSubtitleText;
 
+    private BehaviorSubject<Permissions> mPermissionsSubject;
+
     @Override
     public void setContentView(@LayoutRes int layoutResId) {
         setContentView(inflateLayout(layoutResId));
@@ -94,7 +104,7 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
 
     @SuppressWarnings("ResourceType")
     public void resolveThemeAttribute() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (SDK_INT >= KITKAT) {
             TypedValue typedValue = new TypedValue();
             getTheme().resolveAttribute(android.R.style.Theme, typedValue, true);
             int[] attrs = new int[]{android.R.attr.windowTranslucentStatus, android.R.attr.windowTranslucentNavigation};
@@ -224,7 +234,7 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
     }
 
     public void setBackground(Drawable background) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        if (SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             mContentParent.setBackground(background);
         } else {
             mContentParent.setBackgroundDrawable(background);
@@ -276,7 +286,7 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
     }
 
     public void setStatusBarColor(@ColorInt int color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(color);
         }
     }
@@ -286,7 +296,7 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
     }
 
     public void setNavigationBarColor(@ColorInt int color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(color);
         }
     }
@@ -300,7 +310,7 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
     }
 
     public void setTitleBgDrawable(Drawable drawable) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        if (SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             mToolbar.setBackground(drawable);
         } else {
             mToolbar.setBackgroundDrawable(drawable);
@@ -617,6 +627,25 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
     @Override
     public <T extends View> T inflateLayout(@LayoutRes int layoutResId, @Nullable ViewGroup root, boolean attachToRoot) {
         return LayoutInflater.inflate(this, layoutResId, root, attachToRoot);
+    }
+
+    @TargetApi(M)
+    @Override
+    public Observable<Permissions> requestPermissions(@NonNull String... permissions) {
+        requestPermissions(permissions, 0);
+        return (mPermissionsSubject = BehaviorSubject.create()).asObservable();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        try {
+            mPermissionsSubject.onNext(new Permissions(permissions, grantResults));
+        } catch (Exception e) {
+            mPermissionsSubject.onError(e);
+        } finally {
+            mPermissionsSubject.onCompleted();
+        }
     }
 
     public int getColorInt(@ColorRes int colorResId) {
