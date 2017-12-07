@@ -30,7 +30,7 @@ public abstract class BaseHttpRvActivity extends BaseHttpUiActivity implements B
 
     protected SwipeRefreshLayout mSwipeRl;
     protected RecyclerView mRecyclerView;
-    protected RefreshMode mRefreshMode;
+    protected RefreshMode mRefreshMode = RefreshMode.FRAME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,11 +82,6 @@ public abstract class BaseHttpRvActivity extends BaseHttpUiActivity implements B
     }
 
     @Override
-    public LayoutManager getLayoutManager() {
-        return mRecyclerView.getLayoutManager();
-    }
-
-    @Override
     public void setRefreshMode(RefreshMode mode) {
         mRefreshMode = mode;
     }
@@ -135,7 +130,7 @@ public abstract class BaseHttpRvActivity extends BaseHttpUiActivity implements B
 
     @Override
     public void setAdapter(ExRvAdapter adapter) {
-        mRecyclerView.setAdapter(new RecyclerAdapter(adapter, getLayoutManager()));
+        mRecyclerView.setAdapter(new RecyclerAdapter(adapter, mRecyclerView.getLayoutManager()));
     }
 
     @Override

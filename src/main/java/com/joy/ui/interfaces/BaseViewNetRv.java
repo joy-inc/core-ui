@@ -19,7 +19,6 @@ public interface BaseViewNetRv<E> extends BaseViewNet<E> {
     RecyclerView provideRecyclerView();
     LayoutManager provideLayoutManager();
     RecyclerView getRecyclerView();
-    LayoutManager getLayoutManager();
     void setAdapter(ExRvAdapter adapter);
     ExRvAdapter getAdapter();
 
