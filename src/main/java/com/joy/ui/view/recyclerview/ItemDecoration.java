@@ -177,6 +177,10 @@ public class ItemDecoration extends RecyclerView.ItemDecoration {
                     outRect.set(marginLeft, marginTop, marginRight, marginBottom);
                 }
             }
+
+            int width = (parent.getWidth() - paddingLeft - paddingRight - (spanCount - 1) * (marginLeft + marginRight)) / spanCount;
+            GridLayoutManager.LayoutParams lp = (GridLayoutManager.LayoutParams) view.getLayoutParams();
+            lp.height = width;// 保持方形
         } else if (lm instanceof LinearLayoutManager) {
             if (builder.orientationParams.orientation == HORIZONTAL) {
                 if (!(view instanceof JFooterView)) {
