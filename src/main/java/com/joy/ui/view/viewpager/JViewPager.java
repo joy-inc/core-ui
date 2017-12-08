@@ -29,7 +29,12 @@ public class JViewPager extends ViewPager {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return mScrollEnabled ? super.onInterceptTouchEvent(ev) : false;
+        try {
+            return mScrollEnabled ? super.onInterceptTouchEvent(ev) : false;
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public void setScrollEnabled(boolean enabled) {
