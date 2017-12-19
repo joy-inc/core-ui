@@ -291,7 +291,9 @@ public abstract class BaseUiFragment extends RxFragment implements BaseView<Frag
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         try {
-            mPermissionsSubject.onNext(new Permissions(permissions, grantResults));
+            if (mPermissionsSubject != null) {
+                mPermissionsSubject.onNext(new Permissions(permissions, grantResults));
+            }
         } catch (Exception e) {
             mPermissionsSubject.onError(e);
         } finally {
