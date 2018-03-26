@@ -430,7 +430,7 @@ public class VerticalViewPager extends ViewGroup {
      */
     public void setCurrentItem(int item, boolean smoothScroll) {
         if (!quickSkip) {
-            quickSkip = Math.abs(item - mCurItem) > 1;
+            quickSkip = mFirstLayout && Math.abs(item - mCurItem) >= 1;
         }
         if (quickSkip && quickSkipPosition == 0) {
             quickSkipPosition = item;
