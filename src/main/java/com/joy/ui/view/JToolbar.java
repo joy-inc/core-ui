@@ -183,10 +183,11 @@ public class JToolbar extends Toolbar {
 
     public TextView addTitleRightView(CharSequence text, OnClickListener lisn) {
         TextView tv = (TextView) addTitleRightView(initDefTextView(text), lisn);
-        int insetEnd = getContentInsetEnd();
-        if (insetEnd == 0) {
-            setContentInsetsRelative(getContentInsetStart(), HORIZONTAL_MARGINS);
-        }
+//        int insetEnd = getContentInsetEnd();
+//        if (insetEnd == 0) {
+//            setContentInsetsRelative(getContentInsetStart(), HORIZONTAL_MARGINS);
+//        }
+        tv.setPadding(HORIZONTAL_MARGINS, 0, HORIZONTAL_MARGINS, 0);
         TextView subtitleTextView = getSubtitleTextView();
         if (subtitleTextView == null) {
             setSubtitle(" ");
