@@ -639,10 +639,11 @@ public abstract class BaseUiActivity extends RxAppCompatActivity implements Base
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (mPermissionsSubject == null) {
+            return;
+        }
         try {
-            if (mPermissionsSubject != null) {
-                mPermissionsSubject.onNext(new Permissions(permissions, grantResults));
-            }
+            mPermissionsSubject.onNext(new Permissions(permissions, grantResults));
         } catch (Exception e) {
             mPermissionsSubject.onError(e);
         } finally {

@@ -67,12 +67,16 @@ public abstract class BaseUiFragment extends RxFragment implements BaseView<Frag
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mContentParent.removeAllViews();
-        mContentParent = null;
-        if (mContentView instanceof ViewGroup) {
-            ((ViewGroup) mContentView).removeAllViews();
+        if (mContentParent != null) {
+            mContentParent.removeAllViews();
+            mContentParent = null;
         }
-        mContentView = null;
+        if (mContentView != null) {
+            if (mContentView instanceof ViewGroup) {
+                ((ViewGroup) mContentView).removeAllViews();
+            }
+            mContentView = null;
+        }
     }
 
     public void setContentView(@LayoutRes int layoutResId) {
@@ -290,10 +294,11 @@ public abstract class BaseUiFragment extends RxFragment implements BaseView<Frag
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (mPermissionsSubject == null) {
+            return;
+        }
         try {
-            if (mPermissionsSubject != null) {
-                mPermissionsSubject.onNext(new Permissions(permissions, grantResults));
-            }
+            mPermissionsSubject.onNext(new Permissions(permissions, grantResults));
         } catch (Exception e) {
             mPermissionsSubject.onError(e);
         } finally {
